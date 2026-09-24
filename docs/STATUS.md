@@ -1,6 +1,6 @@
 # Estado do projeto
 
-Atualização: 24/09/2026 — core vertical v0.1 validado; orquestração de combate e catálogo de quatro inimigos comuns implementados; validação visual dos novos encontros ainda pendente e balanceamento adiado.
+Atualização: 24/09/2026 — core vertical v0.1 validado; orquestração de combate e catálogo de quatro inimigos comuns implementados e validados manualmente; balanceamento adiado.
 
 ## Confirmado
 
@@ -65,10 +65,11 @@ O plano `superpowers/plans/2026-09-23-primeira-cena.md` é histórico e não rep
 - Testes do catálogo confirmaram os quatro inimigos, suas Vidas e ciclos; o seletor confirmou sorteio sem repetição, rejeição de duplicatas e esgotamento seguro.
 - `tests/test_cartas_multiplos_inimigos.tscn` confirmou as seis cartas atuais contra os quatro inimigos configurados.
 - Regressão após a integração do catálogo: os 17 testes em `tests/*.tscn` terminaram sem `SCRIPT ERROR`, `ERROR:` ou `FALHA:`; a importação do projeto no editor headless também terminou limpa.
+- Relato do usuário: os quatro inimigos comuns foram enfrentados no editor; nomes, intenções e variação dos encontros ficaram mais dinâmicos.
 
 ## Próximo passo vigente
 
-Validar manualmente no editor os quatro inimigos comuns, confirmando nome, Vida, intenção anunciada e ação executada nos dois combates sem repetição. Depois: criar o encontro de elite, preparar o primeiro chefe e iniciar o mapa das Docas.
+Definir o encontro de elite e sua entrada na progressão da run. Depois: preparar o primeiro chefe e iniciar o mapa das Docas.
 
 ## Como atualizar este arquivo
 
@@ -389,3 +390,7 @@ Criados `dados_inimigos.gd` e `seletor_inimigos.gd`. O catálogo contém Drone d
 As seis cartas atuais foram exercitadas contra os quatro inimigos por `tests/test_cartas_multiplos_inimigos.tscn`. A regressão completa executou 17 cenas de teste com Godot 4.7.2 em modo headless, sem mensagens de erro, e a importação do editor headless também terminou limpa.
 
 Validação manual pendente: executar `main.tscn` mais de uma vez e conferir visualmente os quatro nomes, os ciclos anunciados e executados e a ausência de repetição dentro de cada run. O próximo sistema a implementar depois dessa conferência é o encontro de elite.
+
+## Validação manual do catálogo comum — 24/09/2026
+
+Relato do usuário: os quatro inimigos comuns foram enfrentados no editor. A variedade dos padrões tornou os combates mais dinâmicos. O próximo recorte aprovado para definição é o encontro de elite.
