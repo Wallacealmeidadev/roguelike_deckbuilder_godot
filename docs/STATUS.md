@@ -1,6 +1,6 @@
 # Estado do projeto
 
-Direcao atual: a elite sera o terceiro combate e concedera uma reliquia e uma carta rara. As Docas serao tratadas como distrito misto de trabalho portuario, infraestrutura industrial e moradia.
+Direcao atual: a elite sera o terceiro combate e concedera uma reliquia e uma carta rara. A run expandida intercalara cinco combates e quatro eventos antes do chefe. As Docas serao tratadas como distrito misto de trabalho portuario, infraestrutura industrial e moradia.
 
 Atualização: 24/09/2026 — elite, cartas raras, relíquias e run de três combates implementados; fluxo visual das duas recompensas corrigido após validação do usuário; validação visual final pendente; balanceamento adiado.
 
@@ -435,6 +435,14 @@ Verificação automatizada executada com Godot 4.7.2: 19 cenas em `tests/*.tscn`
 Validação visual ainda pendente: executar `main.tscn` no editor, vencer os dois combates comuns, conferir as intenções do elite, escolher as duas recompensas e verificar a exibição das relíquias equipadas. Os valores permanecem provisórios; balanceamento não foi realizado.
 
 Próximo passo: validar manualmente este fluxo e, depois, desenhar os encontros não-combate das Docas com base na narrativa aprovada.
+
+## Ritmo intercalado de combates e eventos — 24/09/2026
+
+Direção aprovada pelo usuário: a run expandida terá cinco combates antes do chefe, contando o elite, e quatro eventos intercalados na sequência `combate comum → evento → combate comum → evento → elite → evento → combate comum → evento → combate comum`.
+
+O catálogo inicial terá dez encontros possíveis: quatro combates comuns, o elite atual e cinco eventos narrativos. O catálogo fornece variedade; um roteiro separado define as posições da run. O chefe será uma etapa especial final e não participará do sorteio comum.
+
+Implementação ainda não iniciada. O próximo passo é criar o plano técnico do catálogo, seletor, roteiro e painel de eventos, mantendo os eventos separados das regras de combate.
 
 ## Correção da troca entre recompensas do elite — 24/09/2026
 
