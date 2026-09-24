@@ -1,5 +1,7 @@
 # Estado do projeto
 
+Direcao atual: a elite sera o terceiro combate e concedera uma reliquia e uma carta rara. As Docas serao tratadas como distrito misto de trabalho portuario, infraestrutura industrial e moradia.
+
 Atualização: 24/09/2026 — core vertical v0.1 validado; orquestração de combate e catálogo de quatro inimigos comuns implementados e validados manualmente; balanceamento adiado.
 
 ## Confirmado

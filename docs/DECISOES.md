@@ -1,5 +1,7 @@
 # Decisões e pendências
 
+- A elite sera o terceiro combate da run, depois de dois combates comuns, e concedera os dois premios: uma reliquia e uma carta rara.
+
 Atualizado em 24/09/2026. Base: decisões consolidadas na revisão 0.4 e relato atual do usuário.
 
 **Autoridade:** histórico das escolhas e questões abertas. A descrição vigente de cada assunto vive no arquivo correspondente; este registro explica mudanças e evita regressões.
