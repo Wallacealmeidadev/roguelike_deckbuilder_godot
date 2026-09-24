@@ -1,8 +1,39 @@
 # Estado do projeto
 
+## Snapshot vigente — 24/09/2026
+
+O fluxo intercalado foi implementado: cinco combates e quatro eventos antes do chefe, na ordem `combate comum -> evento -> combate comum -> evento -> elite -> evento -> combate comum -> evento -> combate comum`. O catalogo contem dez encontros possiveis; o roteiro usa nove posicoes antes do chefe.
+
+Implementados nesta sessao: `dados_encontros.gd`, `seletor_encontros.gd`, `roteiro_run.gd`, `dados_eventos.gd`, `resolucao_eventos.gd`, o `EventoOverlay` em `main.tscn` e a integracao do fluxo em `main.gd`. O painel de evento bloqueia cartas e alvos, e recompensas/resultado nao ficam visiveis junto do combate.
+
+O elite continua sendo a Unidade de Contencao Portuaria no terceiro combate e sua recompensa dupla agora leva ao evento seguinte. Eventos podem iniciar combate especial sem recompensa comum automatica; a vitoria retorna ao resultado do evento e a derrota encerra a run sem avancar o roteiro. O chefe e o mapa ainda nao foram implementados.
+
+Verificacao automatizada desta sessao: 25 cenas de teste passaram com Godot 4.7.2 em modo headless. A validacao visual da run intercalada ainda precisa ser feita no editor.
+
 Direcao atual: a elite sera o terceiro combate e concedera uma reliquia e uma carta rara. A run expandida intercalara cinco combates e quatro eventos antes do chefe. As Docas serao tratadas como distrito misto de trabalho portuario, infraestrutura industrial e moradia.
 
-Atualização: 24/09/2026 — elite, cartas raras, relíquias e run de três combates implementados; fluxo visual das duas recompensas corrigido após validação do usuário; validação visual final pendente; balanceamento adiado.
+Atualização: 24/09/2026 — ritmo intercalado, catálogo de encontros, eventos estruturados, painel de eventos e combate especial implementados; validação visual final pendente; balanceamento adiado.
+
+## Implementacao mais recente — 24/09/2026
+
+Implementados os componentes de conteudo e fluxo desta sessao:
+
+- `dados_encontros.gd`: dez entradas, com quatro combates comuns, um elite e cinco eventos narrativos.
+- `seletor_encontros.gd`: sorteio de eventos sem repeticao, registro validado e reinicio.
+- `roteiro_run.gd`: nove posicoes fixas antes do chefe, mantendo a Unidade de Contencao como terceiro combate.
+- `dados_eventos.gd` e `resolucao_eventos.gd`: opcoes e consequencias estruturadas fora da cena e sem mutacao direta do jogador pelo resolvedor.
+- `main.tscn`: `EventoOverlay` com titulo, contexto, ate tres opcoes, resultado e continuar.
+- `main.gd`: transicoes de combate, evento, recompensa, elite, pre-chefe e combate especial.
+
+O fluxo preserva Vida e baralho entre etapas. Recompensas comuns avancam para evento; skip tambem avanca sem alterar o baralho; a recompensa dupla do elite avanca para o evento seguinte. Ao terminar as nove posicoes, a interface mostra `RUN PRE-CHEFE` e nao afirma que o chefe foi derrotado.
+
+Consequencias provisoriamente implementadas: ajudar o operario custa 10 de Vida; desligar a valvula inicia uma Torreta de Contencao; enfrentar o ladrao ou confrontar a fiscalizacao inicia um Guarda Portuario. As ideias de recompensa da carga e remocao real de carta pelo ladrao continuam sem efeito de jogo nesta etapa, para nao inventar regras ainda nao aprovadas.
+
+Testes RED -> GREEN e regressao: foram adicionados `test_catalogo_encontros.tscn`, `test_seletor_encontros.tscn`, `test_roteiro_run.tscn`, `test_resolucao_eventos.tscn`, `test_apresentacao_eventos.tscn` e `test_ciclo_encontros.tscn`; a suite completa de 25 testes terminou com codigo 0. A importacao headless do editor tambem foi executada durante a implementacao.
+
+Validacao manual pendente: executar a run no editor, observar a alternancia sem sobreposicao visual, conferir o elite no terceiro combate, testar um evento com combate especial e confirmar o ponto `RUN PRE-CHEFE`.
+
+Proximo passo: apos essa validacao, definir os efeitos finais dos eventos, entao preparar o primeiro chefe e o mapa das Docas. Balanceamento definitivo continua adiado.
 
 ## Confirmado
 
@@ -30,9 +61,9 @@ Atualização: 24/09/2026 — elite, cartas raras, relíquias e run de três com
 - Exposto e Enfraquecido funcionam como cargas contadas por golpe nos inimigos; Brecha e Pulso Debilitante estão disponíveis como recompensas, mas não entram no baralho inicial.
 - Drone atual com 30 de Vida e ciclo visível `Rajada → Blindagem → Rajada → Sobrecarga → Rajada → Marca → Rajada`; Sobrecarga e Marca são consumidas na Rajada seguinte.
 - Catálogo comum em `res://dados_inimigos.gd`: Drone de Segurança (30 de Vida), Estivador Cibernético (36), Torreta de Contenção (24) e Guarda Portuário (32), cada um com ciclo determinístico próprio de ataque, defesa e preparação.
-- `res://seletor_inimigos.gd` sorteia um inimigo ainda não enfrentado nos dois combates comuns; o terceiro combate usa o elite fixo e não entra no histórico comum.
+- `res://seletor_inimigos.gd` sorteia inimigos comuns sem repetição entre as posições de combate; a terceira ocorrência de combate usa o elite fixo e não entra no histórico comum.
 - `res://inimigo_combate.gd` interpreta os ciclos dirigidos por dados, e a interface mostra dinamicamente nome, Vida, Barreira, intenção e estados do inimigo ativo.
-- Run de três combates implementada: dois combates comuns com recompensa ou skip, elite fixo no terceiro combate e recompensa dupla obrigatória.
+- Run intercalada implementada: cinco combates e quatro eventos antes do chefe, com recompensa comum entre combates e recompensa dupla obrigatória no elite.
 - Primeiro componente genérico criado em `res://combatente.gd`: Vida atual e máxima, Barreira, Exposto, Enfraquecido, cálculo de dano por golpe, recebimento de golpes e reinicialização.
 - `res://jogador_combate.gd` concentra o estado do jogador, Energia, Combo e ativação por turno de Juntas de Retorno.
 - `res://encontro_combate.gd` concentra inimigo ativo, baralho temporário, turno, condição de encerramento e execução da fase inimiga.
@@ -43,7 +74,7 @@ Atualização: 24/09/2026 — elite, cartas raras, relíquias e run de três com
 
 ## Atividade atual
 
-Core vertical v0.1 encerrado. A consolidação técnica inclui `Combatente`, `JogadorCombate`, `EncontroCombate`, `BaralhoCombate`, `InimigoCombate` e `ResolucaoCartas`. O catálogo de quatro inimigos comuns, o elite, as cartas raras e as relíquias foram implementados. `main.gd` delega estado do jogador, recursos temporários, inimigo ativo, baralho do combate, turno e fase inimiga; continua responsável por sinais da cena, cartas visuais, interface, recompensas e fluxo da run. A verificação automatizada da run de três combates passou. Após o relato visual do usuário, o fluxo da recompensa do elite foi corrigido para não manter os menus das duas etapas visíveis ao mesmo tempo; falta a confirmação visual final no editor.
+Core vertical v0.1 encerrado. A consolidação técnica inclui `Combatente`, `JogadorCombate`, `EncontroCombate`, `BaralhoCombate`, `InimigoCombate` e `ResolucaoCartas`. O catálogo de quatro inimigos comuns, o elite, as cartas raras, as relíquias, o catálogo de encontros, o roteiro e os eventos foram implementados. `main.gd` delega estado do jogador, recursos temporários, inimigo ativo, baralho do combate, turno e fase inimiga; continua responsável por sinais da cena, cartas visuais, interface, recompensas e fluxo da run. A run intercalada e o combate especial passaram nos testes headless; falta a confirmação visual final no editor.
 
 O plano `superpowers/plans/2026-09-23-primeira-cena.md` é histórico e não representa a atividade atual.
 
@@ -82,7 +113,7 @@ O plano `superpowers/plans/2026-09-23-primeira-cena.md` é histórico e não rep
 
 ## Próximo passo vigente
 
-Validar visualmente o elite e a recompensa dupla no editor. Depois: desenhar e implementar os encontros não-combate das Docas antes de preparar o primeiro chefe e o mapa.
+Validar visualmente a run intercalada, os eventos e o combate especial no editor. Depois: definir os efeitos finais dos eventos e preparar o primeiro chefe e o mapa das Docas.
 
 ## Como atualizar este arquivo
 
@@ -442,7 +473,7 @@ Direção aprovada pelo usuário: a run expandida terá cinco combates antes do 
 
 O catálogo inicial terá dez encontros possíveis: quatro combates comuns, o elite atual e cinco eventos narrativos. O catálogo fornece variedade; um roteiro separado define as posições da run. O chefe será uma etapa especial final e não participará do sorteio comum.
 
-Implementação ainda não iniciada. O próximo passo é criar o plano técnico do catálogo, seletor, roteiro e painel de eventos, mantendo os eventos separados das regras de combate.
+Naquele registro, a implementação ainda não havia iniciado. O plano técnico foi criado depois e o estado vigente está resumido no snapshot do topo deste arquivo.
 
 ## Correção da troca entre recompensas do elite — 24/09/2026
 
