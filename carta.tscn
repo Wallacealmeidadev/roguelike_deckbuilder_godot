@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://5e3ylooru08u"]
+
+[ext_resource type="Script" uid="uid://nkt5xslnomu5" path="res://botao_carta.gd" id="1_botao_carta"]
+
+[node name="Carta" type="Button" unique_id=1607353424]
+custom_minimum_size = Vector2(140, 200)
+text = "CARTA"
+autowrap_mode = 3
+script = ExtResource("1_botao_carta")

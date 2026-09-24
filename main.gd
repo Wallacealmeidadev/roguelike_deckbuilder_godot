@@ -1,0 +1,635 @@
+extends Node
+
+const CENA_CARTA: PackedScene = preload("res://carta.tscn")
+const DADOS_CARTAS: Script = preload("res://dados_cartas.gd")
+const ENERGIA_POR_TURNO: int = 4
+const COMPRA_POR_TURNO: int = 6
+const LIMITE_MAO: int = 10
+const COMBO_MAXIMO: int = 5
+const BARREIRA_JUNTAS_RETORNO: int = 3
+const LIMIAR_JUNTAS_RETORNO: int = 2
+const TOTAL_COMBATES: int = 2
+const QUANTIDADE_OPCOES_RECOMPENSA: int = 3
+const RECOMPENSAS_DISPONIVEIS: Array[String] = [
+	"golpe",
+	"protecao",
+	"direto_hidraulico",
+	"quebra_chassi",
+	"brecha",
+	"pulso_debilitante"
+]
+
+# Cada identificador aponta para as regras daquele tipo de carta.
+const CARTAS: Dictionary = DADOS_CARTAS.CARTAS
+
+var jogador_combate: JogadorCombate = JogadorCombate.new(
+	40,
+	ENERGIA_POR_TURNO,
+	COMBO_MAXIMO
+)
+var encontro_combate: EncontroCombate = EncontroCombate.new()
+
+var estado_jogador: Combatente:
+	get:
+		return jogador_combate.estado
+
+var estado_inimigo: InimigoCombate:
+	get:
+		return encontro_combate.inimigo
+
+var vida_jogador: int:
+	get:
+		return jogador_combate.estado.vida
+	set(valor):
+		jogador_combate.estado.vida = valor
+
+var vida_inimigo: int:
+	get:
+		return estado_inimigo.vida
+	set(valor):
+		estado_inimigo.vida = valor
+
+var barreira: int:
+	get:
+		return jogador_combate.estado.barreira
+	set(valor):
+		jogador_combate.estado.barreira = valor
+
+var barreira_inimigo: int:
+	get:
+		return estado_inimigo.barreira
+	set(valor):
+		estado_inimigo.barreira = valor
+
+var energia: int:
+	get:
+		return jogador_combate.energia
+	set(valor):
+		jogador_combate.energia = valor
+
+var turno: int:
+	get:
+		return encontro_combate.turno
+	set(valor):
+		encontro_combate.turno = valor
+
+var combo: int:
+	get:
+		return jogador_combate.combo
+	set(valor):
+		jogador_combate.combo = valor
+
+var juntas_retorno_ativada_no_turno: bool:
+	get:
+		return jogador_combate.juntas_retorno_ativada_no_turno
+	set(valor):
+		jogador_combate.juntas_retorno_ativada_no_turno = valor
+
+var exposto_inimigo: int:
+	get:
+		return estado_inimigo.exposto
+	set(valor):
+		estado_inimigo.exposto = valor
+
+var enfraquecido_inimigo: int:
+	get:
+		return estado_inimigo.enfraquecido
+	set(valor):
+		estado_inimigo.enfraquecido = valor
+var combate_atual: int = 1
+var aguardando_recompensa: bool = false
+var baralho_run: Array[String] = []
+var oferta_recompensa: OfertaRecompensa = OfertaRecompensa.new()
+var seletor_inimigos: SeletorInimigos = SeletorInimigos.new(
+	DadosInimigos.identificadores()
+)
+
+var baralho_combate: BaralhoCombate:
+	get:
+		return encontro_combate.baralho
+
+var resolucao_cartas: ResolucaoCartas = ResolucaoCartas.new()
+
+var pilha_compra: Array[String]:
+	get:
+		return baralho_combate.compra
+	set(valor):
+		baralho_combate.compra = valor
+
+var pilha_descarte: Array[String]:
+	get:
+		return baralho_combate.descarte
+	set(valor):
+		baralho_combate.descarte = valor
+
+var grupo_cartas: ButtonGroup = ButtonGroup.new()
+
+@onready var mao: HBoxContainer = $Mao
+@onready var alvo: Button = $Alvo
+@onready var jogador: Button = $Jogador
+@onready var energia_label: Label = $EnergiaLabel
+@onready var vida_jogador_label: Label = $VidaJogadorLabel
+@onready var barreira_label: Label = $BarreiraLabel
+@onready var combo_label: Label = $ComboLabel
+@onready var reliquia_label: Label = $ReliquiaLabel
+@onready var pilhas_label: Label = $PilhasLabel
+@onready var botao_encerrar_turno: Button = $EncerrarTurno
+@onready var resultado_label: Label = $ResultadoLabel
+@onready var botao_reiniciar: Button = $Reiniciar
+@onready var recompensas: GridContainer = $Recompensas
+@onready var recompensa_opcao_1: Button = $Recompensas/RecompensaOpcao1
+@onready var recompensa_opcao_2: Button = $Recompensas/RecompensaOpcao2
+@onready var recompensa_opcao_3: Button = $Recompensas/RecompensaOpcao3
+@onready var botao_pular_recompensa: Button = $Recompensas/Pular
+@onready var intencao_label: Label = $IntencaoLabel
+@onready var estados_inimigo_label: Label = $EstadosInimigoLabel
+@onready var acao_label: Label = $AcaoLabel
+@onready var mao_status_label: Label = $MaoStatusLabel
+
+
+func _ready() -> void:
+	resultado_label.hide()
+	botao_reiniciar.hide()
+	recompensas.hide()
+
+	botao_reiniciar.pressed.connect(_ao_reiniciar)
+	recompensa_opcao_1.pressed.connect(_ao_clicar_recompensa.bind(0))
+	recompensa_opcao_2.pressed.connect(_ao_clicar_recompensa.bind(1))
+	recompensa_opcao_3.pressed.connect(_ao_clicar_recompensa.bind(2))
+	botao_pular_recompensa.pressed.connect(_ao_pular_recompensa)
+
+	grupo_cartas.allow_unpress = true
+
+	alvo.pressed.connect(_ao_clicar_no_alvo)
+	jogador.pressed.connect(_ao_clicar_no_jogador)
+	botao_encerrar_turno.pressed.connect(_ao_encerrar_turno)
+
+	seletor_inimigos.reiniciar()
+	_preparar_baralho_inicial()
+	_iniciar_combate()
+
+
+func _combate_terminou() -> bool:
+	return encontro_combate.combate_terminou(jogador_combate)
+
+
+func _mostrar_resultado() -> void:
+	aguardando_recompensa = false
+	recompensas.hide()
+
+	if vida_jogador <= 0:
+		resultado_label.text = "DERROTA\nVega ficou sem Vida."
+	else:
+		resultado_label.text = "RUN CONCLUÍDA\nDois combates vencidos!"
+
+	resultado_label.show()
+	botao_reiniciar.show()
+
+
+func _ao_reiniciar() -> void:
+	get_tree().reload_current_scene()
+
+
+func _preparar_baralho_inicial() -> void:
+	baralho_run.clear()
+
+	for i in range(4):
+		baralho_run.append("golpe")
+		baralho_run.append("protecao")
+
+	for i in range(2):
+		baralho_run.append("direto_hidraulico")
+		baralho_run.append("quebra_chassi")
+
+
+func _iniciar_combate() -> void:
+	var vida_jogador_preservada: int = jogador_combate.estado.vida
+	jogador_combate.iniciar_combate(vida_jogador_preservada)
+	aguardando_recompensa = false
+
+	resultado_label.hide()
+	botao_reiniciar.hide()
+	recompensas.hide()
+
+	_limpar_mao()
+	var proximo_inimigo: InimigoCombate = _criar_proximo_inimigo()
+	if proximo_inimigo == null:
+		encontro_combate.inimigo = null
+		_registrar_acao("Não foi possível preparar o próximo inimigo.")
+		alvo.disabled = true
+		jogador.disabled = true
+		botao_encerrar_turno.disabled = true
+		return
+
+	encontro_combate.iniciar(proximo_inimigo, baralho_run)
+	_iniciar_turno()
+
+	print("Combate %d de %d iniciado." % [
+		combate_atual,
+		TOTAL_COMBATES
+	])
+
+
+func _criar_proximo_inimigo() -> InimigoCombate:
+	var id_inimigo: String = seletor_inimigos.sortear_disponivel()
+	if id_inimigo.is_empty():
+		return null
+
+	var dados: Dictionary = DadosInimigos.obter(id_inimigo)
+	if dados.is_empty():
+		return null
+
+	var inimigo: InimigoCombate = InimigoCombate.new(id_inimigo, dados)
+	if inimigo.nome.is_empty() or inimigo.ciclo.is_empty():
+		return null
+
+	if not seletor_inimigos.registrar_enfrentado(id_inimigo):
+		return null
+
+	return inimigo
+
+func _limpar_mao() -> void:
+	for no in mao.get_children():
+		var carta: Button = no as Button
+
+		if carta != null:
+			carta.button_pressed = false
+			carta.button_group = null
+
+		mao.remove_child(no)
+		no.queue_free()
+
+
+func _resolver_vitoria() -> void:
+	combo = 0
+
+	if combate_atual < TOTAL_COMBATES:
+		_mostrar_recompensas()
+	else:
+		_mostrar_resultado()
+
+
+func _mostrar_recompensas() -> void:
+	aguardando_recompensa = true
+	oferta_recompensa.gerar(RECOMPENSAS_DISPONIVEIS, QUANTIDADE_OPCOES_RECOMPENSA)
+
+	var botoes: Array[Button] = [
+		recompensa_opcao_1,
+		recompensa_opcao_2,
+		recompensa_opcao_3
+	]
+	for indice in range(botoes.size()):
+		var dados: Dictionary = CARTAS[oferta_recompensa.opcoes[indice]]
+		botoes[indice].text = "Adicionar %s" % dados["nome"]
+		botoes[indice].show()
+
+	botao_pular_recompensa.show()
+
+	resultado_label.text = "COMBATE %d VENCIDO\nEscolha uma carta" % combate_atual
+	resultado_label.show()
+	recompensas.show()
+	botao_reiniciar.hide()
+
+	print("Aguardando escolha de recompensa.")
+
+
+func _ao_clicar_recompensa(indice: int) -> void:
+	if not aguardando_recompensa:
+		return
+
+	if indice < 0 or indice >= oferta_recompensa.opcoes.size():
+		return
+
+	_escolher_recompensa(oferta_recompensa.opcoes[indice])
+
+
+func _ao_pular_recompensa() -> void:
+	if not aguardando_recompensa:
+		return
+
+	aguardando_recompensa = false
+	print("Recompensa pulada.")
+	combate_atual += 1
+	_iniciar_combate()
+
+
+func _escolher_recompensa(id_carta: String) -> void:
+	if not aguardando_recompensa:
+		return
+
+	if not CARTAS.has(id_carta) or not oferta_recompensa.opcoes.has(id_carta):
+		print("Recompensa inválida: %s" % id_carta)
+		return
+
+	aguardando_recompensa = false
+	baralho_run.append(id_carta)
+
+	var dados: Dictionary = CARTAS[id_carta]
+	print("%s adicionada ao baralho." % dados["nome"])
+
+	combate_atual += 1
+	_iniciar_combate()
+
+
+func _iniciar_turno() -> void:
+	if _combate_terminou():
+		return
+
+	jogador_combate.iniciar_turno()
+	_comprar_cartas(COMPRA_POR_TURNO)
+	_atualizar_interface()
+
+	if mao.get_child_count() >= LIMITE_MAO:
+		_registrar_acao("Mão cheia: nenhuma carta nova foi comprada.")
+	else:
+		_registrar_acao("Turno %d iniciado." % turno)
+
+	print("Início do turno %d" % turno)
+
+
+func _comprar_cartas(quantidade: int) -> void:
+	for i in range(quantidade):
+		if mao.get_child_count() >= LIMITE_MAO:
+			break
+
+		var compra_estava_vazia: bool = baralho_combate.compra.is_empty()
+		var id_carta: String = baralho_combate.comprar_identificador()
+
+		if id_carta.is_empty():
+			break
+
+		if compra_estava_vazia:
+			print("Descarte embaralhado: nova pilha de compra.")
+
+		_criar_carta_na_mao(id_carta)
+
+
+func _criar_carta_na_mao(id_carta: String) -> void:
+	var dados: Dictionary = CARTAS[id_carta]
+	var nova_carta: Button = CENA_CARTA.instantiate() as Button
+	var valor: int = dados["valor"]
+	var descricao: String = ""
+	var eh_ataque: bool = dados.get("tipo", "ataque") == "ataque"
+
+	if dados.get("finalizacao", false):
+		var bonus_combo: int = dados["bonus_combo"]
+		descricao = "Consuma todo o Combo.\nCause %d + %d por Combo de dano." % [
+			valor,
+			bonus_combo
+		]
+	elif eh_ataque and dados["alvo"] == "inimigo":
+		descricao = "Cause %d de dano." % valor
+
+		if dados.has("exposto"):
+			descricao += "\nAplique Exposto %d." % dados["exposto"]
+
+		if dados.has("barreira"):
+			descricao += "\nGanhe %d de Barreira." % dados["barreira"]
+
+		descricao += "\nGanhe 1 Combo."
+	elif dados["alvo"] == "inimigo":
+		descricao = "Aplique Enfraquecido %d." % dados["enfraquecido"]
+
+		if dados.has("barreira"):
+			descricao += "\nGanhe %d de Barreira." % dados["barreira"]
+	else:
+		descricao = "Ganhe %d de Barreira." % valor
+
+	nova_carta.set("nome_carta", dados["nome"])
+	nova_carta.set("custo", dados["custo"])
+	nova_carta.set("descricao", descricao)
+	nova_carta.set_meta("id_carta", id_carta)
+
+	nova_carta.button_group = grupo_cartas
+	nova_carta.button_pressed = false
+	nova_carta.disabled = false
+
+	mao.add_child(nova_carta)
+
+
+func _ao_clicar_no_alvo() -> void:
+	_jogar_carta("inimigo")
+
+
+func _ao_clicar_no_jogador() -> void:
+	_jogar_carta("jogador")
+
+
+func _jogar_carta(destino: String) -> void:
+	if _combate_terminou():
+		return
+
+	var selecionada: Button = grupo_cartas.get_pressed_button() as Button
+
+	if selecionada == null:
+		print("Selecione uma carta primeiro.")
+		_registrar_acao("Selecione uma carta primeiro.")
+		return
+
+	var id_carta: String = str(selecionada.get_meta("id_carta"))
+	var dados: Dictionary = CARTAS[id_carta]
+	var custo: int = dados["custo"]
+	var eh_ataque: bool = dados.get("tipo", "ataque") == "ataque"
+
+	if dados["alvo"] != destino:
+		print("Essa carta não pode ser usada nesse alvo.")
+		_registrar_acao("Alvo inválido para %s." % dados["nome"])
+		return
+
+	if energia < custo:
+		print("Energia insuficiente.")
+		_registrar_acao("SEM ENERGIA para %s." % dados["nome"])
+		return
+
+	var resultado: Dictionary = resolucao_cartas.resolver(
+		id_carta,
+		CARTAS,
+		estado_jogador,
+		estado_inimigo if destino == "inimigo" else estado_jogador,
+		destino,
+		{
+			"energia": energia,
+			"combo": combo,
+			"combo_maximo": COMBO_MAXIMO
+		}
+	)
+
+	if not resultado["valida"]:
+		return
+
+	energia -= int(resultado["custo"])
+
+	if resultado["gera_combo"]:
+		_ganhar_combo()
+	else:
+		combo = int(resultado["combo"])
+
+	if eh_ataque and destino == "inimigo":
+		print("%s: Barreira absorveu %d. Dano na Vida: %d." % [
+			estado_inimigo.nome,
+			resultado["absorvido"],
+			resultado["dano_na_vida"]
+		])
+		print("Ataque causou %d de dano." % resultado["dano"])
+		_registrar_acao("%s: %d de dano." % [dados["nome"], resultado["dano"]])
+	elif resultado["barreira"] > 0:
+		_registrar_acao("%s: +%d de Barreira." % [dados["nome"], resultado["barreira"]])
+	else:
+		var estados_aplicados: Dictionary = resultado["estados_aplicados"]
+		if estados_aplicados.is_empty():
+			_registrar_acao("%s resolvida." % dados["nome"])
+		else:
+			_registrar_acao("%s: estados aplicados." % dados["nome"])
+
+	if _combate_terminou():
+		combo = 0
+
+	_descartar_carta(selecionada)
+	_atualizar_interface()
+
+	if vida_inimigo <= 0:
+		print("Você venceu o combate %d!" % combate_atual)
+		_resolver_vitoria()
+
+
+func _ganhar_combo() -> void:
+	if jogador_combate.ganhar_combo(
+		BARREIRA_JUNTAS_RETORNO,
+		LIMIAR_JUNTAS_RETORNO
+	):
+		print("Juntas de Retorno concedeu %d de Barreira." % BARREIRA_JUNTAS_RETORNO)
+
+
+func _descartar_carta(carta: Button) -> void:
+	var id_carta: String = str(carta.get_meta("id_carta"))
+	baralho_combate.descartar_identificador(id_carta)
+
+	carta.button_pressed = false
+	carta.button_group = null
+
+	# Sai da mão imediatamente; o objeto é destruído ao fim do frame.
+	mao.remove_child(carta)
+	carta.queue_free()
+
+
+func _descartar_mao() -> void:
+	for no in mao.get_children():
+		var carta: Button = no as Button
+		_descartar_carta(carta)
+
+
+func _ao_encerrar_turno() -> void:
+	if _combate_terminou():
+		return
+
+	_descartar_mao()
+	jogador_combate.encerrar_turno()
+	_registrar_acao("Vega encerrou o turno.")
+
+	_executar_intencao_inimigo()
+
+	if vida_jogador <= 0:
+		_atualizar_interface()
+		print("Você foi derrotado.")
+		_mostrar_resultado()
+		return
+
+	encontro_combate.avancar_turno()
+	_iniciar_turno()
+
+
+func _calcular_dano_no_inimigo(dano_base: int) -> int:
+	return estado_inimigo.calcular_dano_recebido(dano_base)
+
+
+func _calcular_dano_do_inimigo(dano_base: int) -> int:
+	return estado_inimigo.calcular_dano_de_ataque(dano_base)
+
+
+func _executar_intencao_inimigo() -> void:
+	if _combate_terminou():
+		return
+
+	var intencao_anunciada: String = estado_inimigo.texto_intencao()
+	var acao: Dictionary = encontro_combate.executar_fase_inimiga(jogador_combate)
+
+	if acao.is_empty():
+		return
+
+	var resultados_golpes: Array = acao["resultados_golpes"]
+	for resultado in resultados_golpes:
+		print("Barreira absorveu %d. Dano na Vida: %d." % [
+			resultado["absorvido"],
+			resultado["dano_na_vida"]
+		])
+
+	_registrar_acao("%s executou %s." % [estado_inimigo.nome, intencao_anunciada])
+
+
+func _causar_dano_no_inimigo(dano: int) -> void:
+	var resultado: Dictionary = estado_inimigo.receber_golpe(dano)
+	var absorvido: int = resultado["absorvido"]
+	var dano_na_vida: int = resultado["dano_na_vida"]
+
+	print("%s: Barreira absorveu %d. Dano na Vida: %d." % [
+		estado_inimigo.nome,
+		absorvido,
+		dano_na_vida
+	])
+
+
+func _registrar_acao(mensagem: String) -> void:
+	acao_label.text = mensagem
+
+
+func _atualizar_interface() -> void:
+	combo_label.text = "Combo: %d/%d" % [combo, COMBO_MAXIMO]
+	reliquia_label.text = "Relíquia: Juntas de Retorno"
+	energia_label.text = "Energia: %d/%d" % [energia, ENERGIA_POR_TURNO]
+	if energia <= 0:
+		energia_label.text += "\nSEM ENERGIA"
+	vida_jogador_label.text = "Vida: %d" % vida_jogador
+	barreira_label.text = "Barreira: %d" % barreira
+	var quantidade_mao: int = mao.get_child_count()
+	mao_status_label.text = "Mão: %d/%d" % [quantidade_mao, LIMITE_MAO]
+	if quantidade_mao >= LIMITE_MAO:
+		mao_status_label.text += "\nMÃO CHEIA"
+	pilhas_label.text = "Combate: %d/%d | Baralho: %d\nCompra: %d | Descarte: %d | Mão: %d" % [
+		combate_atual,
+		TOTAL_COMBATES,
+		baralho_run.size(),
+		pilha_compra.size(),
+		pilha_descarte.size(),
+		quantidade_mao
+	]
+
+	if vida_inimigo <= 0:
+		alvo.text = "%s\nDerrotado" % estado_inimigo.nome.to_upper()
+		intencao_label.text = "INTENÇÃO\n—"
+		estados_inimigo_label.text = "ESTADOS\n—"
+	else:
+		alvo.text = "%s\nVida: %d\nBarreira: %d" % [
+			estado_inimigo.nome.to_upper(),
+			vida_inimigo,
+			barreira_inimigo
+		]
+		intencao_label.text = "INTENÇÃO\n%s" % estado_inimigo.texto_intencao()
+
+		var estados_texto: String = "ESTADOS"
+		if exposto_inimigo > 0:
+			estados_texto += "\nExposto: %d" % exposto_inimigo
+		if enfraquecido_inimigo > 0:
+			estados_texto += "\nEnfraquecido: %d" % enfraquecido_inimigo
+
+		if exposto_inimigo <= 0 and enfraquecido_inimigo <= 0:
+			estados_texto += "\nNenhum"
+		estados_inimigo_label.text = estados_texto
+
+	var terminou: bool = _combate_terminou()
+	alvo.disabled = terminou
+	jogador.disabled = terminou
+	botao_encerrar_turno.disabled = terminou
+
+	for no in mao.get_children():
+		var carta: Button = no as Button
+		carta.disabled = terminou

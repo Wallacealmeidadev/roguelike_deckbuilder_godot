@@ -1,0 +1,7 @@
+# Cache local da Godot; cenas, scripts, recursos e arquivos .uid devem ser versionados.
+.godot/
+# Saidas de exportacao.
+builds/
+
+# Artefatos internos de planejamento do agente.
+.superpowers/
