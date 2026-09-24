@@ -21,13 +21,22 @@ func _executar_teste() -> void:
 
 		if constantes.has("CARTAS"):
 			var cartas: Dictionary = constantes["CARTAS"]
-			_verificar(cartas.size() == 6, "o catálogo deve conter seis cartas")
+			_verificar(cartas.size() == 9, "o catálogo deve conter nove cartas")
+			var raras: Array[String] = script_catalogo.identificadores_por_raridade("rara")
+			_verificar(raras.size() == 3, "o catálogo deve ter três cartas raras")
+			_verificar(raras.has("golpe_ariete"), "Golpe de Aríete deve ser raro")
+			_verificar(raras.has("ruptura_pressao"), "Ruptura de Pressão deve ser rara")
+			_verificar(raras.has("placa_reforcada"), "Placa Reforçada deve ser rara")
+			_verificar(cartas["golpe"]["raridade"] == "comum", "cartas atuais devem ser comuns")
 			_verificar(cartas["golpe"]["valor"] == 6, "Golpe deve manter dano 6")
 			_verificar(cartas["protecao"]["valor"] == 5, "Proteção deve manter Barreira 5")
 			_verificar(cartas["quebra_chassi"]["bonus_combo"] == 3, "Quebra-chassi deve manter bônus 3")
 			_verificar(cartas.has("direto_hidraulico"), "o catálogo deve conter Direto Hidráulico")
 			_verificar(cartas["brecha"]["exposto"] == 2, "Brecha deve aplicar Exposto 2")
 			_verificar(cartas["pulso_debilitante"]["enfraquecido"] == 2, "Pulso deve aplicar Enfraquecido 2")
+			_verificar(cartas["golpe_ariete"]["valor"] == 12, "Golpe de Aríete deve causar 12")
+			_verificar(cartas["ruptura_pressao"]["exposto"] == 2, "Ruptura deve aplicar Exposto 2")
+			_verificar(cartas["placa_reforcada"]["valor"] == 8, "Placa deve conceder Barreira 8")
 
 			if cartas.has("direto_hidraulico"):
 				_verificar(cartas["direto_hidraulico"]["valor"] == 4, "Direto deve manter dano 4")
@@ -38,7 +47,7 @@ func _executar_teste() -> void:
 	get_tree().root.add_child(jogo)
 	await get_tree().process_frame
 
-	_verificar(jogo.get("CARTAS").size() == 6, "main.gd deve continuar usando o catálogo completo")
+	_verificar(jogo.get("CARTAS").size() == 9, "main.gd deve continuar usando o catálogo completo")
 
 	if constantes.has("CARTAS") and constantes["CARTAS"].has("direto_hidraulico"):
 		var vida_inimigo_antes: int = jogo.get("vida_inimigo")

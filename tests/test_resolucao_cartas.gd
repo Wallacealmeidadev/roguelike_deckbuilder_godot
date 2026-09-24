@@ -88,6 +88,33 @@ func _executar_teste() -> void:
 	jogador = Combatente.new(40)
 	inimigo = Combatente.new(30)
 	resultado = resolucao.resolver(
+		"ruptura_pressao",
+		cartas,
+		jogador,
+		inimigo,
+		"inimigo",
+		{"energia": 4, "combo": 0, "combo_maximo": 5}
+	)
+	_verificar(resultado["valida"], "Ruptura de Pressão deve ser válida")
+	_verificar(inimigo.vida == 26, "Ruptura deve causar 4 de dano")
+	_verificar(inimigo.exposto == 2, "Ruptura deve aplicar Exposto 2")
+
+	jogador = Combatente.new(40)
+	inimigo = Combatente.new(30)
+	resultado = resolucao.resolver(
+		"placa_reforcada",
+		cartas,
+		jogador,
+		inimigo,
+		"jogador",
+		{"energia": 4, "combo": 0, "combo_maximo": 5}
+	)
+	_verificar(resultado["valida"], "Placa Reforçada deve ser válida")
+	_verificar(jogador.barreira == 8, "Placa Reforçada deve conceder 8 de Barreira")
+
+	jogador = Combatente.new(40)
+	inimigo = Combatente.new(30)
+	resultado = resolucao.resolver(
 		"golpe",
 		cartas,
 		jogador,
