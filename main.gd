@@ -8,7 +8,7 @@ const LIMITE_MAO: int = 10
 const COMBO_MAXIMO: int = 5
 const BARREIRA_JUNTAS_RETORNO: int = 3
 const LIMIAR_JUNTAS_RETORNO: int = 2
-const TOTAL_COMBATES: int = 3
+const TOTAL_COMBATES: int = 5
 const ID_ELITE: String = "unidade_contencao_portuaria"
 const QUANTIDADE_OPCOES_RECOMPENSA: int = 3
 const RECOMPENSAS_DISPONIVEIS: Array[String] = [
@@ -110,6 +110,14 @@ var oferta_cartas_raras: OfertaRecompensa = OfertaRecompensa.new()
 var seletor_inimigos: SeletorInimigos = SeletorInimigos.new(
 	DadosInimigos.identificadores()
 )
+var roteiro_run: RoteiroRun = RoteiroRun.new()
+var seletor_eventos: SeletorEncontros = SeletorEncontros.new(
+	DadosEncontros.identificadores_por_tipo("evento")
+)
+var etapa_evento_atual: String = ""
+var encontro_especial_pendente: bool = false
+var id_inimigo_especial: String = ""
+var texto_evento_especial: String = ""
 
 var baralho_combate: BaralhoCombate:
 	get:
@@ -201,8 +209,10 @@ func _ready() -> void:
 	botao_encerrar_turno.pressed.connect(_ao_encerrar_turno)
 
 	seletor_inimigos.reiniciar()
+	seletor_eventos.reiniciar()
 	_preparar_baralho_inicial()
-	_iniciar_combate()
+	roteiro_run.iniciar()
+	_iniciar_etapa_atual()
 
 
 func _combate_terminou() -> bool:
@@ -215,6 +225,9 @@ func _mostrar_resultado() -> void:
 	etapa_recompensa_elite = ""
 	aguardando_evento = false
 	id_evento_atual = ""
+	encontro_especial_pendente = false
+	id_inimigo_especial = ""
+	texto_evento_especial = ""
 	recompensas.hide()
 	_ocultar_recompensa_elite()
 	evento_overlay.hide()
@@ -280,6 +293,92 @@ func _iniciar_combate() -> void:
 	])
 
 
+func _iniciar_etapa_atual() -> void:
+	var tipo_etapa: String = roteiro_run.etapa_atual()
+	if tipo_etapa.is_empty():
+		_mostrar_pre_chefe()
+		return
+
+	if tipo_etapa == "combate_comum":
+		combate_atual = _contar_combates_ate_etapa_atual()
+		var id_inimigo: String = seletor_inimigos.sortear_disponivel()
+		if id_inimigo.is_empty():
+			_registrar_acao("Não foi possível preparar um combate comum.")
+			return
+		_iniciar_combate_por_id(id_inimigo, true)
+		return
+
+	if tipo_etapa == "elite":
+		combate_atual = _contar_combates_ate_etapa_atual()
+		_iniciar_combate_por_id(ID_ELITE, false)
+		return
+
+	if tipo_etapa == "evento":
+		etapa_evento_atual = seletor_eventos.sortear_disponivel()
+		if etapa_evento_atual.is_empty():
+			_registrar_acao("Não foi possível preparar um evento.")
+			return
+		if not seletor_eventos.registrar_encontrado(etapa_evento_atual):
+			_registrar_acao("Não foi possível registrar o evento.")
+			return
+		_mostrar_evento(etapa_evento_atual)
+
+
+func _contar_combates_ate_etapa_atual() -> int:
+	var quantidade: int = 0
+	for indice in range(roteiro_run.indice_etapa + 1):
+		var tipo: String = RoteiroRun.ETAPAS_PRE_CHEFE[indice]
+		if tipo == "combate_comum" or tipo == "elite":
+			quantidade += 1
+	return quantidade
+
+
+func _iniciar_combate_por_id(id_inimigo: String, registrar_comum: bool) -> void:
+	var vida_jogador_preservada: int = jogador_combate.estado.vida
+	jogador_combate.iniciar_combate(vida_jogador_preservada)
+	aguardando_recompensa = false
+	aguardando_recompensa_elite = false
+	etapa_recompensa_elite = ""
+	aguardando_evento = false
+	id_evento_atual = ""
+
+	resultado_label.hide()
+	botao_reiniciar.hide()
+	recompensas.hide()
+	_ocultar_recompensa_elite()
+	evento_overlay.hide()
+	_definir_painel_combate_visivel(true)
+	_limpar_mao()
+
+	var dados: Dictionary = DadosInimigos.obter(id_inimigo)
+	if dados.is_empty():
+		encontro_combate.inimigo = null
+		_registrar_acao("Não foi possível preparar o inimigo.")
+		_definir_painel_combate_visivel(false)
+		return
+
+	var inimigo: InimigoCombate = InimigoCombate.new(id_inimigo, dados)
+	if inimigo.nome.is_empty() or inimigo.ciclo.is_empty():
+		encontro_combate.inimigo = null
+		_registrar_acao("Não foi possível preparar o inimigo.")
+		_definir_painel_combate_visivel(false)
+		return
+
+	if registrar_comum and not seletor_inimigos.registrar_enfrentado(id_inimigo):
+		encontro_combate.inimigo = null
+		_registrar_acao("Não foi possível registrar o inimigo.")
+		_definir_painel_combate_visivel(false)
+		return
+
+	encontro_combate.iniciar(inimigo, baralho_run)
+	_iniciar_turno()
+
+	print("Combate %d de %d iniciado." % [
+		combate_atual,
+		TOTAL_COMBATES
+	])
+
+
 func _criar_proximo_inimigo() -> InimigoCombate:
 	var id_inimigo: String = ""
 	if combate_atual == TOTAL_COMBATES:
@@ -318,10 +417,63 @@ func _limpar_mao() -> void:
 func _resolver_vitoria() -> void:
 	combo = 0
 
-	if combate_atual < TOTAL_COMBATES:
-		_mostrar_recompensas()
-	else:
+	if encontro_especial_pendente:
+		_mostrar_resultado_evento_especial()
+		return
+
+	if roteiro_run.etapa_atual() == "elite":
 		_mostrar_recompensa_elite()
+		return
+
+	_mostrar_recompensas()
+
+
+func _mostrar_resultado_evento_especial() -> void:
+	encontro_especial_pendente = false
+	aguardando_evento = true
+	evento_titulo.text = "Consequência do evento"
+	evento_texto.text = "O confronto terminou."
+	evento_resultado.text = texto_evento_especial
+	evento_resultado.show()
+	evento_continuar.show()
+	for botao in [evento_opcao_1, evento_opcao_2, evento_opcao_3]:
+		botao.hide()
+	_definir_painel_combate_visivel(false)
+	evento_overlay.show()
+	_atualizar_interface()
+
+
+func _avancar_roteiro() -> void:
+	aguardando_recompensa = false
+	aguardando_recompensa_elite = false
+	etapa_recompensa_elite = ""
+	recompensas.hide()
+	_ocultar_recompensa_elite()
+
+	if aguardando_evento:
+		_ocultar_evento()
+
+	if not roteiro_run.avancar():
+		_mostrar_pre_chefe()
+		return
+
+	_iniciar_etapa_atual()
+
+
+func _mostrar_pre_chefe() -> void:
+	aguardando_recompensa = false
+	aguardando_recompensa_elite = false
+	aguardando_evento = false
+	encontro_especial_pendente = false
+	etapa_recompensa_elite = ""
+	etapa_evento_atual = ""
+	recompensas.hide()
+	_ocultar_recompensa_elite()
+	evento_overlay.hide()
+	_definir_painel_combate_visivel(false)
+	resultado_label.text = "RUN PRE-CHEFE\nA rota ate o chefe foi concluida."
+	resultado_label.show()
+	botao_reiniciar.show()
 
 
 func _ocultar_recompensa_elite() -> void:
@@ -387,6 +539,9 @@ func _ocultar_evento() -> void:
 
 
 func _ao_escolher_evento(indice: int) -> void:
+	_resolver_evento_atual(indice)
+	return
+
 	if not aguardando_evento:
 		return
 
@@ -411,10 +566,52 @@ func _ao_escolher_evento(indice: int) -> void:
 	evento_continuar.show()
 
 
+func _resolver_evento_atual(indice: int) -> void:
+	if not aguardando_evento:
+		return
+
+	var dados: Dictionary = DadosEventos.obter(etapa_evento_atual)
+	var opcoes: Array = dados.get("opcoes", [])
+	if indice < 0 or indice >= opcoes.size():
+		return
+
+	var opcao: Dictionary = opcoes[indice]
+	var resultado: Dictionary = ResolucaoEventos.resolver(
+		etapa_evento_atual,
+		str(opcao.get("id", "")),
+		jogador_combate
+	)
+	if not resultado["valida"]:
+		return
+
+	var vida_delta: int = int(resultado["vida_delta"])
+	if vida_delta != 0:
+		jogador_combate.estado.vida = clampi(
+			jogador_combate.estado.vida + vida_delta,
+			0,
+			jogador_combate.estado.vida_maxima
+		)
+
+	if resultado["tipo"] == "combate_especial":
+		encontro_especial_pendente = true
+		id_inimigo_especial = str(resultado["id_inimigo"])
+		texto_evento_especial = str(resultado["texto"])
+		_ocultar_evento()
+		_iniciar_combate_por_id(id_inimigo_especial, false)
+		return
+
+	for botao in [evento_opcao_1, evento_opcao_2, evento_opcao_3]:
+		botao.hide()
+	evento_resultado.text = str(resultado["texto"])
+	evento_resultado.show()
+	evento_continuar.show()
+	_atualizar_interface()
+
+
 func _ao_continuar_evento() -> void:
 	if not aguardando_evento:
 		return
-	_ocultar_evento()
+	_avancar_roteiro()
 
 
 func _mostrar_recompensas() -> void:
@@ -528,7 +725,7 @@ func _escolher_recompensa_elite_carta(id_carta: String) -> void:
 	aguardando_recompensa_elite = false
 	etapa_recompensa_elite = ""
 	_ocultar_recompensa_elite()
-	_mostrar_resultado()
+	_avancar_roteiro()
 
 
 func _ao_clicar_recompensa(indice: int) -> void:
@@ -547,8 +744,7 @@ func _ao_pular_recompensa() -> void:
 
 	aguardando_recompensa = false
 	print("Recompensa pulada.")
-	combate_atual += 1
-	_iniciar_combate()
+	_avancar_roteiro()
 
 
 func _escolher_recompensa(id_carta: String) -> void:
@@ -565,8 +761,7 @@ func _escolher_recompensa(id_carta: String) -> void:
 	var dados: Dictionary = CARTAS[id_carta]
 	print("%s adicionada ao baralho." % dados["nome"])
 
-	combate_atual += 1
-	_iniciar_combate()
+	_avancar_roteiro()
 
 
 func _iniciar_turno() -> void:
