@@ -271,7 +271,7 @@ Desmontar gera 2 Sucatas e causa 3 de dano. Montar sentinela consome essas Sucat
 | 1 | Combate comum de abertura | Escolher 1 entre 3 cartas sorteadas, com pelo menos 1 Aprimoramento na oferta. É permitido pular. |
 | 2 | Evento do distrito | Escolher uma relíquia dentre duas ofertas compatíveis com o personagem, ou reparar 4 de Vida. |
 | 3 | Segundo combate comum, com escolha de rota | Escolher 1 entre 3 cartas sorteadas, ou pular. |
-| 4 | Confronto de elite | Escolher 1 entre 3 cartas sorteadas, ou pular; depois escolher 1 entre 2 relíquias. |
+| 4 | Confronto de elite | Escolher 1 entre 2 relíquias e depois 1 entre 3 cartas raras; ambas as escolhas são obrigatórias. |
 | 5 | Evento anterior ao alvo | Melhorar uma carta ou reparar 8 de Vida. A narrativa pode registrar um compromisso de rota. |
 | 6 | Chefe ligado ao acesso ao golpe | Resolver o resultado da incursão e os gatilhos narrativos disponíveis. |
 
@@ -291,7 +291,7 @@ Não há loja ou moeda de compras no recorte v0.2: os eventos oferecem trocas e 
 
 Ao fim de um combate, preservar Vida, baralho da run, melhorias e relíquias. Zerar estados de combate, Aprimoramentos instalados, Barreira, Energia, Combo, Ocultação, Sucata e dispositivos. Recuperar as cartas Esgotadas e de Aprimoramento para o próximo combate.
 
-O primeiro protótipo desse fluxo usa dois combates e uma escolha obrigatória entre Golpe, Proteção e Quebra-chassi. A opção de pular recompensa continua prevista para a estrutura completa, mas entra somente depois da validação dessa transição básica.
+O protótipo atual usa três combates: dois comuns sem repetição e um elite fixo. As recompensas comuns permitem escolher uma carta ou pular; a vitória do elite exige escolher uma relíquia e uma carta rara. Esse fluxo é uma validação intermediária antes da inclusão dos eventos e do mapa.
 
 Ao fim de uma run, preservar personagens desbloqueados, registros de descobertas e finais alcançados. Reiniciar baralho, melhorias e relíquias daquela tentativa, exceto o equipamento inicial próprio de cada personagem.
 

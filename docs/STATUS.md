@@ -2,7 +2,7 @@
 
 Direcao atual: a elite sera o terceiro combate e concedera uma reliquia e uma carta rara. As Docas serao tratadas como distrito misto de trabalho portuario, infraestrutura industrial e moradia.
 
-Atualização: 24/09/2026 — core vertical v0.1 validado; orquestração de combate e catálogo de quatro inimigos comuns implementados e validados manualmente; balanceamento adiado.
+Atualização: 24/09/2026 — elite, cartas raras, relíquias e run de três combates implementados; validação automatizada concluída e validação visual pendente; balanceamento adiado.
 
 ## Confirmado
 
@@ -19,28 +19,30 @@ Atualização: 24/09/2026 — core vertical v0.1 validado; orquestração de com
 
 - Cena principal em `res://main.tscn`, executada no editor segundo relato do usuário.
 - Carta reutilizável em `res://carta.tscn`, com nome, custo, descrição e seleção.
-- Dados de Golpe, Proteção, Direto Hidráulico, Quebra-chassi, Brecha e Pulso Debilitante estão em `res://dados_cartas.gd`; `main.gd` continua usando a mesma interface de `CARTAS`.
+- Dados de Golpe, Proteção, Direto Hidráulico, Quebra-chassi, Brecha, Pulso Debilitante e três cartas raras estão em `res://dados_cartas.gd`; `main.gd` continua usando a mesma interface de `CARTAS`.
 - Compra de 6 cartas, mão, descarte e reembaralhamento.
-- Baralho da run iniciado com 12 cartas: 4 Golpes, 4 Proteções, 2 Diretos Hidráulicos e 2 Quebra-chassis; uma recompensa aumenta esse baralho para 13 no segundo combate.
+- Baralho da run iniciado com 12 cartas: 4 Golpes, 4 Proteções, 2 Diretos Hidráulicos e 2 Quebra-chassis; recompensas comuns e a carta rara do elite podem aumentar o baralho durante a run.
 - Energia, Vida, Barreira, fase inimiga, resultado e reinício do combate de teste.
 - Combo de Vega até 5 e Quebra-chassi consumindo todo o Combo para causar `5 + 3 × Combo`.
 - Relíquia inicial Juntas de Retorno: ao alcançar 2 Combo no turno, concede 3 de Barreira uma vez; voltar a 2 no mesmo turno não ativa novamente.
+- Catálogo de relíquias em `res://dados_reliquias.gd`: Juntas de Retorno, Reservatório Auxiliar e Mecanismo de Recuo; a run começa com Juntas e o elite oferece duas opções restantes.
+- Cartas raras: Golpe de Aríete, Ruptura de Pressão e Placa Reforçada; o elite oferece três opções distintas e a jogadora escolhe uma.
 - Exposto e Enfraquecido funcionam como cargas contadas por golpe nos inimigos; Brecha e Pulso Debilitante estão disponíveis como recompensas, mas não entram no baralho inicial.
 - Drone atual com 30 de Vida e ciclo visível `Rajada → Blindagem → Rajada → Sobrecarga → Rajada → Marca → Rajada`; Sobrecarga e Marca são consumidas na Rajada seguinte.
 - Catálogo comum em `res://dados_inimigos.gd`: Drone de Segurança (30 de Vida), Estivador Cibernético (36), Torreta de Contenção (24) e Guarda Portuário (32), cada um com ciclo determinístico próprio de ataque, defesa e preparação.
-- `res://seletor_inimigos.gd` sorteia um inimigo ainda não enfrentado; os dois combates da run atual não repetem inimigo.
+- `res://seletor_inimigos.gd` sorteia um inimigo ainda não enfrentado nos dois combates comuns; o terceiro combate usa o elite fixo e não entra no histórico comum.
 - `res://inimigo_combate.gd` interpreta os ciclos dirigidos por dados, e a interface mostra dinamicamente nome, Vida, Barreira, intenção e estados do inimigo ativo.
-- Primeiro ciclo de run implementado: combate, oferta de três recompensas, escolha ou skip, segundo combate e conclusão.
+- Run de três combates implementada: dois combates comuns com recompensa ou skip, elite fixo no terceiro combate e recompensa dupla obrigatória.
 - Primeiro componente genérico criado em `res://combatente.gd`: Vida atual e máxima, Barreira, Exposto, Enfraquecido, cálculo de dano por golpe, recebimento de golpes e reinicialização.
 - `res://jogador_combate.gd` concentra o estado do jogador, Energia, Combo e ativação por turno de Juntas de Retorno.
 - `res://encontro_combate.gd` concentra inimigo ativo, baralho temporário, turno, condição de encerramento e execução da fase inimiga.
-- Oferta de recompensa agora sorteia três cartas distintas entre as seis cartas disponíveis; a jogadora pode adicionar uma ao baralho ou pular a oferta.
+- Oferta comum sorteia três cartas distintas entre as seis cartas comuns disponíveis; a jogadora pode adicionar uma ao baralho ou pular. A oferta do elite sorteia duas relíquias e três cartas raras em etapas separadas, sem skip.
 - Apresentação do combate reorganizada: intenção e estados do inimigo têm áreas próprias, a última ação fica visível, Energia mostra o limite e `SEM ENERGIA`, e a mão mostra seu limite e `MÃO CHEIA`.
 - Layout da tela refinado: o bloco de pilhas tem espaço para as duas linhas, `VEGA` fica separado abaixo dele e os indicadores de Energia, Barreira, Combo, Relíquia e Vida ficam alinhados em uma coluna legível.
 
 ## Atividade atual
 
-Core vertical v0.1 encerrado. A consolidação técnica inclui `Combatente`, `JogadorCombate`, `EncontroCombate`, `BaralhoCombate`, `InimigoCombate` e `ResolucaoCartas`. O catálogo de quatro inimigos comuns e o sorteio sem repetição foram implementados. `main.gd` delega estado do jogador, recursos temporários, inimigo ativo, baralho do combate, turno e fase inimiga; continua responsável por sinais da cena, cartas visuais, interface, recompensas e fluxo da run. A próxima validação é visual, no editor, antes de iniciar o encontro de elite.
+Core vertical v0.1 encerrado. A consolidação técnica inclui `Combatente`, `JogadorCombate`, `EncontroCombate`, `BaralhoCombate`, `InimigoCombate` e `ResolucaoCartas`. O catálogo de quatro inimigos comuns, o elite, as cartas raras e as relíquias foram implementados. `main.gd` delega estado do jogador, recursos temporários, inimigo ativo, baralho do combate, turno e fase inimiga; continua responsável por sinais da cena, cartas visuais, interface, recompensas e fluxo da run. A verificação automatizada da run de três combates passou; falta a validação visual no editor.
 
 O plano `superpowers/plans/2026-09-23-primeira-cena.md` é histórico e não representa a atividade atual.
 
@@ -68,10 +70,16 @@ O plano `superpowers/plans/2026-09-23-primeira-cena.md` é histórico e não rep
 - `tests/test_cartas_multiplos_inimigos.tscn` confirmou as seis cartas atuais contra os quatro inimigos configurados.
 - Regressão após a integração do catálogo: os 17 testes em `tests/*.tscn` terminaram sem `SCRIPT ERROR`, `ERROR:` ou `FALHA:`; a importação do projeto no editor headless também terminou limpa.
 - Relato do usuário: os quatro inimigos comuns foram enfrentados no editor; nomes, intenções e variação dos encontros ficaram mais dinâmicos.
+- Teste do catálogo confirmou a Unidade de Contenção Portuária com 44 de Vida, quatro intenções e Rajada fortalecida para `7 × 2` depois de Pressurizar.
+- Testes confirmaram nove cartas catalogadas, três raras e resolução de Golpe de Aríete, Ruptura de Pressão e Placa Reforçada pelo mesmo `ResolucaoCartas`.
+- Testes confirmaram três relíquias catalogadas, rejeição de duplicatas e os gatilhos de Reservatório Auxiliar e Mecanismo de Recuo em `JogadorCombate`.
+- Teste do ciclo de run confirmou dois inimigos comuns sem repetição, elite fixo no terceiro combate, duas opções de relíquia, três cartas raras e conclusão somente após os dois prêmios.
+- Regressão headless com Godot 4.7.2: 19 cenas em `tests/*.tscn` terminaram com código 0; a importação do editor headless também terminou com código 0.
+- Validação visual do elite, da recompensa dupla e dos efeitos das novas relíquias ainda não foi relatada pelo usuário.
 
 ## Próximo passo vigente
 
-Definir o encontro de elite e sua entrada na progressão da run. Depois: preparar o primeiro chefe e iniciar o mapa das Docas.
+Validar visualmente o elite e a recompensa dupla no editor. Depois: desenhar e implementar os encontros não-combate das Docas antes de preparar o primeiro chefe e o mapa.
 
 ## Como atualizar este arquivo
 
@@ -81,15 +89,25 @@ Substitua os itens não verificados por fatos específicos após observar o resu
 
 O resumo inicial e a última seção cronológica descrevem o estado vigente. As seções cronológicas anteriores preservam decisões e marcos históricos; quando um item antigo divergir do resumo atual, ele deve ser lido como registro do estado daquela etapa, não como requisito ou pendência atual.
 
-Último avanço: Possivel clicar na carta, atacar o inimigo, consumir energia e finalizar o turno
+Último avanço: elite fixo no terceiro combate, recompensa obrigatória de relíquia e carta rara, com testes automatizados verdes.
+
+Validado automaticamente:
+- 19 cenas de teste headless com Godot 4.7.2.
+- Importação do projeto em modo editor headless.
 
 Validado manualmente:
+- Os quatro inimigos comuns foram enfrentados no editor.
+
+Pendente de validação manual:
+- Unidade de Contenção, recompensa dupla e efeitos das novas relíquias.
+
+Histórico manual anterior:
 - Novo turno restaura a energia para 4.
 - Contador de turnos avança.
 - Encerrar turno após derrotar o drone é bloqueado.
 
 Próximo passo:
-- Adicionar vida do jogador, intenção e ataque do drone.
+- Executar a run de três combates no editor e observar o elite e as duas etapas de recompensa.
 
 ## Atualização da preparação de `carta.tscn` — 23/09/2026
 
@@ -396,3 +414,21 @@ Validação manual pendente: executar `main.tscn` mais de uma vez e conferir vis
 ## Validação manual do catálogo comum — 24/09/2026
 
 Relato do usuário: os quatro inimigos comuns foram enfrentados no editor. A variedade dos padrões tornou os combates mais dinâmicos. O próximo recorte aprovado para definição é o encontro de elite.
+
+## Elite e recompensas da terceira batalha — 24/09/2026
+
+Implementada a Unidade de Contenção Portuária como elite fixo do terceiro combate. Ela possui 44 de Vida e o ciclo dirigido por dados `Pressurizar → Rajada de contenção → Blindagem pesada → Golpe de pistão`. A Rajada usa danos-base `5 × 2` e, depois de Pressurizar, anuncia e executa `7 × 2`; a Blindagem concede 8 e o Golpe de pistão causa 8.
+
+A run passou de dois para três combates. Os dois primeiros continuam usando o seletor de inimigos comuns sem repetição; o terceiro instancia o elite diretamente e não registra seu identificador no histórico de comuns.
+
+Criado `dados_reliquias.gd` com Juntas de Retorno, Reservatório Auxiliar e Mecanismo de Recuo. `JogadorCombate` agora mantém `reliquias_run`, rejeita duplicatas, aplica Reservatório no início do turno e Mecanismo após uma Finalização, preservando o comportamento da relíquia inicial.
+
+O catálogo de cartas passou a ter nove cartas, com três raras: Golpe de Aríete, Ruptura de Pressão e Placa Reforçada. A recompensa do elite sorteia duas relíquias distintas e três cartas raras distintas. A jogadora escolhe uma relíquia e, em seguida, uma carta rara; não há skip nessa tela e a run só conclui após as duas escolhas.
+
+Arquivos principais alterados: `main.gd`, `main.tscn`, `dados_inimigos.gd`, `dados_cartas.gd`, `dados_reliquias.gd`, `jogador_combate.gd` e os testes de catálogo, resolução, ciclo e apresentação. A nova área de recompensa fica oculta durante o combate e separa visualmente as duas etapas.
+
+Verificação automatizada executada com Godot 4.7.2: 19 cenas em `tests/*.tscn` terminaram com código 0, incluindo a run completa, o catálogo do elite, o catálogo de relíquias, as cartas raras e a interface da recompensa. A importação do projeto em modo editor headless também terminou com código 0.
+
+Validação visual ainda pendente: executar `main.tscn` no editor, vencer os dois combates comuns, conferir as intenções do elite, escolher as duas recompensas e verificar a exibição das relíquias equipadas. Os valores permanecem provisórios; balanceamento não foi realizado.
+
+Próximo passo: validar manualmente este fluxo e, depois, desenhar os encontros não-combate das Docas com base na narrativa aprovada.

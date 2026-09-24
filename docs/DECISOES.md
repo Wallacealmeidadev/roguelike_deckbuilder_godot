@@ -1,6 +1,9 @@
 # Decisões e pendências
 
 - A elite sera o terceiro combate da run, depois de dois combates comuns, e concedera os dois premios: uma reliquia e uma carta rara.
+- O elite aprovado e a Unidade de Contencao Portuaria: uma maquina de infraestrutura das Docas com ciclo deterministico de preparacao, ataque, defesa e ataque.
+- A recompensa do elite sera obrigatoriamente dupla: escolher uma reliquia entre duas opcoes e depois uma carta rara entre tres opcoes. Nao havera skip nessa tela.
+- Os valores iniciais da Unidade, das cartas raras e das reliquias sao hipoteses de teste. O balanceamento continua adiado.
 
 Atualizado em 24/09/2026. Base: decisões consolidadas na revisão 0.4 e relato atual do usuário.
 
