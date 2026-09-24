@@ -8,7 +8,8 @@ const LIMITE_MAO: int = 10
 const COMBO_MAXIMO: int = 5
 const BARREIRA_JUNTAS_RETORNO: int = 3
 const LIMIAR_JUNTAS_RETORNO: int = 2
-const TOTAL_COMBATES: int = 2
+const TOTAL_COMBATES: int = 3
+const ID_ELITE: String = "unidade_contencao_portuaria"
 const QUANTIDADE_OPCOES_RECOMPENSA: int = 3
 const RECOMPENSAS_DISPONIVEIS: Array[String] = [
 	"golpe",
@@ -98,8 +99,12 @@ var enfraquecido_inimigo: int:
 		estado_inimigo.enfraquecido = valor
 var combate_atual: int = 1
 var aguardando_recompensa: bool = false
+var aguardando_recompensa_elite: bool = false
+var etapa_recompensa_elite: String = ""
 var baralho_run: Array[String] = []
 var oferta_recompensa: OfertaRecompensa = OfertaRecompensa.new()
+var oferta_reliquias: OfertaRecompensa = OfertaRecompensa.new()
+var oferta_cartas_raras: OfertaRecompensa = OfertaRecompensa.new()
 var seletor_inimigos: SeletorInimigos = SeletorInimigos.new(
 	DadosInimigos.identificadores()
 )
@@ -145,18 +150,31 @@ var grupo_cartas: ButtonGroup = ButtonGroup.new()
 @onready var estados_inimigo_label: Label = $EstadosInimigoLabel
 @onready var acao_label: Label = $AcaoLabel
 @onready var mao_status_label: Label = $MaoStatusLabel
+@onready var recompensa_elite: VBoxContainer = $RecompensaElite
+@onready var reliquia_opcao_1: Button = $RecompensaElite/ReliquiasElite/RelquiaOpcao1
+@onready var reliquia_opcao_2: Button = $RecompensaElite/ReliquiasElite/RelquiaOpcao2
+@onready var cartas_raras_elite: HBoxContainer = $RecompensaElite/CartasRarasElite
+@onready var carta_rara_opcao_1: Button = $RecompensaElite/CartasRarasElite/CartaRaraOpcao1
+@onready var carta_rara_opcao_2: Button = $RecompensaElite/CartasRarasElite/CartaRaraOpcao2
+@onready var carta_rara_opcao_3: Button = $RecompensaElite/CartasRarasElite/CartaRaraOpcao3
 
 
 func _ready() -> void:
 	resultado_label.hide()
 	botao_reiniciar.hide()
 	recompensas.hide()
+	recompensa_elite.hide()
 
 	botao_reiniciar.pressed.connect(_ao_reiniciar)
 	recompensa_opcao_1.pressed.connect(_ao_clicar_recompensa.bind(0))
 	recompensa_opcao_2.pressed.connect(_ao_clicar_recompensa.bind(1))
 	recompensa_opcao_3.pressed.connect(_ao_clicar_recompensa.bind(2))
 	botao_pular_recompensa.pressed.connect(_ao_pular_recompensa)
+	reliquia_opcao_1.pressed.connect(_ao_selecionar_reliquia.bind(0))
+	reliquia_opcao_2.pressed.connect(_ao_selecionar_reliquia.bind(1))
+	carta_rara_opcao_1.pressed.connect(_ao_selecionar_carta_rara.bind(0))
+	carta_rara_opcao_2.pressed.connect(_ao_selecionar_carta_rara.bind(1))
+	carta_rara_opcao_3.pressed.connect(_ao_selecionar_carta_rara.bind(2))
 
 	grupo_cartas.allow_unpress = true
 
@@ -175,12 +193,15 @@ func _combate_terminou() -> bool:
 
 func _mostrar_resultado() -> void:
 	aguardando_recompensa = false
+	aguardando_recompensa_elite = false
+	etapa_recompensa_elite = ""
 	recompensas.hide()
+	recompensa_elite.hide()
 
 	if vida_jogador <= 0:
 		resultado_label.text = "DERROTA\nVega ficou sem Vida."
 	else:
-		resultado_label.text = "RUN CONCLUÍDA\nDois combates vencidos!"
+		resultado_label.text = "RUN CONCLUÍDA\nTrês combates vencidos!"
 
 	resultado_label.show()
 	botao_reiniciar.show()
@@ -206,10 +227,13 @@ func _iniciar_combate() -> void:
 	var vida_jogador_preservada: int = jogador_combate.estado.vida
 	jogador_combate.iniciar_combate(vida_jogador_preservada)
 	aguardando_recompensa = false
+	aguardando_recompensa_elite = false
+	etapa_recompensa_elite = ""
 
 	resultado_label.hide()
 	botao_reiniciar.hide()
 	recompensas.hide()
+	recompensa_elite.hide()
 
 	_limpar_mao()
 	var proximo_inimigo: InimigoCombate = _criar_proximo_inimigo()
@@ -231,7 +255,12 @@ func _iniciar_combate() -> void:
 
 
 func _criar_proximo_inimigo() -> InimigoCombate:
-	var id_inimigo: String = seletor_inimigos.sortear_disponivel()
+	var id_inimigo: String = ""
+	if combate_atual == TOTAL_COMBATES:
+		id_inimigo = ID_ELITE
+	else:
+		id_inimigo = seletor_inimigos.sortear_disponivel()
+
 	if id_inimigo.is_empty():
 		return null
 
@@ -243,7 +272,7 @@ func _criar_proximo_inimigo() -> InimigoCombate:
 	if inimigo.nome.is_empty() or inimigo.ciclo.is_empty():
 		return null
 
-	if not seletor_inimigos.registrar_enfrentado(id_inimigo):
+	if combate_atual != TOTAL_COMBATES and not seletor_inimigos.registrar_enfrentado(id_inimigo):
 		return null
 
 	return inimigo
@@ -266,7 +295,7 @@ func _resolver_vitoria() -> void:
 	if combate_atual < TOTAL_COMBATES:
 		_mostrar_recompensas()
 	else:
-		_mostrar_resultado()
+		_mostrar_recompensa_elite()
 
 
 func _mostrar_recompensas() -> void:
@@ -291,6 +320,88 @@ func _mostrar_recompensas() -> void:
 	botao_reiniciar.hide()
 
 	print("Aguardando escolha de recompensa.")
+
+
+func _mostrar_recompensa_elite() -> void:
+	aguardando_recompensa_elite = true
+	etapa_recompensa_elite = "reliquia"
+	oferta_reliquias.gerar(
+		DadosReliquias.identificadores_sem(jogador_combate.reliquias_run),
+		2
+	)
+	oferta_cartas_raras.gerar(DADOS_CARTAS.identificadores_por_raridade("rara"), 3)
+
+	resultado_label.text = "ELITE VENCIDO\nEscolha uma relíquia"
+	resultado_label.show()
+	recompensas.hide()
+	recompensa_elite.show()
+	cartas_raras_elite.hide()
+	_preencher_opcoes_reliquias()
+	botao_reiniciar.hide()
+
+	print("Aguardando escolha de relíquia do elite.")
+
+
+func _preencher_opcoes_reliquias() -> void:
+	if oferta_reliquias.opcoes.size() < 2:
+		return
+
+	reliquia_opcao_1.text = DadosReliquias.obter(oferta_reliquias.opcoes[0])["nome"]
+	reliquia_opcao_2.text = DadosReliquias.obter(oferta_reliquias.opcoes[1])["nome"]
+	reliquia_opcao_1.show()
+	reliquia_opcao_2.show()
+
+
+func _preencher_opcoes_cartas_raras() -> void:
+	if oferta_cartas_raras.opcoes.size() < 3:
+		return
+
+	carta_rara_opcao_1.text = CARTAS[oferta_cartas_raras.opcoes[0]]["nome"]
+	carta_rara_opcao_2.text = CARTAS[oferta_cartas_raras.opcoes[1]]["nome"]
+	carta_rara_opcao_3.text = CARTAS[oferta_cartas_raras.opcoes[2]]["nome"]
+	carta_rara_opcao_1.show()
+	carta_rara_opcao_2.show()
+	carta_rara_opcao_3.show()
+
+
+func _ao_selecionar_reliquia(indice: int) -> void:
+	if indice < 0 or indice >= oferta_reliquias.opcoes.size():
+		return
+	_escolher_recompensa_elite_reliquia(oferta_reliquias.opcoes[indice])
+
+
+func _ao_selecionar_carta_rara(indice: int) -> void:
+	if indice < 0 or indice >= oferta_cartas_raras.opcoes.size():
+		return
+	_escolher_recompensa_elite_carta(oferta_cartas_raras.opcoes[indice])
+
+
+func _escolher_recompensa_elite_reliquia(id_reliquia: String) -> void:
+	if not aguardando_recompensa_elite or etapa_recompensa_elite != "reliquia":
+		return
+	if not oferta_reliquias.opcoes.has(id_reliquia):
+		return
+	if not jogador_combate.adicionar_reliquia(id_reliquia):
+		return
+
+	etapa_recompensa_elite = "carta_rara"
+	resultado_label.text = "RELÍQUIA ADICIONADA\nEscolha uma carta rara"
+	cartas_raras_elite.show()
+	_preencher_opcoes_cartas_raras()
+	_atualizar_interface()
+
+
+func _escolher_recompensa_elite_carta(id_carta: String) -> void:
+	if not aguardando_recompensa_elite or etapa_recompensa_elite != "carta_rara":
+		return
+	if not oferta_cartas_raras.opcoes.has(id_carta):
+		return
+
+	baralho_run.append(id_carta)
+	aguardando_recompensa_elite = false
+	etapa_recompensa_elite = ""
+	recompensa_elite.hide()
+	_mostrar_resultado()
 
 
 func _ao_clicar_recompensa(indice: int) -> void:
@@ -441,6 +552,7 @@ func _jogar_carta(destino: String) -> void:
 		_registrar_acao("SEM ENERGIA para %s." % dados["nome"])
 		return
 
+	var combo_antes: int = combo
 	var resultado: Dictionary = resolucao_cartas.resolver(
 		id_carta,
 		CARTAS,
@@ -463,6 +575,8 @@ func _jogar_carta(destino: String) -> void:
 		_ganhar_combo()
 	else:
 		combo = int(resultado["combo"])
+		if resultado["consome_combo"]:
+			jogador_combate.registrar_finalizacao(combo_antes)
 
 	if eh_ataque and destino == "inimigo":
 		print("%s: Barreira absorveu %d. Dano na Vida: %d." % [
@@ -584,7 +698,12 @@ func _registrar_acao(mensagem: String) -> void:
 
 func _atualizar_interface() -> void:
 	combo_label.text = "Combo: %d/%d" % [combo, COMBO_MAXIMO]
-	reliquia_label.text = "Relíquia: Juntas de Retorno"
+	var nomes_reliquias: PackedStringArray = []
+	for id_reliquia in jogador_combate.reliquias_run:
+		var dados_reliquia: Dictionary = DadosReliquias.obter(id_reliquia)
+		if not dados_reliquia.is_empty():
+			nomes_reliquias.append(str(dados_reliquia["nome"]))
+	reliquia_label.text = "Relíquias: %s" % ", ".join(nomes_reliquias)
 	energia_label.text = "Energia: %d/%d" % [energia, ENERGIA_POR_TURNO]
 	if energia <= 0:
 		energia_label.text += "\nSEM ENERGIA"
@@ -625,7 +744,7 @@ func _atualizar_interface() -> void:
 			estados_texto += "\nNenhum"
 		estados_inimigo_label.text = estados_texto
 
-	var terminou: bool = _combate_terminou()
+	var terminou: bool = _combate_terminou() or aguardando_recompensa_elite
 	alvo.disabled = terminou
 	jogador.disabled = terminou
 	botao_encerrar_turno.disabled = terminou

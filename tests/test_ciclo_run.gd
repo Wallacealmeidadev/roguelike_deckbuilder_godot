@@ -26,8 +26,17 @@ func _executar_teste() -> void:
 	_verificar(jogo.has_node("Recompensas/RecompensaOpcao2"), "a cena precisa da segunda opção")
 	_verificar(jogo.has_node("Recompensas/RecompensaOpcao3"), "a cena precisa da terceira opção")
 	_verificar(jogo.has_node("Recompensas/Pular"), "a cena precisa da opção de skip")
+	_verificar(jogo.has_node("RecompensaElite"), "a cena precisa da recompensa do elite")
 	_verificar(jogo.has_method("_resolver_vitoria"), "a vitória precisa decidir entre recompensa e conclusão")
 	_verificar(jogo.has_method("_escolher_recompensa"), "a recompensa precisa entrar no baralho da run")
+	_verificar(
+		jogo.has_method("_escolher_recompensa_elite_reliquia"),
+		"a recompensa do elite precisa escolher relíquia"
+	)
+	_verificar(
+		jogo.has_method("_escolher_recompensa_elite_carta"),
+		"a recompensa do elite precisa escolher carta rara"
+	)
 
 	if falhas == 0:
 		_verificar(jogo.get("combate_atual") == 1, "a run deve começar no combate 1")
@@ -91,11 +100,62 @@ func _executar_teste() -> void:
 
 		jogo.set("vida_inimigo", 0)
 		jogo.call("_resolver_vitoria")
+		_verificar(jogo.get("aguardando_recompensa"), "a segunda vitória deve abrir recompensa comum")
+		var oferta_segunda: OfertaRecompensa = jogo.get("oferta_recompensa") as OfertaRecompensa
+		_verificar(oferta_segunda.opcoes.size() == 3, "a segunda recompensa deve ter três opções")
+		(jogo.get_node("Recompensas/RecompensaOpcao1") as Button).pressed.emit()
 
-		_verificar(not jogo.get("aguardando_recompensa"), "a segunda vitória não deve aguardar recompensa")
-		_verificar(not recompensas.visible, "as recompensas devem permanecer escondidas ao concluir")
+		var elite: InimigoCombate = jogo.get("estado_inimigo") as InimigoCombate
+		_verificar(jogo.get("combate_atual") == 3, "a segunda recompensa deve iniciar o combate 3")
+		_verificar(
+			elite.identificador == "unidade_contencao_portuaria",
+			"o terceiro combate deve usar o elite"
+		)
+		_verificar(
+			(jogo.get("seletor_inimigos") as SeletorInimigos).enfrentados.size() == 2,
+			"o elite não deve entrar no histórico de comuns"
+		)
+		_verificar(not recompensas.visible, "as recompensas comuns devem esconder no elite")
+
+		jogo.set("vida_inimigo", 0)
+		jogo.call("_resolver_vitoria")
+
+		var oferta_reliquias: OfertaRecompensa = jogo.get("oferta_reliquias") as OfertaRecompensa
+		var oferta_cartas_raras: OfertaRecompensa = jogo.get("oferta_cartas_raras") as OfertaRecompensa
+		var recompensa_elite: Control = jogo.get_node("RecompensaElite") as Control
+		_verificar(jogo.get("aguardando_recompensa_elite"), "a vitória do elite deve aguardar recompensa")
+		_verificar(oferta_reliquias.opcoes.size() == 2, "devem existir duas relíquias")
+		_verificar(oferta_cartas_raras.opcoes.size() == 3, "devem existir três cartas raras")
+		_verificar(recompensa_elite.visible, "a recompensa do elite deve aparecer")
+		_verificar(
+			not jogo.get_node("RecompensaElite/CartasRarasElite").visible,
+			"cartas raras devem esperar a escolha da relíquia"
+		)
+		_verificar(not reiniciar.visible, "reiniciar deve esperar os dois prêmios")
+
+		var id_reliquia: String = oferta_reliquias.opcoes[0]
+		jogo.call("_escolher_recompensa_elite_reliquia", id_reliquia)
+		_verificar(
+			(jogo.get("jogador_combate") as JogadorCombate).reliquias_run.has(id_reliquia),
+			"a relíquia deve persistir na run"
+		)
+		_verificar(
+			jogo.get_node("RecompensaElite/CartasRarasElite").visible,
+			"a escolha deve abrir as cartas raras"
+		)
+		_verificar(not reiniciar.visible, "a run não pode concluir após apenas a relíquia")
+
+		var tamanho_baralho: int = jogo.get("baralho_run").size()
+		var id_carta_rara: String = oferta_cartas_raras.opcoes[0]
+		jogo.call("_escolher_recompensa_elite_carta", id_carta_rara)
+		_verificar(
+			jogo.get("baralho_run").size() == tamanho_baralho + 1,
+			"a carta rara deve entrar no baralho"
+		)
+		_verificar(not jogo.get("aguardando_recompensa_elite"), "as duas escolhas devem encerrar a espera")
+		_verificar(not recompensa_elite.visible, "a recompensa deve esconder ao concluir")
 		_verificar(reiniciar.visible, "reiniciar deve aparecer ao concluir a run")
-		_verificar(resultado.text.contains("RUN CONCLUÍDA"), "a segunda vitória deve concluir a run")
+		_verificar(resultado.text.contains("RUN CONCLUÍDA"), "a terceira vitória deve concluir a run")
 
 	jogo.queue_free()
 
@@ -115,7 +175,7 @@ func _executar_teste() -> void:
 	jogo_invalido.queue_free()
 
 	if falhas == 0:
-		print("OK: ciclo de run com dois combates e recompensa")
+		print("OK: ciclo de run com elite e recompensa dupla")
 		get_tree().quit(0)
 	else:
 		get_tree().quit(1)
