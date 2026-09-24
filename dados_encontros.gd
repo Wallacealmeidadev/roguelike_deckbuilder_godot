@@ -7,26 +7,31 @@ const ENCONTROS: Dictionary = {
 	"drone_seguranca": {
 		"tipo": "combate",
 		"nome": "Drone de Segurança",
+		"descricao": "Um drone de segurança patrulha os acessos das Docas.",
 		"inimigo_id": "drone_seguranca"
 	},
 	"estivador_cibernetico": {
 		"tipo": "combate",
 		"nome": "Estivador Cibernético",
+		"descricao": "Um estivador reforçado protege uma área de carga.",
 		"inimigo_id": "estivador_cibernetico"
 	},
 	"torreta_contencao": {
 		"tipo": "combate",
 		"nome": "Torreta de Contenção",
+		"descricao": "Uma torreta industrial bloqueia uma passagem de serviço.",
 		"inimigo_id": "torreta_contencao"
 	},
 	"guarda_portuario": {
 		"tipo": "combate",
 		"nome": "Guarda Portuário",
+		"descricao": "Um guarda corporativo fiscaliza o fluxo de trabalhadores.",
 		"inimigo_id": "guarda_portuario"
 	},
 	"unidade_contencao_portuaria": {
 		"tipo": "elite",
 		"nome": "Unidade de Contenção Portuária",
+		"descricao": "Uma máquina de infraestrutura pressurizada protege a doca.",
 		"inimigo_id": "unidade_contencao_portuaria"
 	},
 	"valvula_vapor_contaminado": {

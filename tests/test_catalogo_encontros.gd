@@ -23,6 +23,10 @@ func _ready() -> void:
 		"a Unidade deve ser elite"
 	)
 	_verificar(
+		not str(DadosEncontros.obter("drone_seguranca")["descricao"]).is_empty(),
+		"combate comum deve ter descrição"
+	)
+	_verificar(
 		DadosEncontros.obter("valvula_vapor_contaminado")["evento_id"] == "valvula_vapor_contaminado",
 		"a válvula deve apontar para seu evento"
 	)
