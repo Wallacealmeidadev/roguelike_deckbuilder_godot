@@ -60,6 +60,41 @@ func _executar_teste() -> void:
 	jogador.ganhar_combo(3, 2)
 	_verificar(jogador.ganhar_combo(3, 2), "Juntas deve ativar novamente no turno seguinte")
 
+	var jogador_reliquias: JogadorCombate = JogadorCombate.new(40, 4, 5)
+	_verificar(
+		jogador_reliquias.possui_reliquia("juntas_retorno"),
+		"Juntas deve começar equipada"
+	)
+	_verificar(
+		jogador_reliquias.adicionar_reliquia("reservatorio_auxiliar"),
+		"Reservatório deve ser adicionado"
+	)
+	_verificar(
+		jogador_reliquias.adicionar_reliquia("mecanismo_recuo"),
+		"Mecanismo deve ser adicionado"
+	)
+	_verificar(
+		not jogador_reliquias.adicionar_reliquia("reservatorio_auxiliar"),
+		"relíquia duplicada deve ser rejeitada"
+	)
+	jogador_reliquias.iniciar_turno()
+	_verificar(
+		jogador_reliquias.estado.barreira == 2,
+		"Reservatório deve conceder 2 de Barreira"
+	)
+	_verificar(
+		jogador_reliquias.registrar_finalizacao(2),
+		"Mecanismo deve ativar após consumir Combo"
+	)
+	_verificar(
+		jogador_reliquias.estado.barreira == 4,
+		"Mecanismo deve conceder 2 de Barreira"
+	)
+	_verificar(
+		not jogador_reliquias.registrar_finalizacao(1),
+		"Mecanismo deve ativar uma vez por turno"
+	)
+
 	if falhas == 0:
 		print("OK: JogadorCombate")
 		get_tree().quit(0)
