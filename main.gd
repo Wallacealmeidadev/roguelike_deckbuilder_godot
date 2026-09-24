@@ -151,8 +151,11 @@ var grupo_cartas: ButtonGroup = ButtonGroup.new()
 @onready var acao_label: Label = $AcaoLabel
 @onready var mao_status_label: Label = $MaoStatusLabel
 @onready var recompensa_elite: VBoxContainer = $RecompensaElite
+@onready var titulo_reliquias: Label = $RecompensaElite/TituloReliquias
+@onready var reliquias_elite: HBoxContainer = $RecompensaElite/ReliquiasElite
 @onready var reliquia_opcao_1: Button = $RecompensaElite/ReliquiasElite/RelquiaOpcao1
 @onready var reliquia_opcao_2: Button = $RecompensaElite/ReliquiasElite/RelquiaOpcao2
+@onready var titulo_cartas_raras: Label = $RecompensaElite/TituloCartasRaras
 @onready var cartas_raras_elite: HBoxContainer = $RecompensaElite/CartasRarasElite
 @onready var carta_rara_opcao_1: Button = $RecompensaElite/CartasRarasElite/CartaRaraOpcao1
 @onready var carta_rara_opcao_2: Button = $RecompensaElite/CartasRarasElite/CartaRaraOpcao2
@@ -163,7 +166,7 @@ func _ready() -> void:
 	resultado_label.hide()
 	botao_reiniciar.hide()
 	recompensas.hide()
-	recompensa_elite.hide()
+	_ocultar_recompensa_elite()
 
 	botao_reiniciar.pressed.connect(_ao_reiniciar)
 	recompensa_opcao_1.pressed.connect(_ao_clicar_recompensa.bind(0))
@@ -196,7 +199,7 @@ func _mostrar_resultado() -> void:
 	aguardando_recompensa_elite = false
 	etapa_recompensa_elite = ""
 	recompensas.hide()
-	recompensa_elite.hide()
+	_ocultar_recompensa_elite()
 
 	if vida_jogador <= 0:
 		resultado_label.text = "DERROTA\nVega ficou sem Vida."
@@ -298,6 +301,14 @@ func _resolver_vitoria() -> void:
 		_mostrar_recompensa_elite()
 
 
+func _ocultar_recompensa_elite() -> void:
+	recompensa_elite.hide()
+	titulo_reliquias.hide()
+	reliquias_elite.hide()
+	titulo_cartas_raras.hide()
+	cartas_raras_elite.hide()
+
+
 func _mostrar_recompensas() -> void:
 	aguardando_recompensa = true
 	oferta_recompensa.gerar(RECOMPENSAS_DISPONIVEIS, QUANTIDADE_OPCOES_RECOMPENSA)
@@ -335,6 +346,9 @@ func _mostrar_recompensa_elite() -> void:
 	resultado_label.show()
 	recompensas.hide()
 	recompensa_elite.show()
+	titulo_reliquias.show()
+	reliquias_elite.show()
+	titulo_cartas_raras.hide()
 	cartas_raras_elite.hide()
 	_preencher_opcoes_reliquias()
 	botao_reiniciar.hide()
@@ -386,6 +400,9 @@ func _escolher_recompensa_elite_reliquia(id_reliquia: String) -> void:
 
 	etapa_recompensa_elite = "carta_rara"
 	resultado_label.text = "RELÍQUIA ADICIONADA\nEscolha uma carta rara"
+	titulo_reliquias.hide()
+	reliquias_elite.hide()
+	titulo_cartas_raras.show()
 	cartas_raras_elite.show()
 	_preencher_opcoes_cartas_raras()
 	_atualizar_interface()
@@ -400,7 +417,7 @@ func _escolher_recompensa_elite_carta(id_carta: String) -> void:
 	baralho_run.append(id_carta)
 	aguardando_recompensa_elite = false
 	etapa_recompensa_elite = ""
-	recompensa_elite.hide()
+	_ocultar_recompensa_elite()
 	_mostrar_resultado()
 
 

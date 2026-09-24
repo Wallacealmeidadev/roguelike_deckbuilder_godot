@@ -131,6 +131,18 @@ func _executar_teste() -> void:
 			not jogo.get_node("RecompensaElite/CartasRarasElite").visible,
 			"cartas raras devem esperar a escolha da relíquia"
 		)
+		_verificar(
+			jogo.get_node("RecompensaElite/TituloReliquias").visible,
+			"o título de relíquias deve aparecer na primeira etapa"
+		)
+		_verificar(
+			jogo.get_node("RecompensaElite/ReliquiasElite").visible,
+			"as opções de relíquia devem aparecer na primeira etapa"
+		)
+		_verificar(
+			not jogo.get_node("RecompensaElite/TituloCartasRaras").visible,
+			"o título de cartas raras não deve aparecer antes da escolha da relíquia"
+		)
 		_verificar(not reiniciar.visible, "reiniciar deve esperar os dois prêmios")
 
 		var id_reliquia: String = oferta_reliquias.opcoes[0]
@@ -142,6 +154,18 @@ func _executar_teste() -> void:
 		_verificar(
 			jogo.get_node("RecompensaElite/CartasRarasElite").visible,
 			"a escolha deve abrir as cartas raras"
+		)
+		_verificar(
+			not jogo.get_node("RecompensaElite/TituloReliquias").visible,
+			"o título de relíquias deve esconder na segunda etapa"
+		)
+		_verificar(
+			not jogo.get_node("RecompensaElite/ReliquiasElite").visible,
+			"as opções de relíquia devem esconder na segunda etapa"
+		)
+		_verificar(
+			jogo.get_node("RecompensaElite/TituloCartasRaras").visible,
+			"o título de cartas raras deve aparecer na segunda etapa"
 		)
 		_verificar(not reiniciar.visible, "a run não pode concluir após apenas a relíquia")
 

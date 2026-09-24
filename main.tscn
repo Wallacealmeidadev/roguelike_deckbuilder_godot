@@ -142,6 +142,7 @@ layout_mode = 2
 text = "Relíquia 2"
 
 [node name="TituloCartasRaras" type="Label" parent="RecompensaElite" unique_id=2050000006]
+visible = false
 layout_mode = 2
 text = "Escolha uma carta rara"
 horizontal_alignment = 1

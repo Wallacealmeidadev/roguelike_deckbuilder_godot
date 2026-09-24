@@ -2,7 +2,7 @@
 
 Direcao atual: a elite sera o terceiro combate e concedera uma reliquia e uma carta rara. As Docas serao tratadas como distrito misto de trabalho portuario, infraestrutura industrial e moradia.
 
-Atualização: 24/09/2026 — elite, cartas raras, relíquias e run de três combates implementados; validação automatizada concluída e validação visual pendente; balanceamento adiado.
+Atualização: 24/09/2026 — elite, cartas raras, relíquias e run de três combates implementados; fluxo visual das duas recompensas corrigido após validação do usuário; validação visual final pendente; balanceamento adiado.
 
 ## Confirmado
 
@@ -37,12 +37,13 @@ Atualização: 24/09/2026 — elite, cartas raras, relíquias e run de três com
 - `res://jogador_combate.gd` concentra o estado do jogador, Energia, Combo e ativação por turno de Juntas de Retorno.
 - `res://encontro_combate.gd` concentra inimigo ativo, baralho temporário, turno, condição de encerramento e execução da fase inimiga.
 - Oferta comum sorteia três cartas distintas entre as seis cartas comuns disponíveis; a jogadora pode adicionar uma ao baralho ou pular. A oferta do elite sorteia duas relíquias e três cartas raras em etapas separadas, sem skip.
+- A recompensa do elite alterna visualmente entre uma única etapa de relíquias e uma única etapa de cartas raras; os controles da etapa anterior são escondidos antes da próxima aparecer.
 - Apresentação do combate reorganizada: intenção e estados do inimigo têm áreas próprias, a última ação fica visível, Energia mostra o limite e `SEM ENERGIA`, e a mão mostra seu limite e `MÃO CHEIA`.
 - Layout da tela refinado: o bloco de pilhas tem espaço para as duas linhas, `VEGA` fica separado abaixo dele e os indicadores de Energia, Barreira, Combo, Relíquia e Vida ficam alinhados em uma coluna legível.
 
 ## Atividade atual
 
-Core vertical v0.1 encerrado. A consolidação técnica inclui `Combatente`, `JogadorCombate`, `EncontroCombate`, `BaralhoCombate`, `InimigoCombate` e `ResolucaoCartas`. O catálogo de quatro inimigos comuns, o elite, as cartas raras e as relíquias foram implementados. `main.gd` delega estado do jogador, recursos temporários, inimigo ativo, baralho do combate, turno e fase inimiga; continua responsável por sinais da cena, cartas visuais, interface, recompensas e fluxo da run. A verificação automatizada da run de três combates passou; falta a validação visual no editor.
+Core vertical v0.1 encerrado. A consolidação técnica inclui `Combatente`, `JogadorCombate`, `EncontroCombate`, `BaralhoCombate`, `InimigoCombate` e `ResolucaoCartas`. O catálogo de quatro inimigos comuns, o elite, as cartas raras e as relíquias foram implementados. `main.gd` delega estado do jogador, recursos temporários, inimigo ativo, baralho do combate, turno e fase inimiga; continua responsável por sinais da cena, cartas visuais, interface, recompensas e fluxo da run. A verificação automatizada da run de três combates passou. Após o relato visual do usuário, o fluxo da recompensa do elite foi corrigido para não manter os menus das duas etapas visíveis ao mesmo tempo; falta a confirmação visual final no editor.
 
 O plano `superpowers/plans/2026-09-23-primeira-cena.md` é histórico e não representa a atividade atual.
 
@@ -76,6 +77,8 @@ O plano `superpowers/plans/2026-09-23-primeira-cena.md` é histórico e não rep
 - Teste do ciclo de run confirmou dois inimigos comuns sem repetição, elite fixo no terceiro combate, duas opções de relíquia, três cartas raras e conclusão somente após os dois prêmios.
 - Regressão headless com Godot 4.7.2: 19 cenas em `tests/*.tscn` terminaram com código 0; a importação do editor headless também terminou com código 0.
 - Validação visual do elite, da recompensa dupla e dos efeitos das novas relíquias ainda não foi relatada pelo usuário.
+- Relato do usuário: após vencer o elite, a tela mostrava simultaneamente títulos/opções de relíquia e carta rara; o problema foi reproduzido no teste de ciclo e corrigido separando a visibilidade das duas etapas.
+- Teste de regressão após a correção: 19 cenas em `tests/*.tscn` e a importação do editor headless terminaram com código 0.
 
 ## Próximo passo vigente
 
@@ -107,7 +110,7 @@ Histórico manual anterior:
 - Encerrar turno após derrotar o drone é bloqueado.
 
 Próximo passo:
-- Executar a run de três combates no editor e observar o elite e as duas etapas de recompensa.
+- Executar novamente a run de três combates no editor e confirmar que apenas uma etapa da recompensa do elite aparece por vez.
 
 ## Atualização da preparação de `carta.tscn` — 23/09/2026
 
@@ -432,3 +435,13 @@ Verificação automatizada executada com Godot 4.7.2: 19 cenas em `tests/*.tscn`
 Validação visual ainda pendente: executar `main.tscn` no editor, vencer os dois combates comuns, conferir as intenções do elite, escolher as duas recompensas e verificar a exibição das relíquias equipadas. Os valores permanecem provisórios; balanceamento não foi realizado.
 
 Próximo passo: validar manualmente este fluxo e, depois, desenhar os encontros não-combate das Docas com base na narrativa aprovada.
+
+## Correção da troca entre recompensas do elite — 24/09/2026
+
+Relato do usuário acompanhado de screenshot: após escolher a relíquia, o título e os botões de relíquia continuavam visíveis junto das cartas raras. O título de cartas raras também podia aparecer na primeira etapa, fazendo os menus parecerem sobrepostos e invadirem visualmente a mão.
+
+Correção feita: `main.gd` agora controla separadamente o título e o container de cada etapa. A primeira etapa mostra somente relíquias; a segunda esconde completamente relíquias e mostra somente cartas raras; ao concluir, todo o painel é ocultado. `main.tscn` também inicia o título de cartas raras oculto.
+
+Teste RED→GREEN: `tests/test_ciclo_run.tscn` primeiro falhou nos estados de visibilidade esperados e passou após a correção. A regressão dos 19 testes e a importação headless do editor terminaram com código 0.
+
+Pendente: executar novamente a run no editor e confirmar visualmente as duas etapas sem sobreposição.
