@@ -49,6 +49,19 @@ const INIMIGOS: Dictionary = {
 	}
 }
 
+const ELITES: Dictionary = {
+	"unidade_contencao_portuaria": {
+		"nome": "Unidade de Contenção Portuária",
+		"vida": 44,
+		"intencoes": [
+			{"nome": "Pressurizar", "tipo": "preparacao", "bonus_por_golpe": 2},
+			{"nome": "Rajada de contenção", "tipo": "ataque", "danos": [5, 5]},
+			{"nome": "Blindagem pesada", "tipo": "defesa", "valor": 8},
+			{"nome": "Golpe de pistão", "tipo": "ataque", "danos": [8]}
+		]
+	}
+}
+
 
 static func identificadores() -> Array[String]:
 	var ids: Array[String] = []
@@ -57,11 +70,21 @@ static func identificadores() -> Array[String]:
 	return ids
 
 
+static func identificadores_elite() -> Array[String]:
+	var ids: Array[String] = []
+	for id_inimigo in ELITES.keys():
+		ids.append(str(id_inimigo))
+	return ids
+
+
 static func obter(id_inimigo: String) -> Dictionary:
-	if not INIMIGOS.has(id_inimigo):
+	var catalogo: Dictionary = INIMIGOS
+	if not catalogo.has(id_inimigo):
+		catalogo = ELITES
+	if not catalogo.has(id_inimigo):
 		return {}
 
-	var dados: Dictionary = INIMIGOS[id_inimigo]
+	var dados: Dictionary = catalogo[id_inimigo]
 	if not dados_validos(dados):
 		return {}
 

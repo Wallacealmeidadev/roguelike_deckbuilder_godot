@@ -59,6 +59,20 @@ func _ready() -> void:
 	_verificar(preparado.enfraquecido == 0, "as duas cargas devem ser consumidas")
 	_verificar(preparado.bonus_preparado == 0, "o bônus deve terminar após o ataque completo")
 
+	var elite: InimigoCombate = InimigoCombate.new(
+		"unidade_contencao_portuaria",
+		DadosInimigos.obter("unidade_contencao_portuaria")
+	)
+	acao = elite.executar_intencao()
+	_verificar(acao["tipo"] == "preparacao", "o elite deve preparar primeiro")
+	_verificar(
+		elite.texto_intencao().contains("7 × 2"),
+		"a Rajada do elite deve anunciar 7 por golpe"
+	)
+	acao = elite.executar_intencao()
+	_verificar(acao["danos"] == [7, 7], "o bônus deve ser aplicado aos dois golpes")
+	_verificar(elite.bonus_preparado == 0, "o bônus deve ser consumido após a Rajada")
+
 	var dados_invalidos: Dictionary = {
 		"nome": "Inválido",
 		"vida": 10,

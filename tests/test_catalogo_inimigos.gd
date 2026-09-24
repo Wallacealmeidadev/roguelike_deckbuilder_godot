@@ -28,6 +28,37 @@ func _ready() -> void:
 	_verificar(guarda["vida"] == 32, "o Guarda deve ter 32 de Vida")
 	_verificar(guarda["intencoes"][1]["valor"] == 9, "Escudo deve conceder 9")
 
+	var elites: Array[String] = DadosInimigos.identificadores_elite()
+	_verificar(elites == ["unidade_contencao_portuaria"], "deve existir um elite")
+
+	var elite: Dictionary = DadosInimigos.obter("unidade_contencao_portuaria")
+	_verificar(
+		elite["nome"] == "Unidade de Contenção Portuária",
+		"o elite deve ter nome próprio"
+	)
+	_verificar(elite["vida"] == 44, "o elite deve começar com 44 de Vida")
+	_verificar(elite["intencoes"].size() == 4, "o elite deve ter quatro intenções")
+	_verificar(
+		elite["intencoes"][0]["tipo"] == "preparacao",
+		"o ciclo deve começar preparando"
+	)
+	_verificar(
+		elite["intencoes"][1]["danos"] == [5, 5],
+		"a Rajada deve ter dois danos-base de 5"
+	)
+	_verificar(
+		elite["intencoes"][2]["valor"] == 8,
+		"a Blindagem pesada deve conceder 8"
+	)
+	_verificar(
+		elite["intencoes"][3]["danos"] == [8],
+		"o Golpe de pistão deve causar 8"
+	)
+	_verificar(
+		DadosInimigos.identificadores().size() == 4,
+		"o identificador de elite não deve entrar no pool comum"
+	)
+
 	drone["vida"] = 999
 	_verificar(DadosInimigos.obter("drone_seguranca")["vida"] == 30, "obter deve devolver cópia profunda")
 	_verificar(DadosInimigos.obter("ausente").is_empty(), "identificador ausente deve retornar vazio")
