@@ -101,6 +101,8 @@ var combate_atual: int = 1
 var aguardando_recompensa: bool = false
 var aguardando_recompensa_elite: bool = false
 var etapa_recompensa_elite: String = ""
+var aguardando_evento: bool = false
+var id_evento_atual: String = ""
 var baralho_run: Array[String] = []
 var oferta_recompensa: OfertaRecompensa = OfertaRecompensa.new()
 var oferta_reliquias: OfertaRecompensa = OfertaRecompensa.new()
@@ -160,6 +162,14 @@ var grupo_cartas: ButtonGroup = ButtonGroup.new()
 @onready var carta_rara_opcao_1: Button = $RecompensaElite/CartasRarasElite/CartaRaraOpcao1
 @onready var carta_rara_opcao_2: Button = $RecompensaElite/CartasRarasElite/CartaRaraOpcao2
 @onready var carta_rara_opcao_3: Button = $RecompensaElite/CartasRarasElite/CartaRaraOpcao3
+@onready var evento_overlay: VBoxContainer = $EventoOverlay
+@onready var evento_titulo: Label = $EventoOverlay/EventoTitulo
+@onready var evento_texto: Label = $EventoOverlay/EventoTexto
+@onready var evento_opcao_1: Button = $EventoOverlay/EventoOpcoes/EventoOpcao1
+@onready var evento_opcao_2: Button = $EventoOverlay/EventoOpcoes/EventoOpcao2
+@onready var evento_opcao_3: Button = $EventoOverlay/EventoOpcoes/EventoOpcao3
+@onready var evento_resultado: Label = $EventoOverlay/EventoResultado
+@onready var evento_continuar: Button = $EventoOverlay/EventoContinuar
 
 
 func _ready() -> void:
@@ -167,6 +177,7 @@ func _ready() -> void:
 	botao_reiniciar.hide()
 	recompensas.hide()
 	_ocultar_recompensa_elite()
+	evento_overlay.hide()
 
 	botao_reiniciar.pressed.connect(_ao_reiniciar)
 	recompensa_opcao_1.pressed.connect(_ao_clicar_recompensa.bind(0))
@@ -178,6 +189,10 @@ func _ready() -> void:
 	carta_rara_opcao_1.pressed.connect(_ao_selecionar_carta_rara.bind(0))
 	carta_rara_opcao_2.pressed.connect(_ao_selecionar_carta_rara.bind(1))
 	carta_rara_opcao_3.pressed.connect(_ao_selecionar_carta_rara.bind(2))
+	evento_opcao_1.pressed.connect(_ao_escolher_evento.bind(0))
+	evento_opcao_2.pressed.connect(_ao_escolher_evento.bind(1))
+	evento_opcao_3.pressed.connect(_ao_escolher_evento.bind(2))
+	evento_continuar.pressed.connect(_ao_continuar_evento)
 
 	grupo_cartas.allow_unpress = true
 
@@ -198,8 +213,12 @@ func _mostrar_resultado() -> void:
 	aguardando_recompensa = false
 	aguardando_recompensa_elite = false
 	etapa_recompensa_elite = ""
+	aguardando_evento = false
+	id_evento_atual = ""
 	recompensas.hide()
 	_ocultar_recompensa_elite()
+	evento_overlay.hide()
+	_definir_painel_combate_visivel(false)
 
 	if vida_jogador <= 0:
 		resultado_label.text = "DERROTA\nVega ficou sem Vida."
@@ -232,11 +251,15 @@ func _iniciar_combate() -> void:
 	aguardando_recompensa = false
 	aguardando_recompensa_elite = false
 	etapa_recompensa_elite = ""
+	aguardando_evento = false
+	id_evento_atual = ""
 
 	resultado_label.hide()
 	botao_reiniciar.hide()
 	recompensas.hide()
 	recompensa_elite.hide()
+	evento_overlay.hide()
+	_definir_painel_combate_visivel(true)
 
 	_limpar_mao()
 	var proximo_inimigo: InimigoCombate = _criar_proximo_inimigo()
@@ -309,6 +332,91 @@ func _ocultar_recompensa_elite() -> void:
 	cartas_raras_elite.hide()
 
 
+func _definir_painel_combate_visivel(visivel: bool) -> void:
+	mao.visible = visivel
+	mao_status_label.visible = visivel
+	alvo.visible = visivel
+	jogador.visible = visivel
+	intencao_label.visible = visivel
+	estados_inimigo_label.visible = visivel
+	botao_encerrar_turno.visible = visivel
+
+
+func _mostrar_evento(id_evento: String) -> void:
+	var dados: Dictionary = DadosEventos.obter(id_evento)
+	if dados.is_empty():
+		return
+
+	aguardando_evento = true
+	id_evento_atual = id_evento
+	aguardando_recompensa = false
+	aguardando_recompensa_elite = false
+	etapa_recompensa_elite = ""
+	recompensas.hide()
+	_ocultar_recompensa_elite()
+	resultado_label.hide()
+	botao_reiniciar.hide()
+
+	evento_titulo.text = str(dados["nome"])
+	evento_texto.text = str(dados["descricao"])
+	evento_resultado.hide()
+	evento_continuar.hide()
+
+	var botoes: Array[Button] = [evento_opcao_1, evento_opcao_2, evento_opcao_3]
+	for botao in botoes:
+		botao.hide()
+		botao.disabled = false
+
+	var opcoes: Array = dados.get("opcoes", [])
+	for indice in range(mini(opcoes.size(), botoes.size())):
+		var opcao: Dictionary = opcoes[indice]
+		botoes[indice].text = str(opcao.get("nome", "Opção"))
+		botoes[indice].show()
+
+	_definir_painel_combate_visivel(false)
+	evento_overlay.show()
+	_atualizar_interface()
+
+
+func _ocultar_evento() -> void:
+	aguardando_evento = false
+	id_evento_atual = ""
+	evento_overlay.hide()
+	_definir_painel_combate_visivel(true)
+	_atualizar_interface()
+
+
+func _ao_escolher_evento(indice: int) -> void:
+	if not aguardando_evento:
+		return
+
+	var dados: Dictionary = DadosEventos.obter(id_evento_atual)
+	var opcoes: Array = dados.get("opcoes", [])
+	if indice < 0 or indice >= opcoes.size():
+		return
+
+	var opcao: Dictionary = opcoes[indice]
+	var resultado: Dictionary = ResolucaoEventos.resolver(
+		id_evento_atual,
+		str(opcao.get("id", "")),
+		jogador_combate
+	)
+	if not resultado["valida"]:
+		return
+
+	for botao in [evento_opcao_1, evento_opcao_2, evento_opcao_3]:
+		botao.hide()
+	evento_resultado.text = str(resultado["texto"])
+	evento_resultado.show()
+	evento_continuar.show()
+
+
+func _ao_continuar_evento() -> void:
+	if not aguardando_evento:
+		return
+	_ocultar_evento()
+
+
 func _mostrar_recompensas() -> void:
 	aguardando_recompensa = true
 	oferta_recompensa.gerar(RECOMPENSAS_DISPONIVEIS, QUANTIDADE_OPCOES_RECOMPENSA)
@@ -327,6 +435,7 @@ func _mostrar_recompensas() -> void:
 
 	resultado_label.text = "COMBATE %d VENCIDO\nEscolha uma carta" % combate_atual
 	resultado_label.show()
+	_definir_painel_combate_visivel(false)
 	recompensas.show()
 	botao_reiniciar.hide()
 
@@ -334,6 +443,7 @@ func _mostrar_recompensas() -> void:
 
 
 func _mostrar_recompensa_elite() -> void:
+	_definir_painel_combate_visivel(false)
 	aguardando_recompensa_elite = true
 	etapa_recompensa_elite = "reliquia"
 	oferta_reliquias.gerar(
@@ -761,7 +871,12 @@ func _atualizar_interface() -> void:
 			estados_texto += "\nNenhum"
 		estados_inimigo_label.text = estados_texto
 
-	var terminou: bool = _combate_terminou() or aguardando_recompensa_elite
+	var terminou: bool = (
+		_combate_terminou()
+		or aguardando_recompensa
+		or aguardando_recompensa_elite
+		or aguardando_evento
+	)
 	alvo.disabled = terminou
 	jogador.disabled = terminou
 	botao_encerrar_turno.disabled = terminou

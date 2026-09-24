@@ -167,6 +167,56 @@ custom_minimum_size = Vector2(180, 60)
 layout_mode = 2
 text = "Carta rara 3"
 
+[node name="EventoOverlay" type="VBoxContainer" parent="." unique_id=2050000020]
+visible = false
+layout_mode = 0
+offset_left = 280.0
+offset_top = 180.0
+offset_right = 900.0
+offset_bottom = 410.0
+theme_override_constants/separation = 10
+
+[node name="EventoTitulo" type="Label" parent="EventoOverlay" unique_id=2050000021]
+layout_mode = 2
+text = "EVENTO"
+horizontal_alignment = 1
+
+[node name="EventoTexto" type="Label" parent="EventoOverlay" unique_id=2050000022]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+text = "Contexto do evento"
+autowrap_mode = 2
+horizontal_alignment = 1
+
+[node name="EventoOpcoes" type="HBoxContainer" parent="EventoOverlay" unique_id=2050000023]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="EventoOpcao1" type="Button" parent="EventoOverlay/EventoOpcoes" unique_id=2050000024]
+custom_minimum_size = Vector2(180, 50)
+layout_mode = 2
+text = "Opção 1"
+
+[node name="EventoOpcao2" type="Button" parent="EventoOverlay/EventoOpcoes" unique_id=2050000025]
+custom_minimum_size = Vector2(180, 50)
+layout_mode = 2
+text = "Opção 2"
+
+[node name="EventoOpcao3" type="Button" parent="EventoOverlay/EventoOpcoes" unique_id=2050000026]
+custom_minimum_size = Vector2(180, 50)
+layout_mode = 2
+text = "Opção 3"
+
+[node name="EventoResultado" type="Label" parent="EventoOverlay" unique_id=2050000027]
+layout_mode = 2
+text = "Resultado do evento"
+horizontal_alignment = 1
+
+[node name="EventoContinuar" type="Button" parent="EventoOverlay" unique_id=2050000028]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+text = "Continuar"
+
 [node name="Reiniciar" type="Button" parent="." unique_id=1027456556]
 layout_mode = 0
 offset_left = 510.0
