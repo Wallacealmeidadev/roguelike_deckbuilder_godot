@@ -113,6 +113,59 @@ custom_minimum_size = Vector2(180, 40)
 layout_mode = 2
 text = "Pular recompensa"
 
+[node name="RecompensaElite" type="VBoxContainer" parent="." unique_id=2050000001]
+visible = false
+layout_mode = 0
+offset_left = 210.0
+offset_top = 290.0
+offset_right = 942.0
+offset_bottom = 480.0
+theme_override_constants/separation = 8
+
+[node name="TituloReliquias" type="Label" parent="RecompensaElite" unique_id=2050000002]
+layout_mode = 2
+text = "Escolha uma relíquia"
+horizontal_alignment = 1
+
+[node name="ReliquiasElite" type="HBoxContainer" parent="RecompensaElite" unique_id=2050000003]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="RelquiaOpcao1" type="Button" parent="RecompensaElite/ReliquiasElite" unique_id=2050000004]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 2
+text = "Relíquia 1"
+
+[node name="RelquiaOpcao2" type="Button" parent="RecompensaElite/ReliquiasElite" unique_id=2050000005]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 2
+text = "Relíquia 2"
+
+[node name="TituloCartasRaras" type="Label" parent="RecompensaElite" unique_id=2050000006]
+layout_mode = 2
+text = "Escolha uma carta rara"
+horizontal_alignment = 1
+
+[node name="CartasRarasElite" type="HBoxContainer" parent="RecompensaElite" unique_id=2050000007]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CartaRaraOpcao1" type="Button" parent="RecompensaElite/CartasRarasElite" unique_id=2050000008]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 2
+text = "Carta rara 1"
+
+[node name="CartaRaraOpcao2" type="Button" parent="RecompensaElite/CartasRarasElite" unique_id=2050000009]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 2
+text = "Carta rara 2"
+
+[node name="CartaRaraOpcao3" type="Button" parent="RecompensaElite/CartasRarasElite" unique_id=2050000010]
+custom_minimum_size = Vector2(180, 60)
+layout_mode = 2
+text = "Carta rara 3"
+
 [node name="Reiniciar" type="Button" parent="." unique_id=1027456556]
 layout_mode = 0
 offset_left = 510.0
