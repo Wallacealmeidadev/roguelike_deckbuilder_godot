@@ -46,13 +46,15 @@ func _executar_teste() -> void:
 	var jogo: Node = cena_principal.instantiate()
 	get_tree().root.add_child(jogo)
 	await get_tree().process_frame
+	jogo.call("_ao_selecionar_no_mapa", "inicio")
+	await get_tree().process_frame
 
 	_verificar(jogo.get("CARTAS").size() == 9, "main.gd deve continuar usando o catálogo completo")
 
 	if constantes.has("CARTAS") and constantes["CARTAS"].has("direto_hidraulico"):
 		var vida_inimigo_antes: int = jogo.get("vida_inimigo")
 		jogo.call("_criar_carta_na_mao", "direto_hidraulico")
-		var mao: HBoxContainer = jogo.get_node("Mao") as HBoxContainer
+		var mao: Control = jogo.get_node("Mao") as Control
 		var carta_direto: Button = mao.get_child(mao.get_child_count() - 1) as Button
 		carta_direto.button_pressed = true
 		jogo.call("_jogar_carta", "inimigo")

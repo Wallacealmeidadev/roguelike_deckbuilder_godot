@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bahmlw74jyrac"]
+
+[ext_resource type="Script" uid="uid://bkku437anvpo2" path="res://tests/test_mapa_run.gd" id="1_mapa"]
+
+[node name="TestMapaRun" type="Node" unique_id=534600741]
+script = ExtResource("1_mapa")

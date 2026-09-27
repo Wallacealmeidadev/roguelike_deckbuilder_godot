@@ -13,6 +13,8 @@ func _executar_teste() -> void:
 	get_tree().root.add_child(jogo)
 
 	await get_tree().process_frame
+	jogo.call("_ao_selecionar_no_mapa", "inicio")
+	await get_tree().process_frame
 
 	_verificar(jogo.has_method("_ganhar_combo"), "o ganho de Combo precisa centralizar a regra da relíquia")
 	_verificar(jogo.has_node("ReliquiaLabel"), "a relíquia precisa ser identificável na interface")

@@ -85,7 +85,7 @@ func _executar_teste() -> void:
 		_verificar(jogo.get("enfraquecido_inimigo") == 0, "Enfraquecido deve consumir uma carga por golpe")
 
 		jogo.call("_criar_carta_na_mao", "brecha")
-		var mao: HBoxContainer = jogo.get_node("Mao") as HBoxContainer
+		var mao: Control = jogo.get_node("Mao") as Control
 		var carta_brecha: Button = mao.get_child(mao.get_child_count() - 1) as Button
 		carta_brecha.button_pressed = true
 		jogo.call("_jogar_carta", "inimigo")

@@ -13,44 +13,46 @@ func _executar_teste() -> void:
 	get_tree().root.add_child(jogo)
 	await get_tree().process_frame
 
-	_verificar(jogo.get("roteiro_run").etapa_atual() == "combate_comum", "a run deve começar em combate comum")
-	_verificar(jogo.get("combate_atual") == 1, "o primeiro combate deve ser o combate 1")
-	_verificar(jogo.get("baralho_run").size() == 12, "o baralho inicial deve ter 12 cartas")
+	_verificar(jogo.get("mapa_gerado") == true, "a run deve gerar o mapa ao iniciar")
+	_verificar((jogo.get_node("MapaOverlay") as Control).visible, "a run deve começar no mapa")
+	_verificar(jogo.get("combate_atual") == 0, "nenhum combate deve ser contado antes de escolher o início")
+	_verificar((jogo.get("baralho_run") as Array[String]).size() == 12, "o baralho inicial deve ter 12 cartas")
+
+	jogo.call("_ao_selecionar_no_mapa", "inicio")
+	_verificar(jogo.get("combate_atual") == 1, "o primeiro nó de combate deve ser numerado como 1")
 	_verificar(jogo.has_method("_resolver_vitoria"), "a vitória deve abrir a recompensa comum")
-	_verificar(jogo.has_method("_escolher_recompensa"), "a recompensa deve entrar no baralho")
 
 	jogo.set("vida_jogador", 31)
 	jogo.set("vida_inimigo", 0)
 	jogo.call("_resolver_vitoria")
-
-	var recompensas: GridContainer = jogo.get_node("Recompensas") as GridContainer
+	var recompensas: Control = jogo.get_node("Recompensas") as Control
 	var oferta: OfertaRecompensa = jogo.get("oferta_recompensa") as OfertaRecompensa
-	_verificar(jogo.get("aguardando_recompensa"), "a vitória deve aguardar a escolha")
+	_verificar(jogo.get("aguardando_recompensa") == true, "a vitória deve aguardar a escolha")
 	_verificar(recompensas.visible, "as recompensas devem aparecer")
 	_verificar(oferta.opcoes.size() == 3, "a oferta deve ter três opções")
-	_verificar(not (jogo.get_node("Mao") as Control).visible, "a mão deve esconder durante recompensa")
 
 	var id_escolhido: String = oferta.opcoes[0]
-	var tamanho_anterior: int = jogo.get("baralho_run").size()
-	(jogo.get_node("Recompensas/RecompensaOpcao1") as Button).pressed.emit()
+	var tamanho_anterior: int = (jogo.get("baralho_run") as Array[String]).size()
+	(jogo.get_node("Recompensas/RecompensaCartas/RecompensaOpcao1") as Button).pressed.emit()
+	(jogo.get_node("Recompensas/RecompensaCartas/RecompensaOpcao1") as Button).pressed.emit()
 
-	_verificar(jogo.get("baralho_run").size() == tamanho_anterior + 1, "a carta escolhida deve persistir")
-	_verificar(jogo.get("baralho_run").has(id_escolhido), "a opção escolhida deve entrar no baralho")
-	_verificar(jogo.get("roteiro_run").etapa_atual() == "evento", "a recompensa deve levar ao evento")
-	_verificar((jogo.get_node("EventoOverlay") as Control).visible, "o evento seguinte deve aparecer")
-	_verificar(not recompensas.visible, "a recompensa deve esconder ao avançar")
-	_verificar(jogo.get("vida_jogador") == 31, "a Vida deve persistir entre etapas")
+	_verificar((jogo.get("baralho_run") as Array[String]).size() == tamanho_anterior + 1, "a carta escolhida deve persistir uma vez")
+	_verificar((jogo.get("baralho_run") as Array[String]).has(id_escolhido), "a opção escolhida deve entrar no baralho")
+	_verificar((jogo.get("mapa_pontos_concluidos") as Array[String]).has("inicio"), "o combate inicial deve ser concluído após a recompensa")
+	_verificar((jogo.get_node("MapaOverlay") as Control).visible, "o mapa deve voltar depois da recompensa")
+	_verificar(jogo.get("vida_jogador") == 31, "a Vida deve persistir entre encontros")
 
 	jogo.queue_free()
 
 	if falhas == 0:
-		print("OK: recompensa no fluxo intercalado")
+		print("OK: ciclo de run pelo mapa")
 		get_tree().quit(0)
 	else:
 		get_tree().quit(1)
 
 
 func _verificar(condicao: bool, mensagem: String) -> void:
-	if not condicao:
-		falhas += 1
-		push_error("FALHA: %s" % mensagem)
+	if condicao:
+		return
+	falhas += 1
+	push_error("FALHA: %s" % mensagem)

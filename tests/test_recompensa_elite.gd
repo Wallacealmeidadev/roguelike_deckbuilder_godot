@@ -40,6 +40,30 @@ func _executar_teste() -> void:
 			"a área deve começar escondida"
 		)
 
+	jogo.call("_mostrar_recompensa_elite")
+	await get_tree().process_frame
+	var recompensa_elite: Control = jogo.get_node("RecompensaElite") as Control
+	_verificar(recompensa_elite.visible, "recompensa elite deve aparecer apos a vitoria")
+	_verificar(recompensa_elite.get_node("TituloElite").visible, "titulo magenta da recompensa elite deve aparecer")
+	_verificar(recompensa_elite.get_node("IndicadorEtapa").text.contains("RELIQUIA"), "etapa de reliquia deve ser explicita")
+	var reliquia_1: Button = jogo.get_node("RecompensaElite/ReliquiasElite/RelquiaOpcao1") as Button
+	_verificar(reliquia_1.focus_mode != Control.FOCUS_NONE, "reliquia deve aceitar foco de teclado")
+	_verificar(reliquia_1.mouse_filter == Control.MOUSE_FILTER_STOP, "a opcao inteira deve ser clicavel")
+	_verificar(reliquia_1.get_node("Painel/Conteudo/Icone").mouse_filter == Control.MOUSE_FILTER_IGNORE, "decoracao nao deve interceptar mouse")
+	_verificar((reliquia_1.get_node("Painel/Conteudo/Efeito") as Label).text != "", "efeito essencial deve ficar visivel")
+	var id_reliquia: String = (jogo.get("oferta_reliquias") as OfertaRecompensa).opcoes[0]
+	reliquia_1.pressed.emit()
+	await get_tree().process_frame
+	_verificar(jogo.get("etapa_recompensa_elite") == "carta_rara", "escolher reliquia deve abrir cartas raras")
+	_verificar((jogo.get("jogador_combate") as JogadorCombate).reliquias_run.has(id_reliquia), "reliquia escolhida deve ser adquirida")
+	_verificar(recompensa_elite.get_node("IndicadorEtapa").text.contains("CARTA RARA"), "etapa rara deve ser explicita")
+	_verificar(get_viewport().gui_get_focus_owner() == jogo.get_node("RecompensaElite/CartasRarasElite/CartaRaraOpcao1"), "foco deve passar para cartas raras")
+	var tamanho_baralho: int = (jogo.get("baralho_run") as Array[String]).size()
+	reliquia_1.pressed.emit()
+	_verificar((jogo.get("baralho_run") as Array[String]).size() == tamanho_baralho, "clique tardio na reliquia nao pode escolher carta")
+	var carta_rara: Button = jogo.get_node("RecompensaElite/CartasRarasElite/CartaRaraOpcao1") as Button
+	_verificar(carta_rara.has_method("aplicar_visual"), "carta rara deve reutilizar o componente de carta")
+	_verificar(carta_rara.has_node("DescricaoBalao"), "carta rara deve reutilizar tooltip de carta")
 	jogo.queue_free()
 	if falhas == 0:
 		print("OK: interface da recompensa do elite")
