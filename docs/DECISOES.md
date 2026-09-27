@@ -1,11 +1,18 @@
 # Decisões e pendências
 
+## 27/09/2026 — mapa ramificado como fonte única da run
+
+A progressão normal passa a ser conduzida por `mapa_run.gd` e pelo estado de navegação em `main.gd`, desde o início da nova run. O mapa é gerado uma vez por tentativa; reabrir a tela preserva variante, caminhos, nós concluídos e nó em andamento. A sequência linear de `roteiro_run.gd` permanece somente para compatibilidade de testes e previews que a chamam diretamente.
+
+O chefe `Lastro` continua adiado. Chegar ao ponto reservado mostra pré-chefe provisório, sem concluir o nó ou simular vitória.
+
 - A elite sera o terceiro combate da run, depois de dois combates comuns, e concedera os dois premios: uma reliquia e uma carta rara.
 - O elite aprovado e a Unidade de Contencao Portuaria: uma maquina de infraestrutura das Docas com ciclo deterministico de preparacao, ataque, defesa e ataque.
 - A recompensa do elite sera obrigatoriamente dupla: escolher uma reliquia entre duas opcoes e depois uma carta rara entre tres opcoes. Nao havera skip nessa tela.
 - Os valores iniciais da Unidade, das cartas raras e das reliquias sao hipoteses de teste. O balanceamento continua adiado.
 - O ritmo aprovado para a run expandida intercala cinco combates (incluindo o elite) e quatro eventos: combate comum, evento, combate comum, evento, elite, evento, combate comum, evento, combate comum; o chefe entra depois como etapa final especial.
 - O catalogo inicial de encontros tera dez entradas: quatro combates comuns, um elite e cinco eventos narrativos. O catalogo fornece variedade; o roteiro da run decide as posicoes.
+- O modelo do mapa das Docas tem sete pontos: encontro no primeiro, elite no terceiro, bifurcacoes intermediarias, reencontro no sexto e chefe no ultimo. Essa regra conduz a run jogavel; `roteiro_run.gd` fica preservado apenas para testes e previews isolados.
 
 Atualizado em 24/09/2026. Base: decisões consolidadas na revisão 0.4 e relato atual do usuário.
 

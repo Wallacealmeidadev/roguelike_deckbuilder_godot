@@ -4,6 +4,10 @@
 
 ## 1. Direção confirmada
 
+### Progressão implementada da run
+
+Na implementação atual, a run jogável começa no mapa ramificado das Docas. As variantes usam sete pontos, com combate inicial, elite no terceiro ponto, bifurcações, descanso variável, reencontro e um ponto final reservado para Lastro. O mapa é a fonte de progressão da tentativa: um nó só é liberado após suas consequências, e a derrota encerra a tentativa. O combate de Lastro permanece fora do escopo implementado.
+
 - Deckbuilder roguelike em uma metrópole cyberpunk decadente, com rotas, encontros, alianças e diferentes finais ligados a um grande golpe.
 - O prazer principal é construir uma mecânica e transformá-la através de cartas, aprimoramentos e relíquias. Cada personagem deve sustentar mais de uma build.
 - A cidade e seus conflitos ocupam o centro da narrativa. A reconstrução do personagem faz parte do mundo, sem concentrar toda a experiência numa clínica.
@@ -276,6 +280,10 @@ Desmontar gera 2 Sucatas e causa 3 de dano. Montar sentinela consome essas Sucat
 | 6 | Chefe ligado ao acesso ao golpe | Resolver o resultado da incursão e os gatilhos narrativos disponíveis. |
 
 Essa estrutura oferece quatro combates, duas decisões de evento e oportunidades para a build ganhar novas regras antes do chefe. A relíquia inicial já está ativa desde o primeiro combate. Com as três recompensas de cartas aceitas, o baralho termina com 13 cartas.
+
+### Atualização aprovada — modelo inicial do mapa das Docas
+
+O primeiro modelo de mapa terá sete pontos: um encontro no primeiro ponto, o elite no terceiro, bifurcações intermediárias, reencontro dos caminhos no sexto ponto e o chefe no último. Os descansos podem aparecer em posições diferentes entre variantes da run. Esta definição descreve somente a estrutura do mapa; combate, eventos, recompensas e efeitos do descanso continuam usando seus sistemas próprios.
 
 Nota de implementação do protótipo: o pool atual de recompensas contém as seis cartas já disponíveis (`Golpe`, `Proteção`, `Direto hidráulico`, `Quebra-chassi`, `Brecha` e `Pulso debilitante`). Ele já sorteia três opções distintas e permite pular; a garantia de um Aprimoramento na oferta depende da futura entrada dessas cartas no pool.
 
