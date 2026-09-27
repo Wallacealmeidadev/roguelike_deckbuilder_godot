@@ -62,6 +62,11 @@ func texto_intencao() -> String:
 	]
 
 
+func tipo_intencao_atual() -> String:
+	var intencao: Dictionary = _intencao_atual()
+	return str(intencao.get("tipo", ""))
+
+
 func executar_intencao() -> Dictionary:
 	var intencao: Dictionary = _intencao_atual()
 	if not _intencao_valida(intencao):

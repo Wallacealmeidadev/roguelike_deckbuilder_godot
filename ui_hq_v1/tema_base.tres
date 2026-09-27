@@ -1,0 +1,54 @@
+[gd_resource type="Theme" load_steps=11 format=3]
+
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/BarlowSemiCondensed-Regular.ttf" id="1"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/Bangers-Regular.ttf" id="2"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/botao_normal.tres" id="3"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/botao_foco.tres" id="4"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/botao_pressionado.tres" id="5"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/botao_desabilitado.tres" id="6"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/painel_escuro.tres" id="7"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/painel_claro.tres" id="8"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/vida_moldura.tres" id="9"]
+
+[sub_resource type="StyleBoxFlat" id="preenchimento"]
+bg_color = Color(1, 0.31, 0.31, 1)
+
+[sub_resource type="StyleBoxFlat" id="foco_teclado"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.807843, 0.901961, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_color = Color(0, 0.807843, 0.901961, 0.2)
+shadow_size = 2
+
+[resource]
+default_font = ExtResource("1")
+default_font_size = 24
+Button/fonts/font = ExtResource("2")
+Button/font_sizes/font_size = 30
+Button/colors/font_color = Color(0.04, 0.06, 0.07, 1)
+Button/colors/font_hover_color = Color(0.04, 0.06, 0.07, 1)
+Button/colors/font_pressed_color = Color(0.04, 0.06, 0.07, 1)
+Button/colors/font_focus_color = Color(0.04, 0.06, 0.07, 1)
+Button/colors/font_hover_pressed_color = Color(0.04, 0.06, 0.07, 1)
+Button/colors/font_disabled_color = Color(0.13, 0.17, 0.20, 1)
+Button/styles/normal = ExtResource("3")
+Button/styles/hover = ExtResource("3")
+Button/styles/pressed = ExtResource("5")
+Button/styles/disabled = ExtResource("6")
+Button/styles/focus = SubResource("foco_teclado")
+Button/styles/hover_pressed = ExtResource("5")
+Label/colors/font_color = Color(0.96, 0.97, 0.98, 1)
+Panel/styles/panel = ExtResource("7")
+PanelContainer/styles/panel = ExtResource("7")
+PopupPanel/styles/panel = ExtResource("8")
+TooltipPanel/styles/panel = ExtResource("8")
+TooltipLabel/colors/font_color = Color(0.04, 0.06, 0.07, 1)
+ProgressBar/styles/background = ExtResource("9")
+ProgressBar/styles/fill = SubResource("preenchimento")

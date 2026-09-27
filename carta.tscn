@@ -1,9 +1,231 @@
-[gd_scene format=3 uid="uid://5e3ylooru08u"]
+[gd_scene load_steps=14 format=3 uid="uid://5e3ylooru08u"]
 
 [ext_resource type="Script" uid="uid://nkt5xslnomu5" path="res://botao_carta.gd" id="1_botao_carta"]
+[ext_resource type="Theme" path="res://ui_hq_v1/tema_base.tres" id="2_tema"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/cartas/carta_ataque.tres" id="3_ataque"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/cartas/carta_habilidade.tres" id="4_habilidade"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/cartas/carta_foco.tres" id="5_foco"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/ilustracoes/arte_golpe.tres" id="6_golpe"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/ilustracoes/arte_protecao.tres" id="7_protecao"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/ilustracoes/arte_quebra_chassi.tres" id="8_quebra"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/hud/custo_selo.tres" id="9_custo"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/Bangers-Regular.ttf" id="10_titulo"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/tooltip.tres" id="11_tooltip"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/BarlowSemiCondensed-Regular.ttf" id="12_barlow"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_raridade"]
+bg_color = Color(0.055, 0.075, 0.09, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.93, 0.38, 0.95, 1)
+content_margin_left = 7.0
+content_margin_top = 2.0
+content_margin_right = 7.0
+content_margin_bottom = 2.0
 
 [node name="Carta" type="Button" unique_id=1607353424]
-custom_minimum_size = Vector2(140, 200)
-text = "CARTA"
-autowrap_mode = 3
+custom_minimum_size = Vector2(128, 196)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+flat = true
+focus_mode = 2
+mouse_default_cursor_shape = 2
+clip_contents = false
+text = ""
+theme = ExtResource("2_tema")
 script = ExtResource("1_botao_carta")
+
+[node name="Arte" type="TextureRect" parent="." unique_id=2050000200]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.08
+anchor_right = 0.92
+anchor_top = 0.19
+anchor_bottom = 0.65
+mouse_filter = 2
+texture = ExtResource("6_golpe")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Moldura" type="TextureRect" parent="." unique_id=2050000201]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_ataque")
+expand_mode = 1
+stretch_mode = 6
+z_index = 2
+
+[node name="Foco" type="TextureRect" parent="." unique_id=2050000202]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_foco")
+expand_mode = 1
+stretch_mode = 6
+z_index = 1
+
+[node name="CustoSelo" type="TextureRect" parent="." unique_id=2050000203]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.03
+anchor_right = 0.2
+anchor_top = 0.03
+anchor_bottom = 0.2
+mouse_filter = 2
+texture = ExtResource("9_custo")
+expand_mode = 1
+stretch_mode = 5
+z_index = 3
+
+[node name="CustoLabel" type="Label" parent="." unique_id=2050000204]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.03
+anchor_right = 0.2
+anchor_top = 0.055
+anchor_bottom = 0.17
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+z_index = 3
+text = "1"
+
+[node name="NomeLabel" type="Label" parent="." unique_id=2050000205]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.19
+anchor_right = 0.96
+anchor_top = 0.04
+anchor_bottom = 0.19
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_fonts/font = ExtResource("10_titulo")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+z_index = 3
+text = "CARTA"
+
+[node name="DescricaoLabel" type="Label" parent="." unique_id=2050000206]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.1
+anchor_right = 0.9
+anchor_top = 0.73
+anchor_bottom = 0.96
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+z_index = 3
+text = "Descrição da carta"
+
+[node name="DescricaoDestaque" type="RichTextLabel" parent="." unique_id=2050000214]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.1
+anchor_right = 0.9
+anchor_top = 0.73
+anchor_bottom = 0.96
+theme_override_colors/default_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_fonts/normal_font = ExtResource("12_barlow")
+theme_override_font_sizes/normal_font_size = 12
+fit_content = false
+scroll_active = false
+bbcode_enabled = true
+horizontal_alignment = 1
+mouse_filter = 2
+z_index = 4
+
+[node name="SelecaoLabel" type="Label" parent="." unique_id=2050000207]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.15
+anchor_right = 0.85
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(0, 0.807843, 0.901961, 1)
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+z_index = 5
+text = "SELECIONADA"
+
+[node name="RaridadePill" type="PanelContainer" parent="." unique_id=2050000212]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.60
+anchor_right = 0.96
+anchor_top = 0.655
+anchor_bottom = 0.72
+mouse_filter = 2
+z_index = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_raridade")
+
+[node name="RaridadeLabel" type="Label" parent="RaridadePill" unique_id=2050000213]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.38, 0.95, 1)
+theme_override_fonts/font = ExtResource("10_titulo")
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+z_index = 3
+text = "RARA"
+
+[node name="DescricaoBalao" type="PanelContainer" parent="." unique_id=2050000208]
+visible = false
+layout_mode = 0
+offset_left = -45.0
+offset_top = -118.0
+offset_right = 240.0
+offset_bottom = -8.0
+mouse_filter = 2
+z_index = 20
+theme_override_styles/panel = ExtResource("11_tooltip")
+
+[node name="BalaoTexto" type="Label" parent="DescricaoBalao" unique_id=2050000209]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+vertical_alignment = 0
+autowrap_mode = 2
+mouse_filter = 2
+
+[node name="BalaoPonta" type="Polygon2D" parent="DescricaoBalao" unique_id=2050000210]
+z_index = 0
+polygon = PackedVector2Array(32, 0, 58, 0, 40, 27)
+color = Color(0.96, 0.97, 0.98, 1)
+
+[node name="BalaoPontaContorno" type="Line2D" parent="DescricaoBalao" unique_id=2050000211]
+z_index = 1
+points = PackedVector2Array(32, 0, 58, 0, 40, 27, 32, 0)
+width = 3.0
+default_color = Color(0.02, 0.03, 0.04, 1)
+joint_mode = 2

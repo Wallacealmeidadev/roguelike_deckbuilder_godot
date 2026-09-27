@@ -1,284 +1,1904 @@
-[gd_scene format=3 uid="uid://c1w1attqpsvdj"]
+[gd_scene load_steps=42 format=3 uid="uid://c1w1attqpsvdj"]
 
-[ext_resource type="Script" uid="uid://cxy0hmd0rbvei" path="res://main.gd" id="1_0xm2m"]
-[ext_resource type="Script" uid="uid://do8x2i1lxqwyk" path="res://encerrar_turno.gd" id="3_h2yge"]
-[ext_resource type="Script" uid="uid://c0jf76iaos5on" path="res://vida_jogador_label.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://cxy0hmd0rbvei" path="res://main.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://do8x2i1lxqwyk" path="res://encerrar_turno.gd" id="2_turno"]
+[ext_resource type="Script" uid="uid://c0jf76iaos5on" path="res://vida_jogador_label.gd" id="3_vida"]
+[ext_resource type="Theme" path="res://ui_hq_v1/tema_base.tres" id="4_tema"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/assets/fundos/fundo_ui.png" id="5_fundo"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/hud/faixa_turno.tres" id="6_faixa_turno"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/energia.tres" id="7_energia"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/barreira.tres" id="8_barreira"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/combo.tres" id="9_combo"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/compra.tres" id="10_compra"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/descarte.tres" id="11_descarte"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/mao.tres" id="12_mao"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/ataque.tres" id="13_ataque"]
+[ext_resource type="Script" path="res://arena_chao.gd" id="14_arena"]
+[ext_resource type="Script" path="res://mao_combate.gd" id="15_mao"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/Bangers-Regular.ttf" id="16_bangers"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/BarlowSemiCondensed-Bold.ttf" id="17_barlow"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/vida.tres" id="18_vida"]
+[ext_resource type="Script" path="res://recompensa_opcao.gd" id="19_recompensa"]
+[ext_resource type="PackedScene" path="res://recompensa_reliquia.tscn" id="20_reliquia"]
+[ext_resource type="PackedScene" path="res://carta.tscn" id="21_carta"]
+[ext_resource type="PackedScene" path="res://evento_opcao.tscn" id="22_evento_opcao"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/painel_escuro.tres" id="23_painel_escuro"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/painel_claro.tres" id="24_painel_claro"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/painel_escuro.tres" id="25_faixa_titulo"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/evento.tres" id="26_evento_icone"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/botao_normal.tres" id="27_titulo_faixa"]
+[ext_resource type="PackedScene" path="res://descanso_overlay.tscn" id="28_descanso"]
+[ext_resource type="Script" path="res://mapa_conexoes.gd" id="29_mapa_conexoes"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/exposto.tres" id="30_exposto"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/enfraquecido.tres" id="31_enfraquecido"]
+[ext_resource type="StyleBox" path="res://ui_hq_v1/estilos/opcao_evento_interacao.tres" id="32_interacao"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/componentes/icones/forca.tres" id="33_forca"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player"]
+bg_color = Color(0.055, 0.075, 0.09, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0.807843, 0.901961, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_hover"]
+bg_color = Color(0.08, 0.12, 0.14, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0.901961, 1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_enemy"]
+bg_color = Color(0.08, 0.07, 0.08, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.309804, 0.309804, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_enemy_hover"]
+bg_color = Color(0.13, 0.08, 0.09, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0.431373, 0.431373, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_info"]
+bg_color = Color(0.035, 0.055, 0.07, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.31, 0.74, 0.86, 0.72)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stats"]
+bg_color = Color(0.035, 0.055, 0.07, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.87, 0.65, 0.2, 0.78)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_turn_counter"]
+bg_color = Color(0.04, 0.055, 0.065, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.96, 0.97, 0.98, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vida_fundo"]
+bg_color = Color(0.035, 0.045, 0.055, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.96, 0.97, 0.98, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vida_preenchimento"]
+bg_color = Color(0.96, 0.18, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.56, 0.3, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_color = Color(1, 0.18, 0.25, 0.38)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vida_moldura_fina"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.99, 0.58, 0.32, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_color = Color(1, 0.18, 0.25, 0.45)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_recurso"]
+bg_color = Color(0.02, 0.035, 0.045, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.65, 0.76, 0.7)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud_dock"]
+bg_color = Color(0.018, 0.028, 0.035, 0.82)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.19, 0.45, 0.54, 0.82)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_energia"]
+bg_color = Color(0.02, 0.035, 0.045, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.807843, 0.901961, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reiniciar_foco"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.85098, 0.937255, 0.86)
+content_margin_left = 28.0
+content_margin_top = 16.0
+content_margin_right = 28.0
+content_margin_bottom = 16.0
 
 [node name="Main" type="Control" unique_id=273585497]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = 2.0
-offset_right = 3.0
-offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_0xm2m")
+theme = ExtResource("4_tema")
+script = ExtResource("1_main")
 
-[node name="Alvo" type="Button" parent="." unique_id=655878298]
-layout_mode = 0
-offset_left = 730.0
-offset_top = 39.0
-offset_right = 890.0
-offset_bottom = 115.0
-text = "DRONE
-Vida: 30"
+[node name="FundoUI" type="TextureRect" parent="." unique_id=2050000100]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_fundo")
+expand_mode = 1
+stretch_mode = 6
+z_index = -10
 
-[node name="IntencaoLabel" type="Label" parent="." unique_id=1828843828]
-layout_mode = 0
-offset_left = 730.0
-offset_top = 125.0
-offset_right = 1000.0
-offset_bottom = 165.0
-text = "INTENÇÃO"
+[node name="ArenaChao" type="Control" parent="." unique_id=2050000140]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+z_index = -5
+script = ExtResource("14_arena")
 
-[node name="EstadosInimigoLabel" type="Label" parent="." unique_id=431551884]
-layout_mode = 0
-offset_left = 730.0
-offset_top = 170.0
-offset_right = 1000.0
-offset_bottom = 215.0
-text = "ESTADOS"
+[node name="TurnoFaixa" type="TextureRect" parent="." unique_id=2050000101]
+layout_mode = 1
+anchor_left = 0.38
+anchor_right = 0.62
+anchor_top = 0.04
+anchor_bottom = 0.146
+grow_horizontal = 2
+mouse_filter = 2
+texture = ExtResource("6_faixa_turno")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TurnoLabel" type="Label" parent="." unique_id=2050000102]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.38
+anchor_right = 0.62
+offset_top = 43.0
+offset_bottom = 78.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.0627451, 0.0862745, 0.0980392, 1)
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+text = "SEU TURNO"
+
+[node name="TurnoTituloLabel" type="Label" parent="." unique_id=2050000130]
+layout_mode = 1
+anchor_left = 0.38
+anchor_right = 0.62
+anchor_top = 0.058
+anchor_bottom = 0.104
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.0627451, 0.0862745, 0.0980392, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "SEU TURNO"
+
+[node name="TurnoNumeroPainel" type="Panel" parent="."]
+layout_mode = 1
+anchor_left = 0.43
+anchor_right = 0.57
+anchor_top = 0.122
+anchor_bottom = 0.159
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_turn_counter")
+
+[node name="TurnoNumeroLabel" type="Label" parent="." unique_id=2050000131]
+layout_mode = 1
+anchor_left = 0.38
+anchor_right = 0.62
+anchor_top = 0.124
+anchor_bottom = 0.157
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.96, 0.97, 0.98, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "TURNO 1"
 
 [node name="AcaoLabel" type="Label" parent="." unique_id=1399378166]
-layout_mode = 0
-offset_left = 350.0
-offset_top = 40.0
-offset_right = 680.0
-offset_bottom = 100.0
-text = "Aguardando ação."
+layout_mode = 1
+anchor_left = 0.34
+anchor_right = 0.66
+anchor_top = 0.165
+anchor_bottom = 0.2
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.839216, 0.882353, 0.905882, 1)
+theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
+text = "Aguardando ação."
 
-[node name="MaoStatusLabel" type="Label" parent="." unique_id=783241626]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 365.0
-offset_right = 260.0
-offset_bottom = 398.0
-text = "Mão: 0/10"
-
-[node name="EnergiaLabel" type="Label" parent="." unique_id=1580201527]
-layout_mode = 0
-offset_left = 159.0
-offset_top = 195.0
-offset_right = 349.0
-offset_bottom = 220.0
-text = "ENERGIA"
+[node name="PilhasPainel" type="Panel" parent="." unique_id=2050000103]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 28.0
+offset_top = 24.0
+offset_right = 390.0
+offset_bottom = 148.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_info")
 
 [node name="PilhasLabel" type="Label" parent="." unique_id=1962378921]
+visible = false
+custom_minimum_size = Vector2(340, 58)
 layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 360.0
-offset_bottom = 75.0
+offset_left = 40.0
+offset_top = 30.0
+offset_right = 380.0
+offset_bottom = 88.0
+theme_override_colors/font_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_font_sizes/font_size = 17
+text = "Combate: 1/5 | Baralho: 12\nCompra: 0 | Descarte: 0 | Mão: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RunStatusLabel" type="Label" parent="." unique_id=2050000132]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 34.0
+offset_right = 370.0
+offset_bottom = 138.0
+custom_minimum_size = Vector2(322, 104)
+theme_override_colors/font_color = Color(0.92, 0.96, 0.98, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "COMBATE 1/5\nBARALHO 12"
+
+[node name="Alvo" type="Button" parent="." unique_id=655878298]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.71
+anchor_right = 0.87
+anchor_top = 0.29
+anchor_bottom = 0.49
+custom_minimum_size = Vector2(190, 175)
+theme_override_colors/font_color = Color(0, 0, 0, 0)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_enemy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_enemy")
+theme_override_styles/focus = SubResource("StyleBoxFlat_enemy")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_enemy")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_enemy")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_enemy")
+mouse_default_cursor_shape = 2
+text = "DRONE\nVida: 30"
+
+[node name="Interacao" type="Panel" parent="Alvo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+z_index = 4
+theme_override_styles/panel = ExtResource("32_interacao")
+visible = false
+
+[node name="AlvoVisualLabel" type="Label" parent="." unique_id=2050000133]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.72
+anchor_right = 0.86
+anchor_top = 0.40
+anchor_bottom = 0.48
+theme_override_colors/font_color = Color(0.96, 0.97, 0.98, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+text = "DRONE"
+
+[node name="VidaInimigoBar" type="ProgressBar" parent="." unique_id=2050000104]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.68
+anchor_right = 0.90
+anchor_top = 0.505
+anchor_bottom = 0.55
+show_percentage = false
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_vida_fundo")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vida_preenchimento")
+
+[node name="VidaInimigoIcone" type="TextureRect" parent="." unique_id=2050000145]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.69
+anchor_right = 0.735
+anchor_top = 0.51
+anchor_bottom = 0.545
+mouse_filter = 2
+texture = ExtResource("18_vida")
+expand_mode = 1
+stretch_mode = 5
+z_index = 3
+
+[node name="VidaInimigoMoldura" type="Panel" parent="."]
+layout_mode = 1
+anchor_left = 0.68
+anchor_right = 0.90
+anchor_top = 0.505
+anchor_bottom = 0.55
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vida_moldura_fina")
+
+[node name="VidaInimigoLabel" type="Label" parent="." unique_id=2050000105]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.735
+anchor_right = 0.90
+anchor_top = 0.505
+anchor_bottom = 0.55
+offset_top = 3.0
+theme_override_colors/font_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "Vida: 30/30"
+
+[node name="IntencaoPainel" type="Panel" parent="." unique_id=2050000106]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.68
+anchor_right = 0.94
+anchor_top = 0.10
+anchor_bottom = 0.215
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_info")
+
+[node name="IntencaoIcone" type="TextureRect" parent="." unique_id=2050000107]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.695
+anchor_right = 0.745
+anchor_top = 0.125
+anchor_bottom = 0.185
+mouse_filter = 2
+texture = ExtResource("13_ataque")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="IntencaoLabel" type="Label" parent="." unique_id=1828843828]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.715
+anchor_right = 0.92
+anchor_top = 0.13
+anchor_bottom = 0.21
+theme_override_colors/font_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_font_sizes/font_size = 19
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "INTENÇÃO"
+
+[node name="IntencaoVisualLabel" type="Label" parent="." unique_id=2050000134]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.745
+anchor_right = 0.925
+anchor_top = 0.115
+anchor_bottom = 0.20
+theme_override_colors/font_color = Color(0.96, 0.97, 0.98, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+text = "INTENÇÃO\nPostura"
+
+[node name="IntencaoNomeVisualLabel" type="Label" parent="." unique_id=2050000160]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.745
+anchor_right = 0.925
+anchor_top = 0.108
+anchor_bottom = 0.158
+theme_override_colors/font_color = Color(0.96, 0.97, 0.98, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+mouse_filter = 2
+text = "INTENCAO"
+
+[node name="IntencaoValorVisualLabel" type="Label" parent="." unique_id=2050000161]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.745
+anchor_right = 0.925
+anchor_top = 0.158
+anchor_bottom = 0.207
+theme_override_colors/font_color = Color(0.84, 0.88, 0.91, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+clip_text = true
+mouse_filter = 2
+text = "-"
+
+[node name="EstadosInimigoPainel" type="Panel" parent="." unique_id=2050000108]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.68
+anchor_right = 0.94
+anchor_top = 0.55
+anchor_bottom = 0.6
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_info")
+
+[node name="EstadosInimigoLabel" type="Label" parent="." unique_id=431551884]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.69
+anchor_right = 0.92
+anchor_top = 0.23
+anchor_bottom = 0.3
+theme_override_colors/font_color = Color(0.839216, 0.882353, 0.905882, 1)
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "ESTADOS"
+
+[node name="EstadosInimigoVisualLabel" type="Label" parent="." unique_id=2050000135]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.70
+anchor_right = 0.93
+anchor_top = 0.562
+anchor_bottom = 0.58
+theme_override_colors/font_color = Color(0.84, 0.88, 0.91, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+text = "ESTADOS"
+
+[node name="EstadosInimigoBarreiraIcone" type="TextureRect" parent="." unique_id=2050000150]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.695
+anchor_right = 0.735
+anchor_top = 0.555
+anchor_bottom = 0.597
+mouse_filter = 2
+texture = ExtResource("8_barreira")
+expand_mode = 1
+stretch_mode = 5
+visible = false
+
+[node name="EstadosInimigoBarreiraLabel" type="Label" parent="." unique_id=2050000151]
+layout_mode = 1
+anchor_left = 0.733
+anchor_right = 0.76
+anchor_top = 0.555
+anchor_bottom = 0.597
+theme_override_colors/font_color = Color(1, 0.792157, 0.211765, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "0"
+visible = false
+
+[node name="EstadosInimigoExpostoIcone" type="TextureRect" parent="." unique_id=2050000152]
+layout_mode = 1
+anchor_left = 0.775
+anchor_right = 0.815
+anchor_top = 0.555
+anchor_bottom = 0.597
+mouse_filter = 2
+texture = ExtResource("30_exposto")
+expand_mode = 1
+stretch_mode = 5
+visible = false
+
+[node name="EstadosInimigoExpostoLabel" type="Label" parent="." unique_id=2050000153]
+layout_mode = 1
+anchor_left = 0.813
+anchor_right = 0.84
+anchor_top = 0.555
+anchor_bottom = 0.597
+theme_override_colors/font_color = Color(0.96, 0.38, 0.42, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "0"
+visible = false
+
+[node name="EstadosInimigoEnfraquecidoIcone" type="TextureRect" parent="." unique_id=2050000154]
+layout_mode = 1
+anchor_left = 0.855
+anchor_right = 0.895
+anchor_top = 0.555
+anchor_bottom = 0.597
+mouse_filter = 2
+texture = ExtResource("31_enfraquecido")
+expand_mode = 1
+stretch_mode = 5
+visible = false
+
+[node name="EstadosInimigoEnfraquecidoLabel" type="Label" parent="." unique_id=2050000155]
+layout_mode = 1
+anchor_left = 0.893
+anchor_right = 0.93
+anchor_top = 0.555
+anchor_bottom = 0.597
+theme_override_colors/font_color = Color(0.49, 0.9, 1, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "0"
+visible = false
+
+[node name="Jogador" type="Button" parent="." unique_id=1406510216]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.12
+anchor_right = 0.29
+anchor_top = 0.29
+anchor_bottom = 0.49
+custom_minimum_size = Vector2(190, 175)
+theme_override_colors/font_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_colors/font_hover_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_colors/font_pressed_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_colors/font_disabled_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_player")
+theme_override_styles/hover = SubResource("StyleBoxFlat_player")
+theme_override_styles/focus = SubResource("StyleBoxFlat_player")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_player")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_player")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_player")
+mouse_default_cursor_shape = 2
+text = "VEGA"
+
+[node name="Interacao" type="Panel" parent="Jogador"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+z_index = 4
+theme_override_styles/panel = ExtResource("32_interacao")
+visible = false
+
+[node name="VidaJogadorBar" type="ProgressBar" parent="." unique_id=2050000109]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.12
+anchor_right = 0.39
+anchor_top = 0.505
+anchor_bottom = 0.55
+show_percentage = false
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_vida_fundo")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vida_preenchimento")
+
+[node name="VidaJogadorIcone" type="TextureRect" parent="." unique_id=2050000146]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.13
+anchor_right = 0.165
+anchor_top = 0.51
+anchor_bottom = 0.545
+mouse_filter = 2
+texture = ExtResource("18_vida")
+expand_mode = 1
+stretch_mode = 5
+z_index = 3
+
+[node name="VidaJogadorMoldura" type="Panel" parent="."]
+layout_mode = 1
+anchor_left = 0.12
+anchor_right = 0.39
+anchor_top = 0.505
+anchor_bottom = 0.55
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vida_moldura_fina")
+
+[node name="VidaJogadorLabel" type="Label" parent="." unique_id=1436220808]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.165
+anchor_right = 0.39
+anchor_top = 0.505
+anchor_bottom = 0.55
+offset_top = 3.0
+theme_override_colors/font_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "Vida: 40/40"
+script = ExtResource("3_vida")
+
+[node name="StatsJogadorPanel" type="Panel" parent="." unique_id=2050000110]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.18
+anchor_right = 0.39
+anchor_top = 0.56
+anchor_bottom = 0.595
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stats")
+
+[node name="BarreiraIcone" type="TextureRect" parent="." unique_id=2050000111]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.195
+anchor_right = 0.235
+anchor_top = 0.565
+anchor_bottom = 0.59
+mouse_filter = 2
+texture = ExtResource("8_barreira")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BarreiraLabel" type="Label" parent="." unique_id=1846351267]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.23
+anchor_right = 0.28
+anchor_top = 0.565
+anchor_bottom = 0.59
+theme_override_colors/font_color = Color(1, 0.792157, 0.211765, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "0"
+
+[node name="ComboIcone" type="TextureRect" parent="." unique_id=2050000112]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.29
+anchor_right = 0.33
+anchor_top = 0.565
+anchor_bottom = 0.59
+mouse_filter = 2
+texture = ExtResource("9_combo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ComboLabel" type="Label" parent="." unique_id=463048315]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.33
+anchor_right = 0.385
+anchor_top = 0.565
+anchor_bottom = 0.59
+theme_override_colors/font_color = Color(1, 0.792157, 0.211765, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "Combo: 0/5"
+
+[node name="ReliquiaLabel" type="Label" parent="." unique_id=809096112]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.18
+anchor_right = 0.39
+anchor_top = 0.602
+anchor_bottom = 0.63
+theme_override_colors/font_color = Color(0.839216, 0.882353, 0.905882, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+clip_text = true
+text = "Relíquias: Juntas de Retorno"
+
+[node name="RelíquiaPainel" type="Panel" parent="." unique_id=2050000162]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.18
+anchor_right = 0.39
+anchor_top = 0.598
+anchor_bottom = 0.635
+mouse_filter = 2
+z_index = -1
+theme_override_styles/panel = SubResource("StyleBoxFlat_info")
+
+[node name="EnergiaIcone" type="TextureRect" parent="." unique_id=2050000113]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.03
+anchor_right = 0.065
+anchor_top = 0.545
+anchor_bottom = 0.595
+mouse_filter = 2
+texture = ExtResource("7_energia")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EnergiaPainel" type="Panel" parent="." unique_id=2050000141]
+layout_mode = 1
+anchor_left = 0.02
+anchor_right = 0.16
+anchor_top = 0.53
+anchor_bottom = 0.615
+mouse_filter = 2
+z_index = -1
+theme_override_styles/panel = SubResource("StyleBoxFlat_energia")
+
+[node name="EnergiaLabel" type="Label" parent="." unique_id=1580201527]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.24
+anchor_right = 0.31
+anchor_top = 0.805
+anchor_bottom = 0.895
+theme_override_colors/font_color = Color(0, 0.807843, 0.901961, 1)
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "Energia: 4/4"
+
+[node name="EnergiaVisualLabel" type="Label" parent="." unique_id=2050000119]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.065
+anchor_right = 0.16
+anchor_top = 0.535
+anchor_bottom = 0.61
+theme_override_colors/font_color = Color(0, 0.807843, 0.901961, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 21
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "Energia: 4/4"
+
+[node name="CompraIcone" type="TextureRect" parent="." unique_id=2050000114]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.59
+anchor_right = 0.625
+anchor_top = 0.605
+anchor_bottom = 0.635
+mouse_filter = 2
+texture = ExtResource("10_compra")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CompraPainel" type="Panel" parent="." unique_id=2050000143]
+layout_mode = 1
+anchor_left = 0.575
+anchor_right = 0.715
+anchor_top = 0.602
+anchor_bottom = 0.638
+mouse_filter = 2
+z_index = -1
+theme_override_styles/panel = SubResource("StyleBoxFlat_recurso")
+
+[node name="CompraLabel" type="Label" parent="." unique_id=2050000115]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.625
+anchor_right = 0.715
+anchor_top = 0.605
+anchor_bottom = 0.638
+theme_override_colors/font_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "Compra\n0"
+
+[node name="DescarteIcone" type="TextureRect" parent="." unique_id=2050000116]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.72
+anchor_right = 0.755
+anchor_top = 0.605
+anchor_bottom = 0.635
+mouse_filter = 2
+texture = ExtResource("11_descarte")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DescartePainel" type="Panel" parent="." unique_id=2050000144]
+layout_mode = 1
+anchor_left = 0.705
+anchor_right = 0.875
+anchor_top = 0.602
+anchor_bottom = 0.638
+mouse_filter = 2
+z_index = -1
+theme_override_styles/panel = SubResource("StyleBoxFlat_recurso")
+
+[node name="DescarteLabel" type="Label" parent="." unique_id=2050000117]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.755
+anchor_right = 0.875
+anchor_top = 0.605
+anchor_bottom = 0.638
+theme_override_colors/font_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+text = "Descarte\n0"
+
+[node name="MaoStatusLabel" type="Label" parent="." unique_id=783241626]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.39
+anchor_right = 0.575
+anchor_top = 0.56
+anchor_bottom = 0.61
+theme_override_colors/font_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+text = "Mão: 0/10"
+
+[node name="MaoIcone" type="TextureRect" parent="." unique_id=2050000118]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.88
+anchor_right = 0.915
+anchor_top = 0.605
+anchor_bottom = 0.635
+mouse_filter = 2
+texture = ExtResource("12_mao")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MaoDock" type="Panel" parent="." unique_id=2050000142]
+layout_mode = 1
+anchor_left = 0.05
+anchor_right = 0.95
+anchor_top = 0.64
+anchor_bottom = 0.995
+mouse_filter = 2
+z_index = -1
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud_dock")
+
+[node name="Mao" type="Control" parent="." unique_id=1094511523]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.075
+anchor_right = 0.79
+anchor_top = 0.64
+anchor_bottom = 0.995
+clip_contents = false
+mouse_filter = 2
+script = ExtResource("15_mao")
+
+[node name="EncerrarTurno" type="Button" parent="." unique_id=1862409133]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.81
+anchor_right = 0.995
+anchor_top = 0.87
+anchor_bottom = 0.99
+custom_minimum_size = Vector2(180, 64)
+theme_override_styles/normal = ExtResource("27_titulo_faixa")
+theme_override_styles/hover = ExtResource("27_titulo_faixa")
+theme_override_styles/focus = ExtResource("27_titulo_faixa")
+theme_override_styles/pressed = ExtResource("27_titulo_faixa")
+theme_override_styles/hover_pressed = ExtResource("27_titulo_faixa")
+theme_override_font_sizes/font_size = 23
+mouse_default_cursor_shape = 2
+text = "ENCERRAR\nTURNO"
+script = ExtResource("2_turno")
+
+[node name="Interacao" type="Panel" parent="EncerrarTurno"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+z_index = 4
+theme_override_styles/panel = ExtResource("32_interacao")
+visible = false
 
 [node name="ResultadoLabel" type="Label" parent="." unique_id=1257083080]
-layout_mode = 0
-offset_left = 400.0
-offset_top = 210.0
-offset_right = 760.0
-offset_bottom = 280.0
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.2
+anchor_right = 0.8
+offset_top = 42.0
+offset_bottom = 142.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.960784, 0.972549, 0.980392, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 48
 text = "RESULTADO"
 horizontal_alignment = 1
 
-[node name="Recompensas" type="GridContainer" parent="." unique_id=690627855]
-layout_mode = 0
-offset_left = 210.0
+[node name="Reiniciar" type="Button" parent="." unique_id=1027456556]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.4
+anchor_right = 0.6
 offset_top = 300.0
-offset_right = 942.0
-offset_bottom = 460.0
-theme_override_constants/h_separation = 12
-theme_override_constants/v_separation = 12
-columns = 3
+offset_bottom = 372.0
+grow_horizontal = 2
+custom_minimum_size = Vector2(270, 72)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 24
+theme_override_constants/content_margin_left = 28
+theme_override_constants/content_margin_top = 16
+theme_override_constants/content_margin_right = 28
+theme_override_constants/content_margin_bottom = 16
+theme_override_styles/normal = ExtResource("27_titulo_faixa")
+theme_override_styles/hover = ExtResource("27_titulo_faixa")
+theme_override_styles/pressed = ExtResource("27_titulo_faixa")
+theme_override_styles/hover_pressed = ExtResource("27_titulo_faixa")
+theme_override_styles/focus = SubResource("StyleBoxFlat_reiniciar_foco")
+text = "Jogar novamente"
+
+[node name="Recompensas" type="Control" parent="." unique_id=690627855]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.08
+anchor_right = 0.92
+anchor_bottom = 1.0
+offset_top = 170.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+z_index = 2
+
+[node name="RecompensaCartas" type="HBoxContainer" parent="Recompensas" unique_id=2050000157]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -74.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 28
+alignment = 1
+mouse_filter = 1
+
+[node name="RecompensaAcoes" type="HBoxContainer" parent="Recompensas" unique_id=2050000158]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -66.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 18
+alignment = 1
+mouse_filter = 1
+
+[node name="EspacoEsquerdo" type="Control" parent="Recompensas/RecompensaAcoes"]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ConsultarBaralho" type="Button" parent="Recompensas/RecompensaAcoes" unique_id=2050000152]
+custom_minimum_size = Vector2(240, 62)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_constants/outline_size = 0
+theme_override_constants/content_margin_left = 30
+theme_override_constants/content_margin_right = 30
+theme_override_constants/content_margin_top = 14
+theme_override_constants/content_margin_bottom = 14
+text = "Ver baralho"
+
+[node name="EspacoCentro" type="Control" parent="Recompensas/RecompensaAcoes"]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Pular" type="Button" parent="Recompensas/RecompensaAcoes" unique_id=1784610545]
+custom_minimum_size = Vector2(240, 62)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_constants/outline_size = 0
+theme_override_constants/content_margin_left = 30
+theme_override_constants/content_margin_right = 30
+theme_override_constants/content_margin_top = 14
+theme_override_constants/content_margin_bottom = 14
+text = "Pular recompensa"
 
 [node name="RecompensaOpcao1" type="Button" parent="Recompensas" unique_id=1532001548]
-custom_minimum_size = Vector2(180, 40)
+visible = false
+custom_minimum_size = Vector2(220, 150)
 layout_mode = 2
+script = ExtResource("19_recompensa")
 text = "Opção 1"
 
+[node name="NomeLabel" type="Label" parent="Recompensas/RecompensaOpcao1"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 25.0
+offset_right = 202.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 23
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+
+[node name="DescricaoBalao" type="Panel" parent="Recompensas/RecompensaOpcao1"]
+visible = false
+layout_mode = 0
+offset_left = -20.0
+offset_top = -118.0
+offset_right = 240.0
+offset_bottom = -8.0
+mouse_filter = 2
+z_index = 20
+
+[node name="Texto" type="Label" parent="Recompensas/RecompensaOpcao1/DescricaoBalao"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = -10.0
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+
 [node name="RecompensaOpcao2" type="Button" parent="Recompensas" unique_id=1358964010]
-custom_minimum_size = Vector2(180, 40)
+visible = false
+custom_minimum_size = Vector2(220, 150)
 layout_mode = 2
+script = ExtResource("19_recompensa")
 text = "Opção 2"
 
+[node name="NomeLabel" type="Label" parent="Recompensas/RecompensaOpcao2"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 25.0
+offset_right = 202.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 23
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+
+[node name="DescricaoBalao" type="Panel" parent="Recompensas/RecompensaOpcao2"]
+visible = false
+layout_mode = 0
+offset_left = -20.0
+offset_top = -118.0
+offset_right = 240.0
+offset_bottom = -8.0
+mouse_filter = 2
+z_index = 20
+
+[node name="Texto" type="Label" parent="Recompensas/RecompensaOpcao2/DescricaoBalao"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = -10.0
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+
 [node name="RecompensaOpcao3" type="Button" parent="Recompensas" unique_id=949781012]
-custom_minimum_size = Vector2(180, 40)
+visible = false
+custom_minimum_size = Vector2(220, 150)
 layout_mode = 2
+script = ExtResource("19_recompensa")
 text = "Opção 3"
 
-[node name="Pular" type="Button" parent="Recompensas" unique_id=1784610545]
-custom_minimum_size = Vector2(180, 40)
-layout_mode = 2
-text = "Pular recompensa"
+[node name="NomeLabel" type="Label" parent="Recompensas/RecompensaOpcao3"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 25.0
+offset_right = 202.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 23
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+
+[node name="DescricaoBalao" type="Panel" parent="Recompensas/RecompensaOpcao3"]
+visible = false
+layout_mode = 0
+offset_left = -20.0
+offset_top = -118.0
+offset_right = 240.0
+offset_bottom = -8.0
+mouse_filter = 2
+z_index = 20
+
+[node name="Texto" type="Label" parent="Recompensas/RecompensaOpcao3/DescricaoBalao"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = -10.0
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+mouse_filter = 2
+
+[node name="RecompensaPainel" type="Panel" parent="." unique_id=2050000150]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.08
+anchor_right = 0.92
+offset_top = 245.0
+offset_bottom = 535.0
+grow_horizontal = 2
+mouse_filter = 2
+z_index = 1
+
+[node name="BaralhoScrim" type="ColorRect" parent="." unique_id=2050000157]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.01, 0.02, 0.03, 0.72)
+z_index = 29
+
+[node name="BaralhoOverlay" type="Panel" parent="." unique_id=2050000153]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.25
+anchor_top = 0.2
+anchor_right = 0.75
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+z_index = 30
+
+[node name="BaralhoTitulo" type="Label" parent="BaralhoOverlay" unique_id=2050000154]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 28.0
+offset_right = 450.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 34
+horizontal_alignment = 1
+text = "BARALHO DA RUN"
+
+[node name="BaralhoResumo" type="Label" parent="BaralhoOverlay" unique_id=2050000155]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 105.0
+offset_right = 440.0
+offset_bottom = 260.0
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BaralhoFechar" type="Button" parent="BaralhoOverlay" unique_id=2050000156]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 285.0
+offset_right = 330.0
+offset_bottom = 340.0
+theme_override_font_sizes/font_size = 22
+text = "FECHAR"
 
 [node name="RecompensaElite" type="VBoxContainer" parent="." unique_id=2050000001]
 visible = false
-layout_mode = 0
-offset_left = 210.0
-offset_top = 290.0
-offset_right = 942.0
-offset_bottom = 480.0
-theme_override_constants/separation = 8
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.08
+anchor_right = 0.92
+anchor_top = 0.12
+anchor_bottom = 0.92
+offset_top = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 12
+z_index = 2
+
+[node name="TituloElite" type="Label" parent="RecompensaElite" unique_id=2050000212]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.93, 0.38, 0.95, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 34
+text = "RECOMPENSA DE ELITE"
+horizontal_alignment = 1
+
+[node name="IndicadorEtapa" type="Label" parent="RecompensaElite" unique_id=2050000213]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.86, 0.88, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 20
+text = "RELIQUIA  •  1/2"
+horizontal_alignment = 1
 
 [node name="TituloReliquias" type="Label" parent="RecompensaElite" unique_id=2050000002]
 layout_mode = 2
 text = "Escolha uma relíquia"
 horizontal_alignment = 1
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 28
 
 [node name="ReliquiasElite" type="HBoxContainer" parent="RecompensaElite" unique_id=2050000003]
 layout_mode = 2
+alignment = 1
 theme_override_constants/separation = 12
 
-[node name="RelquiaOpcao1" type="Button" parent="RecompensaElite/ReliquiasElite" unique_id=2050000004]
-custom_minimum_size = Vector2(180, 60)
+[node name="RelquiaOpcao1" parent="RecompensaElite/ReliquiasElite" unique_id=2050000004 instance=ExtResource("20_reliquia")]
+custom_minimum_size = Vector2(300, 250)
 layout_mode = 2
-text = "Relíquia 1"
 
-[node name="RelquiaOpcao2" type="Button" parent="RecompensaElite/ReliquiasElite" unique_id=2050000005]
-custom_minimum_size = Vector2(180, 60)
+[node name="RelquiaOpcao2" parent="RecompensaElite/ReliquiasElite" unique_id=2050000005 instance=ExtResource("20_reliquia")]
+custom_minimum_size = Vector2(300, 250)
 layout_mode = 2
-text = "Relíquia 2"
 
 [node name="TituloCartasRaras" type="Label" parent="RecompensaElite" unique_id=2050000006]
 visible = false
 layout_mode = 2
 text = "Escolha uma carta rara"
 horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.93, 0.38, 0.95, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 28
 
 [node name="CartasRarasElite" type="HBoxContainer" parent="RecompensaElite" unique_id=2050000007]
 visible = false
 layout_mode = 2
+alignment = 1
 theme_override_constants/separation = 12
 
-[node name="CartaRaraOpcao1" type="Button" parent="RecompensaElite/CartasRarasElite" unique_id=2050000008]
-custom_minimum_size = Vector2(180, 60)
+[node name="CartaRaraOpcao1" parent="RecompensaElite/CartasRarasElite" unique_id=2050000008 instance=ExtResource("21_carta")]
+custom_minimum_size = Vector2(220, 330)
 layout_mode = 2
-text = "Carta rara 1"
 
-[node name="CartaRaraOpcao2" type="Button" parent="RecompensaElite/CartasRarasElite" unique_id=2050000009]
-custom_minimum_size = Vector2(180, 60)
+[node name="CartaRaraOpcao2" parent="RecompensaElite/CartasRarasElite" unique_id=2050000009 instance=ExtResource("21_carta")]
+custom_minimum_size = Vector2(220, 330)
 layout_mode = 2
-text = "Carta rara 2"
 
-[node name="CartaRaraOpcao3" type="Button" parent="RecompensaElite/CartasRarasElite" unique_id=2050000010]
-custom_minimum_size = Vector2(180, 60)
+[node name="CartaRaraOpcao3" parent="RecompensaElite/CartasRarasElite" unique_id=2050000010 instance=ExtResource("21_carta")]
+custom_minimum_size = Vector2(220, 330)
 layout_mode = 2
-text = "Carta rara 3"
 
-[node name="EventoOverlay" type="VBoxContainer" parent="." unique_id=2050000020]
+[node name="RecompensaEliteAcoes" type="HBoxContainer" parent="RecompensaElite" unique_id=2050000214]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 20
+
+[node name="ConsultarBaralho" type="Button" parent="RecompensaElite/RecompensaEliteAcoes" unique_id=2050000215]
+custom_minimum_size = Vector2(220, 52)
+layout_mode = 2
+text = "VER BARALHO"
+
+[node name="EventoOverlay" type="Control" parent="." unique_id=2050000020]
 visible = false
-layout_mode = 0
-offset_left = 280.0
-offset_top = 180.0
-offset_right = 900.0
-offset_bottom = 410.0
-theme_override_constants/separation = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.04
+anchor_top = 0.03
+anchor_right = 0.96
+anchor_bottom = 0.97
+grow_horizontal = 2
+grow_vertical = 2
+z_index = 2
+
+[node name="EventoPainel" type="Panel" parent="." unique_id=2050000151]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.12
+anchor_right = 0.88
+offset_top = 145.0
+offset_bottom = 590.0
+grow_horizontal = 2
+mouse_filter = 2
+z_index = -1
+
+[node name="EventoTituloFaixa" type="PanelContainer" parent="EventoOverlay" unique_id=2050000230]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.03
+anchor_right = 0.48
+anchor_top = 0.02
+anchor_bottom = 0.15
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("27_titulo_faixa")
 
 [node name="EventoTitulo" type="Label" parent="EventoOverlay" unique_id=2050000021]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.06
+anchor_right = 0.46
+anchor_top = 0.04
+anchor_bottom = 0.14
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 42
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
 text = "EVENTO"
+vertical_alignment = 1
+
+[node name="EventoVidaIcone" type="TextureRect" parent="EventoOverlay" unique_id=2050000220]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.69
+anchor_right = 0.73
+anchor_top = 0.045
+anchor_bottom = 0.125
+mouse_filter = 2
+texture = ExtResource("18_vida")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EventoVidaLabel" type="Label" parent="EventoOverlay" unique_id=2050000221]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.735
+anchor_right = 0.83
+anchor_top = 0.045
+anchor_bottom = 0.125
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 24
+vertical_alignment = 1
+text = "0/0"
+
+[node name="EventoBaralhoIcone" type="TextureRect" parent="EventoOverlay" unique_id=2050000222]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.84
+anchor_right = 0.88
+anchor_top = 0.045
+anchor_bottom = 0.125
+mouse_filter = 2
+texture = ExtResource("12_mao")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EventoBaralhoLabel" type="Label" parent="EventoOverlay" unique_id=2050000223]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.885
+anchor_right = 0.96
+anchor_top = 0.045
+anchor_bottom = 0.125
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 24
+vertical_alignment = 1
+text = "0"
+
+[node name="EventoQuadro" type="PanelContainer" parent="EventoOverlay" unique_id=2050000224]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.0
+anchor_right = 0.48
+anchor_top = 0.18
+anchor_bottom = 0.97
+theme_override_styles/panel = ExtResource("23_painel_escuro")
+
+[node name="EventoQuadroIcone" type="TextureRect" parent="EventoOverlay" unique_id=2050000225]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.10
+anchor_right = 0.40
+anchor_top = 0.30
+anchor_bottom = 0.73
+mouse_filter = 2
+texture = ExtResource("26_evento_icone")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EventoFaixaNome" type="PanelContainer" parent="EventoOverlay" unique_id=2050000226]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.03
+anchor_right = 0.45
+anchor_top = 0.80
+anchor_bottom = 0.93
+theme_override_styles/panel = ExtResource("25_faixa_titulo")
+
+[node name="EventoFaixaNomeLabel" type="Label" parent="EventoOverlay/EventoFaixaNome" unique_id=2050000227]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="EventoNarrativaPainel" type="PanelContainer" parent="EventoOverlay" unique_id=2050000228]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.52
+anchor_right = 1.0
+anchor_top = 0.18
+anchor_bottom = 0.51
+theme_override_styles/panel = ExtResource("24_painel_claro")
 
 [node name="EventoTexto" type="Label" parent="EventoOverlay" unique_id=2050000022]
-custom_minimum_size = Vector2(0, 55)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.56
+anchor_right = 0.96
+anchor_top = 0.25
+anchor_bottom = 0.46
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 22
 text = "Contexto do evento"
 autowrap_mode = 2
-horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="EventoOpcoes" type="HBoxContainer" parent="EventoOverlay" unique_id=2050000023]
-layout_mode = 2
-theme_override_constants/separation = 12
+[node name="EventoOpcoes" type="VBoxContainer" parent="EventoOverlay" unique_id=2050000023]
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.52
+anchor_right = 1.0
+anchor_top = 0.515
+anchor_bottom = 0.995
+theme_override_constants/separation = 5
+alignment = 1
 
-[node name="EventoOpcao1" type="Button" parent="EventoOverlay/EventoOpcoes" unique_id=2050000024]
-custom_minimum_size = Vector2(180, 50)
+[node name="EventoOpcao1" parent="EventoOverlay/EventoOpcoes" unique_id=2050000024 instance=ExtResource("22_evento_opcao")]
 layout_mode = 2
-text = "Opção 1"
 
-[node name="EventoOpcao2" type="Button" parent="EventoOverlay/EventoOpcoes" unique_id=2050000025]
-custom_minimum_size = Vector2(180, 50)
+[node name="EventoOpcao2" parent="EventoOverlay/EventoOpcoes" unique_id=2050000025 instance=ExtResource("22_evento_opcao")]
 layout_mode = 2
-text = "Opção 2"
 
-[node name="EventoOpcao3" type="Button" parent="EventoOverlay/EventoOpcoes" unique_id=2050000026]
-custom_minimum_size = Vector2(180, 50)
+[node name="EventoOpcao3" parent="EventoOverlay/EventoOpcoes" unique_id=2050000026 instance=ExtResource("22_evento_opcao")]
 layout_mode = 2
-text = "Opção 3"
 
 [node name="EventoResultado" type="Label" parent="EventoOverlay" unique_id=2050000027]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.56
+anchor_right = 0.96
+anchor_top = 0.25
+anchor_bottom = 0.46
+theme_override_colors/font_color = Color(0.04, 0.06, 0.07, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 22
 text = "Resultado do evento"
-horizontal_alignment = 1
+autowrap_mode = 2
+vertical_alignment = 1
 
 [node name="EventoContinuar" type="Button" parent="EventoOverlay" unique_id=2050000028]
-custom_minimum_size = Vector2(180, 40)
-layout_mode = 2
+custom_minimum_size = Vector2(220, 56)
+layout_mode = 1
+anchors_preset = 0
+anchor_left = 0.67
+anchor_right = 0.93
+anchor_top = 0.55
+anchor_bottom = 0.67
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 22
+theme_override_constants/content_margin_left = 24
+theme_override_constants/content_margin_right = 24
+theme_override_constants/content_margin_top = 12
+theme_override_constants/content_margin_bottom = 12
 text = "Continuar"
 
-[node name="Reiniciar" type="Button" parent="." unique_id=1027456556]
+[node name="MapaFundo" type="TextureRect" parent="." unique_id=2050000029]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_fundo")
+expand_mode = 1
+stretch_mode = 6
+modulate = Color(0.48, 0.55, 0.61, 1)
+
+[node name="MapaAbrir" type="Button" parent="." unique_id=2050000030]
+visible = false
 layout_mode = 0
 offset_left = 510.0
-offset_top = 300.0
+offset_top = 345.0
 offset_right = 650.0
-offset_bottom = 335.0
-text = "Jogar novamente"
+offset_bottom = 380.0
+text = "Abrir mapa"
 
-[node name="EncerrarTurno" type="Button" parent="." unique_id=1862409133]
-layout_mode = 0
-offset_left = 1014.0
-offset_top = 473.0
-offset_right = 1122.0
-offset_bottom = 504.0
-text = "Fim do turno"
-script = ExtResource("3_h2yge")
+[node name="MapaOverlay" type="Control" parent="." unique_id=2050000040]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="VidaJogadorLabel" type="Label" parent="." unique_id=1436220808]
-layout_mode = 0
-offset_left = 160.0
-offset_top = 177.0
-offset_right = 350.0
-offset_bottom = 200.0
-text = "VIDA"
-script = ExtResource("4_1bvp3")
+[node name="MapaCabecalho" type="PanelContainer" parent="MapaOverlay" unique_id=2050000041]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.04
+anchor_right = 0.96
+offset_top = 22.0
+offset_bottom = 104.0
+grow_horizontal = 2
+theme_override_styles/panel = ExtResource("27_titulo_faixa")
 
-[node name="BarreiraLabel" type="Label" parent="." unique_id=1846351267]
-layout_mode = 0
-offset_left = 158.0
-offset_top = 218.0
-offset_right = 348.0
-offset_bottom = 241.0
-text = "BARREIRA"
+[node name="MapaCabecalhoLinha" type="HBoxContainer" parent="MapaOverlay/MapaCabecalho"]
+layout_mode = 2
+theme_override_constants/separation = 18
 
-[node name="ComboLabel" type="Label" parent="." unique_id=463048315]
-layout_mode = 0
-offset_left = 160.0
-offset_top = 138.0
-offset_right = 350.0
-offset_bottom = 161.0
-text = "COMBO"
+[node name="MapaTitulo" type="Label" parent="MapaOverlay/MapaCabecalho/MapaCabecalhoLinha" unique_id=2050000042]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DOCAS"
+theme_override_colors/font_color = Color(0.055, 0.075, 0.09, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 30
+vertical_alignment = 1
 
-[node name="ReliquiaLabel" type="Label" parent="." unique_id=809096112]
-layout_mode = 0
-offset_left = 160.0
-offset_top = 155.0
-offset_right = 500.0
-offset_bottom = 178.0
-text = "Relíquia: Juntas de Retorno"
+[node name="MapaDistrito" type="Label" parent="MapaOverlay/MapaCabecalho/MapaCabecalhoLinha" unique_id=2050000043]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "MAPA DAS DOCAS"
+theme_override_colors/font_color = Color(0.12, 0.16, 0.18, 1)
+theme_override_font_sizes/font_size = 15
+vertical_alignment = 1
 
-[node name="Jogador" type="Button" parent="." unique_id=1406510216]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 92.0
-offset_right = 140.0
-offset_bottom = 145.0
-text = "VEGA"
+[node name="MapaRecursos" type="HBoxContainer" parent="MapaOverlay/MapaCabecalho/MapaCabecalhoLinha" unique_id=2050000044]
+layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="Mao" type="HBoxContainer" parent="." unique_id=1094511523]
-layout_mode = 0
-offset_left = 40.0
-offset_top = 399.0
-offset_right = 1000.0
-offset_bottom = 643.0
+[node name="MapaVidaIcone" type="TextureRect" parent="MapaOverlay/MapaCabecalho/MapaCabecalhoLinha/MapaRecursos"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("18_vida")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MapaVidaLabel" type="Label" parent="MapaOverlay/MapaCabecalho/MapaCabecalhoLinha/MapaRecursos"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.075, 0.09, 1)
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
+
+[node name="MapaBaralhoIcone" type="TextureRect" parent="MapaOverlay/MapaCabecalho/MapaCabecalhoLinha/MapaRecursos"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("12_mao")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MapaBaralhoLabel" type="Label" parent="MapaOverlay/MapaCabecalho/MapaCabecalhoLinha/MapaRecursos"]
+custom_minimum_size = Vector2(34, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.055, 0.075, 0.09, 1)
+theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
+
+[node name="MapaInfo" type="Label" parent="MapaOverlay" unique_id=2050000045]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.25
+anchor_right = 0.75
+offset_top = 116.0
+offset_bottom = 143.0
+grow_horizontal = 2
+text = "INÍCIO DA ROTA"
+theme_override_colors/font_color = Color(0.49, 0.82, 0.9, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MapaGrafo" type="Control" parent="MapaOverlay" unique_id=2050000046]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.055
+anchor_top = 0.215
+anchor_right = 0.945
+anchor_bottom = 0.755
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MapaConexoes" type="Control" parent="MapaOverlay/MapaGrafo" unique_id=2050000047]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+z_index = 0
+script = ExtResource("29_mapa_conexoes")
+
+[node name="MapaPontos" type="Control" parent="MapaOverlay/MapaGrafo" unique_id=2050000048]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+z_index = 1
+
+[node name="MapaRotulosPontos" type="Control" parent="MapaOverlay/MapaGrafo" unique_id=2050000052]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+z_index = 2
+
+[node name="MapaDetalhe" type="PanelContainer" parent="MapaOverlay" unique_id=2050000049]
+visible = false
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.12
+anchor_right = 0.72
+offset_top = 480.0
+offset_bottom = 570.0
+grow_horizontal = 2
+theme_override_styles/panel = ExtResource("23_painel_escuro")
+
+[node name="MapaDetalheMargem" type="MarginContainer" parent="MapaOverlay/MapaDetalhe"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 5
+
+[node name="MapaDetalheConteudo" type="VBoxContainer" parent="MapaOverlay/MapaDetalhe/MapaDetalheMargem"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="MapaDetalheLinha" type="HBoxContainer" parent="MapaOverlay/MapaDetalhe/MapaDetalheMargem/MapaDetalheConteudo"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
 theme_override_constants/separation = 12
+
+[node name="MapaDetalheIcone" type="TextureRect" parent="MapaOverlay/MapaDetalhe/MapaDetalheMargem/MapaDetalheConteudo/MapaDetalheLinha"]
+custom_minimum_size = Vector2(42, 42)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MapaDetalheTextos" type="VBoxContainer" parent="MapaOverlay/MapaDetalhe/MapaDetalheMargem/MapaDetalheConteudo/MapaDetalheLinha"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+theme_override_constants/separation = 0
+
+[node name="MapaDetalheTitulo" type="Label" parent="MapaOverlay/MapaDetalhe/MapaDetalheMargem/MapaDetalheConteudo/MapaDetalheLinha/MapaDetalheTextos"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 30)
+theme_override_colors/font_color = Color(0.96, 0.97, 0.98, 1)
+theme_override_fonts/font = ExtResource("16_bangers")
+theme_override_font_sizes/font_size = 22
+vertical_alignment = 1
+
+[node name="MapaDetalheTipo" type="Label" parent="MapaOverlay/MapaDetalhe/MapaDetalheMargem/MapaDetalheConteudo/MapaDetalheLinha/MapaDetalheTextos"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 18)
+theme_override_colors/font_color = Color(0.63, 0.86, 0.9, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 14
+vertical_alignment = 1
+
+[node name="MapaDetalheEstado" type="Label" parent="MapaOverlay/MapaDetalhe/MapaDetalheMargem/MapaDetalheConteudo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.9, 0.96, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MapaMensagem" type="Label" parent="MapaOverlay" unique_id=2050000050]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.12
+anchor_right = 0.88
+offset_top = 580.0
+offset_bottom = 620.0
+grow_horizontal = 2
+text = "Escolha um destino conectado ao ponto atual."
+theme_override_colors/font_color = Color(0.72, 0.8, 0.84, 1)
+theme_override_fonts/font = ExtResource("17_barlow")
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MapaVoltar" type="Button" parent="MapaOverlay" unique_id=2050000051]
+visible = false
+text = "Voltar"
+
+[node name="DescansoOverlay" parent="." instance=ExtResource("28_descanso")]

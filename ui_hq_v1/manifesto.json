@@ -1,0 +1,845 @@
+{
+  "versao": "0.1",
+  "resolucao_referencia": [
+    1920,
+    1080
+  ],
+  "raiz_godot": "res://ui_hq_v1/",
+  "telas": [
+    {
+      "id": "01_menu_principal",
+      "titulo": "Menu principal",
+      "arquivo": "referencias/telas/01_menu_principal.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "02_combate",
+      "titulo": "Combate — personagens provisórios",
+      "arquivo": "referencias/telas/02_combate.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "03_recompensa",
+      "titulo": "Recompensa — carta em foco",
+      "arquivo": "referencias/telas/03_recompensa.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "04_derrota",
+      "titulo": "Derrota — informações recolhidas",
+      "arquivo": "referencias/telas/04_derrota.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "05_evento",
+      "titulo": "Evento — escolhas",
+      "arquivo": "referencias/telas/05_evento.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "06_descanso",
+      "titulo": "Descanso — recuperar ou aprimorar",
+      "arquivo": "referencias/telas/06_descanso.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "07_pausa",
+      "titulo": "Pausa",
+      "arquivo": "referencias/telas/07_pausa.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "08_configuracoes",
+      "titulo": "Configurações — áudio",
+      "arquivo": "referencias/telas/08_configuracoes.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "09_run_concluida",
+      "titulo": "Run concluída",
+      "arquivo": "referencias/telas/09_run_concluida.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "10_baralho",
+      "titulo": "Consulta do baralho",
+      "arquivo": "referencias/telas/10_baralho.png",
+      "tipo": "estudo_ilustrado"
+    },
+    {
+      "id": "11_mapa",
+      "titulo": "Mapa — sete pontos e caminhos conectados",
+      "arquivo": "referencias/telas/11_mapa.png",
+      "fonte_editavel": "referencias/composicoes/11_mapa.svg",
+      "tipo": "composicao_dos_componentes"
+    },
+    {
+      "id": "12_recompensa_elite",
+      "titulo": "Elite — estudo dos componentes de recompensa",
+      "arquivo": "referencias/telas/12_recompensa_elite.png",
+      "fonte_editavel": "referencias/composicoes/12_recompensa_elite.svg",
+      "tipo": "composicao_dos_componentes"
+    },
+    {
+      "id": "13_aprimoramento",
+      "titulo": "Aprimoramento — comparação visual ilustrativa",
+      "arquivo": "referencias/telas/13_aprimoramento.png",
+      "fonte_editavel": "referencias/composicoes/13_aprimoramento.svg",
+      "tipo": "composicao_dos_componentes"
+    },
+    {
+      "id": "14_derrota_historico",
+      "titulo": "Derrota — histórico aberto e golpe fatal",
+      "arquivo": "referencias/telas/14_derrota_historico.png",
+      "fonte_editavel": "referencias/composicoes/14_derrota_historico.svg",
+      "tipo": "composicao_dos_componentes"
+    }
+  ],
+  "componentes": [
+    {
+      "id": "energia",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/energia.tres",
+      "region": [
+        84,
+        21,
+        171,
+        238
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "vida",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/vida.tres",
+      "region": [
+        371,
+        58,
+        198,
+        178
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "barreira",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/barreira.tres",
+      "region": [
+        682,
+        41,
+        194,
+        212
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "exposto",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/exposto.tres",
+      "region": [
+        976,
+        48,
+        193,
+        191
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "enfraquecido",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/enfraquecido.tres",
+      "region": [
+        68,
+        300,
+        212,
+        206
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "combo",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/combo.tres",
+      "region": [
+        343,
+        321,
+        270,
+        166
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "compra",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/compra.tres",
+      "region": [
+        682,
+        295,
+        187,
+        207
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "descarte",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/descarte.tres",
+      "region": [
+        969,
+        306,
+        219,
+        189
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "mao",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/mao.tres",
+      "region": [
+        62,
+        551,
+        228,
+        194
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "ataque",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/ataque.tres",
+      "region": [
+        356,
+        549,
+        232,
+        195
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "forca",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/forca.tres",
+      "region": [
+        670,
+        563,
+        217,
+        194
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "reliquia",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/reliquia.tres",
+      "region": [
+        967,
+        531,
+        217,
+        222
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "combate",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/combate.tres",
+      "region": [
+        77,
+        798,
+        209,
+        199
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "elite",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/elite.tres",
+      "region": [
+        387,
+        796,
+        169,
+        205
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "chefe",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/chefe.tres",
+      "region": [
+        664,
+        796,
+        223,
+        193
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "evento",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/evento.tres",
+      "region": [
+        1011,
+        804,
+        142,
+        191
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "descanso",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/descanso.tres",
+      "region": [
+        61,
+        1061,
+        234,
+        156
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "pausa",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/pausa.tres",
+      "region": [
+        398,
+        1056,
+        151,
+        160
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "configuracoes",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/configuracoes.tres",
+      "region": [
+        691,
+        1045,
+        185,
+        184
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "seta",
+      "grupo": "icones",
+      "atlas": "assets/atlases/icones.png",
+      "arquivo": "componentes/icones/seta.tres",
+      "region": [
+        996,
+        1060,
+        186,
+        146
+      ],
+      "tamanho_sugerido": [
+        48,
+        48
+      ],
+      "nota": "Escala uniforme; fundo transparente; incluir tooltip com nome e regra."
+    },
+    {
+      "id": "botao_normal",
+      "grupo": "controles",
+      "atlas": "assets/atlases/controles.png",
+      "arquivo": "componentes/controles/botao_normal.tres",
+      "region": [
+        43,
+        164,
+        554,
+        135
+      ],
+      "tamanho_sugerido": [
+        360,
+        80
+      ],
+      "nota": "Texto deve ser Label/Button separado; não distorcer a cauda do tooltip."
+    },
+    {
+      "id": "botao_foco",
+      "grupo": "controles",
+      "atlas": "assets/atlases/controles.png",
+      "arquivo": "componentes/controles/botao_foco.tres",
+      "region": [
+        638,
+        137,
+        583,
+        185
+      ],
+      "tamanho_sugerido": [
+        360,
+        90
+      ],
+      "nota": "Texto deve ser Label/Button separado; não distorcer a cauda do tooltip."
+    },
+    {
+      "id": "botao_pressionado",
+      "grupo": "controles",
+      "atlas": "assets/atlases/controles.png",
+      "arquivo": "componentes/controles/botao_pressionado.tres",
+      "region": [
+        40,
+        416,
+        562,
+        140
+      ],
+      "tamanho_sugerido": [
+        360,
+        80
+      ],
+      "nota": "Texto deve ser Label/Button separado; não distorcer a cauda do tooltip."
+    },
+    {
+      "id": "botao_desabilitado",
+      "grupo": "controles",
+      "atlas": "assets/atlases/controles.png",
+      "arquivo": "componentes/controles/botao_desabilitado.tres",
+      "region": [
+        653,
+        416,
+        562,
+        140
+      ],
+      "tamanho_sugerido": [
+        360,
+        80
+      ],
+      "nota": "Texto deve ser Label/Button separado; não distorcer a cauda do tooltip."
+    },
+    {
+      "id": "painel_escuro",
+      "grupo": "controles",
+      "atlas": "assets/atlases/controles.png",
+      "arquivo": "componentes/controles/painel_escuro.tres",
+      "region": [
+        38,
+        640,
+        570,
+        257
+      ],
+      "tamanho_sugerido": [
+        640,
+        280
+      ],
+      "nota": "Texto deve ser Label/Button separado; não distorcer a cauda do tooltip."
+    },
+    {
+      "id": "painel_claro",
+      "grupo": "controles",
+      "atlas": "assets/atlases/controles.png",
+      "arquivo": "componentes/controles/painel_claro.tres",
+      "region": [
+        650,
+        640,
+        570,
+        257
+      ],
+      "tamanho_sugerido": [
+        640,
+        280
+      ],
+      "nota": "Texto deve ser Label/Button separado; não distorcer a cauda do tooltip."
+    },
+    {
+      "id": "tooltip",
+      "grupo": "controles",
+      "atlas": "assets/atlases/controles.png",
+      "arquivo": "componentes/controles/tooltip.tres",
+      "region": [
+        54,
+        956,
+        543,
+        242
+      ],
+      "tamanho_sugerido": [
+        360,
+        160
+      ],
+      "nota": "Texto deve ser Label/Button separado; não distorcer a cauda do tooltip."
+    },
+    {
+      "id": "faixa_titulo",
+      "grupo": "controles",
+      "atlas": "assets/atlases/controles.png",
+      "arquivo": "componentes/controles/faixa_titulo.tres",
+      "region": [
+        630,
+        987,
+        610,
+        154
+      ],
+      "tamanho_sugerido": [
+        480,
+        120
+      ],
+      "nota": "Texto deve ser Label/Button separado; não distorcer a cauda do tooltip."
+    },
+    {
+      "id": "vida_moldura",
+      "grupo": "hud",
+      "atlas": "assets/atlases/hud.png",
+      "arquivo": "componentes/hud/vida_moldura.tres",
+      "region": [
+        26,
+        220,
+        400,
+        84
+      ],
+      "tamanho_sugerido": [
+        400,
+        58
+      ],
+      "nota": "Valores e ícones são elementos separados; a barra deve usar valor/máximo real."
+    },
+    {
+      "id": "vida_preenchimento",
+      "grupo": "hud",
+      "atlas": "assets/atlases/hud.png",
+      "arquivo": "componentes/hud/vida_preenchimento.tres",
+      "region": [
+        464,
+        246,
+        347,
+        27
+      ],
+      "tamanho_sugerido": [
+        360,
+        24
+      ],
+      "nota": "Valores e ícones são elementos separados; a barra deve usar valor/máximo real."
+    },
+    {
+      "id": "energia_caixa",
+      "grupo": "hud",
+      "atlas": "assets/atlases/hud.png",
+      "arquivo": "componentes/hud/energia_caixa.tres",
+      "region": [
+        890,
+        131,
+        307,
+        237
+      ],
+      "tamanho_sugerido": [
+        190,
+        145
+      ],
+      "nota": "Valores e ícones são elementos separados; a barra deve usar valor/máximo real."
+    },
+    {
+      "id": "custo_selo",
+      "grupo": "hud",
+      "atlas": "assets/atlases/hud.png",
+      "arquivo": "componentes/hud/custo_selo.tres",
+      "region": [
+        130,
+        537,
+        175,
+        178
+      ],
+      "tamanho_sugerido": [
+        64,
+        64
+      ],
+      "nota": "Valores e ícones são elementos separados; a barra deve usar valor/máximo real."
+    },
+    {
+      "id": "estado_caixa",
+      "grupo": "hud",
+      "atlas": "assets/atlases/hud.png",
+      "arquivo": "componentes/hud/estado_caixa.tres",
+      "region": [
+        458,
+        566,
+        360,
+        112
+      ],
+      "tamanho_sugerido": [
+        140,
+        48
+      ],
+      "nota": "Valores e ícones são elementos separados; a barra deve usar valor/máximo real."
+    },
+    {
+      "id": "foco_cantos",
+      "grupo": "hud",
+      "atlas": "assets/atlases/hud.png",
+      "arquivo": "componentes/hud/foco_cantos.tres",
+      "region": [
+        860,
+        479,
+        359,
+        279
+      ],
+      "tamanho_sugerido": [
+        320,
+        240
+      ],
+      "nota": "Valores e ícones são elementos separados; a barra deve usar valor/máximo real."
+    },
+    {
+      "id": "no_mapa",
+      "grupo": "hud",
+      "atlas": "assets/atlases/hud.png",
+      "arquivo": "componentes/hud/no_mapa.tres",
+      "region": [
+        113,
+        900,
+        236,
+        225
+      ],
+      "tamanho_sugerido": [
+        104,
+        104
+      ],
+      "nota": "Valores e ícones são elementos separados; a barra deve usar valor/máximo real."
+    },
+    {
+      "id": "marcador_fatal",
+      "grupo": "hud",
+      "atlas": "assets/atlases/hud.png",
+      "arquivo": "componentes/hud/marcador_fatal.tres",
+      "region": [
+        423,
+        932,
+        398,
+        144
+      ],
+      "tamanho_sugerido": [
+        180,
+        64
+      ],
+      "nota": "Valores e ícones são elementos separados; a barra deve usar valor/máximo real."
+    },
+    {
+      "id": "faixa_turno",
+      "grupo": "hud",
+      "atlas": "assets/atlases/hud.png",
+      "arquivo": "componentes/hud/faixa_turno.tres",
+      "region": [
+        836,
+        934,
+        414,
+        148
+      ],
+      "tamanho_sugerido": [
+        320,
+        95
+      ],
+      "nota": "Valores e ícones são elementos separados; a barra deve usar valor/máximo real."
+    },
+    {
+      "id": "carta_ataque",
+      "grupo": "cartas",
+      "atlas": "assets/atlases/cartas.png",
+      "arquivo": "componentes/cartas/carta_ataque.tres",
+      "region": [
+        10,
+        103,
+        499,
+        787
+      ],
+      "tamanho_sugerido": [
+        250,
+        394
+      ],
+      "nota": "Janela de arte transparente. Áreas internas normalizadas constam no guia."
+    },
+    {
+      "id": "carta_habilidade",
+      "grupo": "cartas",
+      "atlas": "assets/atlases/cartas.png",
+      "arquivo": "componentes/cartas/carta_habilidade.tres",
+      "region": [
+        519,
+        103,
+        493,
+        787
+      ],
+      "tamanho_sugerido": [
+        250,
+        399
+      ],
+      "nota": "Janela de arte transparente; texto no painel inferior."
+    },
+    {
+      "id": "carta_foco",
+      "grupo": "cartas",
+      "atlas": "assets/atlases/cartas.png",
+      "arquivo": "componentes/cartas/carta_foco.tres",
+      "region": [
+        1011,
+        83,
+        525,
+        832
+      ],
+      "tamanho_sugerido": [
+        250,
+        396
+      ],
+      "nota": "Variação de ataque com cantos de foco. Para habilidades usar overlay foco_cantos."
+    },
+    {
+      "id": "arte_golpe",
+      "grupo": "ilustracoes",
+      "atlas": "assets/atlases/ilustracoes.png",
+      "arquivo": "componentes/ilustracoes/arte_golpe.tres",
+      "region": [
+        10,
+        12,
+        676,
+        700
+      ],
+      "tamanho_sugerido": [
+        300,
+        310
+      ],
+      "nota": "Ilustração separada; usar recorte proporcional dentro da janela da carta."
+    },
+    {
+      "id": "arte_protecao",
+      "grupo": "ilustracoes",
+      "atlas": "assets/atlases/ilustracoes.png",
+      "arquivo": "componentes/ilustracoes/arte_protecao.tres",
+      "region": [
+        746,
+        12,
+        676,
+        700
+      ],
+      "tamanho_sugerido": [
+        300,
+        310
+      ],
+      "nota": "Ilustração separada; usar recorte proporcional dentro da janela da carta."
+    },
+    {
+      "id": "arte_quebra_chassi",
+      "grupo": "ilustracoes",
+      "atlas": "assets/atlases/ilustracoes.png",
+      "arquivo": "componentes/ilustracoes/arte_quebra_chassi.tres",
+      "region": [
+        1480,
+        12,
+        676,
+        700
+      ],
+      "tamanho_sugerido": [
+        300,
+        310
+      ],
+      "nota": "Ilustração separada; usar recorte proporcional dentro da janela da carta."
+    }
+  ],
+  "cores": {
+    "fundo": "#101619",
+    "painel": "#1B252D",
+    "branco": "#F5F7FA",
+    "energia_foco": "#00CEE6",
+    "vida_ameaca": "#FF4F4F",
+    "barreira": "#FFCA36",
+    "elite": "#DF3BAE"
+  },
+  "fontes": {
+    "titulos": "Bangers",
+    "texto": "Barlow Semi Condensed"
+  },
+  "estado": "Kit de arte e referências. Não integrado ao jogo."
+}
