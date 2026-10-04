@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://vega_animada/preview_vega_segmentada.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://vega_animada/vega_animada_segmentada.tscn" id="2_vega"]
+
+[node name="PreviewVegaSegmentada" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Fundo" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.035, 0.055, 0.07, 1)
+
+[node name="Piso" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -112.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.08, 0.13, 0.15, 1)
+
+[node name="LinhaPiso" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -112.0
+offset_bottom = -109.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.12, 0.75, 0.78, 0.8)
+
+[node name="VegaAnimada" parent="." instance=ExtResource("2_vega")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Titulo" type="Label" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 28.0
+offset_right = 620.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.45, 0.95, 0.96, 1)
+theme_override_font_sizes/font_size = 24
+text = "VEGA // RIG SEGMENTADO"
+
+[node name="Estado" type="Label" parent="."]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 68.0
+offset_right = 360.0
+offset_bottom = 98.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.75, 0.82, 0.84, 1)
+theme_override_font_sizes/font_size = 16
+text = "REPOUSO"
