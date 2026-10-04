@@ -29,7 +29,7 @@ func verificar() -> void:
 		conferir(textura.get_width() > 0 and textura.get_height() > 0, "Recurso segmentado vazio: %s" % caminho)
 		var imagem: Image = textura.get_image()
 		conferir(imagem != null, "Imagem segmentada ilegível: %s" % caminho)
-	verificar_cena_candidata()
+	await verificar_cena_candidata()
 
 	print("VEGA SEGMENTADA: %d falhas" % falhas)
 	get_tree().quit(1 if falhas else 0)
@@ -78,4 +78,32 @@ func verificar_cena_candidata() -> void:
 	for caminho: String in caminhos_sprites:
 		var sprite: Sprite2D = vega.get_node_or_null(caminho) as Sprite2D
 		conferir(sprite != null and sprite.texture != null, "Sprite segmentado ausente: %s" % caminho)
+	var animation_player: AnimationPlayer = vega.get_node_or_null("AnimationPlayer") as AnimationPlayer
+	conferir(animation_player != null, "AnimationPlayer ausente na candidata")
+	if animation_player != null:
+		for nome_animacao: String in ["repouso", "guarda", "soco", "dano", "reiniciar"]:
+			conferir(animation_player.has_animation(nome_animacao), "Animação nomeada ausente: %s" % nome_animacao)
+	for metodo: String in ["socar", "receber_dano", "reiniciar"]:
+		conferir(vega.has_method(metodo), "API pública ausente: %s" % metodo)
+	if animation_player != null and vega.has_method("socar") and vega.has_method("receber_dano") and vega.has_method("reiniciar"):
+		vega.call("reiniciar")
+		await get_tree().process_frame
+		conferir(str(vega.get("estado_animacao")) == "repouso", "Reiniciar nao termina em repouso")
+		vega.call("socar")
+		conferir(str(vega.get("estado_animacao")) == "soco", "Socar nao entra na pose de soco")
+		await get_tree().create_timer(0.12).timeout
+		vega.call("receber_dano")
+		conferir(str(vega.get("estado_animacao")) == "dano", "Dano nao interrompe o soco")
+		await get_tree().create_timer(0.55).timeout
+		conferir(str(vega.get("estado_animacao")) == "repouso", "Pose nao retorna ao repouso")
 	vega.queue_free()
+
+	var preview_recurso: PackedScene = load("res://vega_animada/preview_vega_segmentada.tscn") as PackedScene
+	conferir(preview_recurso != null, "Preview isolado da Vega segmentada ausente")
+	if preview_recurso != null:
+		var preview: Control = preview_recurso.instantiate() as Control
+		conferir(preview != null, "Preview segmentado nao instancia como Control")
+		if preview != null:
+			conferir(preview.get_node_or_null("VegaAnimada") != null, "Preview nao contem somente a candidata esperada")
+			conferir(preview.get_node_or_null("Fundo") != null, "Preview nao possui fundo neutro")
+			preview.queue_free()

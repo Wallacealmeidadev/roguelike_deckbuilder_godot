@@ -29,9 +29,11 @@ atlas = ExtResource("2_atlas")
 region = Rect2(558, 805, 272, 439)
 filter_clip = true
 
-[node name="VegaAnimadaSegmentada" type="Control"]
+[node name="VegaAnimada" type="Control"]
 mouse_filter = 2
 script = ExtResource("1_script")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="Modelo" type="Node2D" parent="."]
 
@@ -91,12 +93,12 @@ texture = SubResource("cabeca")
 
 [node name="BracoTras" type="Bone2D" parent="Modelo/Skeleton2D/Tronco"]
 position = Vector2(66, -123)
-rotation = -0.45
+rotation = -0.70
 z_index = 1
 auto_calculate_length_and_angle = false
 length = 100.0
 bone_angle = 0.0
-rest = Transform2D(0.900447, -0.434966, 0.434966, 0.900447, 66, -123)
+rest = Transform2D(0.764842, -0.644218, 0.644218, 0.764842, 66, -123)
 
 [node name="BracoSuperiorTras" type="Bone2D" parent="Modelo/Skeleton2D/Tronco/BracoTras"]
 auto_calculate_length_and_angle = false
@@ -111,12 +113,12 @@ centered = false
 texture = ExtResource("6_superior_tras")
 
 [node name="AntebracoTras" type="Bone2D" parent="Modelo/Skeleton2D/Tronco/BracoTras"]
-position = Vector2(-84, 72)
+position = Vector2(-52, 48)
 rotation = -1.45
 auto_calculate_length_and_angle = false
 length = 100.0
 bone_angle = 0.0
-rest = Transform2D(0.120503, -0.992713, 0.992713, 0.120503, -84, 72)
+rest = Transform2D(0.120503, -0.992713, 0.992713, 0.120503, -52, 48)
 
 [node name="Arte" type="Sprite2D" parent="Modelo/Skeleton2D/Tronco/BracoTras/AntebracoTras"]
 position = Vector2(-80, -16)
@@ -125,11 +127,11 @@ centered = false
 texture = ExtResource("7_antebraco_tras")
 
 [node name="PunhoTras" type="Bone2D" parent="Modelo/Skeleton2D/Tronco/BracoTras/AntebracoTras"]
-position = Vector2(0, 92)
+position = Vector2(0, 54)
 auto_calculate_length_and_angle = false
 length = 70.0
 bone_angle = 0.0
-rest = Transform2D(1, 0, 0, 1, 0, 92)
+rest = Transform2D(1, 0, 0, 1, 0, 54)
 
 [node name="Arte" type="Sprite2D" parent="Modelo/Skeleton2D/Tronco/BracoTras/AntebracoTras/PunhoTras"]
 position = Vector2(-80, -16)
@@ -139,12 +141,12 @@ texture = ExtResource("8_punho_tras")
 
 [node name="BracoFrente" type="Bone2D" parent="Modelo/Skeleton2D/Tronco"]
 position = Vector2(-66, -120)
-rotation = 0.25
+rotation = 0.50
 z_index = 2
 auto_calculate_length_and_angle = false
 length = 100.0
 bone_angle = 0.0
-rest = Transform2D(0.968912, 0.247404, -0.247404, 0.968912, -66, -120)
+rest = Transform2D(0.877583, 0.479426, -0.479426, 0.877583, -66, -120)
 
 [node name="BracoSuperiorFrente" type="Bone2D" parent="Modelo/Skeleton2D/Tronco/BracoFrente"]
 auto_calculate_length_and_angle = false
@@ -159,12 +161,12 @@ centered = false
 texture = ExtResource("3_superior_frente")
 
 [node name="AntebracoFrente" type="Bone2D" parent="Modelo/Skeleton2D/Tronco/BracoFrente"]
-position = Vector2(74, 78)
+position = Vector2(52, 48)
 rotation = -1.55
 auto_calculate_length_and_angle = false
 length = 100.0
 bone_angle = 0.0
-rest = Transform2D(0.020795, -0.999784, 0.999784, 0.020795, 74, 78)
+rest = Transform2D(0.020795, -0.999784, 0.999784, 0.020795, 52, 48)
 
 [node name="Arte" type="Sprite2D" parent="Modelo/Skeleton2D/Tronco/BracoFrente/AntebracoFrente"]
 position = Vector2(-5, -15)
@@ -173,11 +175,11 @@ centered = false
 texture = ExtResource("4_antebraco_frente")
 
 [node name="PunhoFrente" type="Bone2D" parent="Modelo/Skeleton2D/Tronco/BracoFrente/AntebracoFrente"]
-position = Vector2(0, 92)
+position = Vector2(0, 54)
 auto_calculate_length_and_angle = false
 length = 70.0
 bone_angle = 0.0
-rest = Transform2D(1, 0, 0, 1, 0, 92)
+rest = Transform2D(1, 0, 0, 1, 0, 54)
 
 [node name="Arte" type="Sprite2D" parent="Modelo/Skeleton2D/Tronco/BracoFrente/AntebracoFrente/PunhoFrente"]
 position = Vector2(-5, -15)
