@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://prototipos/vega_2d/corpo_articulado/golpes_alternados/vega_alternada.tscn" id="1"]
+[ext_resource type="Script" path="res://prototipos/vega_2d/corpo_articulado/presenca_combate/vega_presenca.gd" id="2"]
+
+[node name="VegaPresencaCombate" instance=ExtResource("1")]
+script = ExtResource("2")

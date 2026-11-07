@@ -1,0 +1,92 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://prototipos/vega_2d/corpo_v2/preview.gd" id="1"]
+[ext_resource type="Script" path="res://prototipos/vega_2d/corpo_v2/corpo_prova.gd" id="2"]
+[ext_resource type="Texture2D" path="res://docs/arte_vega/vega_v2_referencia_04.png" id="3"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/BarlowSemiCondensed-Bold.ttf" id="4"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/BarlowSemiCondensed-Regular.ttf" id="5"]
+
+[sub_resource type="Theme" id="Tema"]
+default_font = ExtResource("4")
+default_font_size = 17
+
+[node name="ProvaCorporalV2" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource("Tema")
+script = ExtResource("1")
+
+[node name="Fundo" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.035, 0.055, 0.085, 1)
+
+[node name="Titulo" type="Label" parent="."]
+offset_left = 28.0
+offset_top = 18.0
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.1, 0.9, 1, 1)
+text = "VEGA V2 / MONTAGEM CORPORAL"
+
+[node name="Descricao" type="Label" parent="."]
+offset_left = 28.0
+offset_top = 55.0
+theme_override_fonts/font = ExtResource("5")
+theme_override_font_sizes/font_size = 16
+text = "Encaixes e proporções em prova. Não substitui Vega no combate."
+
+[node name="LegendaReferencia" type="Label" parent="."]
+offset_left = 28.0
+offset_top = 82.0
+text = "REFERÊNCIA 04 APROVADA"
+
+[node name="Referencia" type="TextureRect" parent="."]
+mouse_filter = 2
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LegendaProva" type="Label" parent="."]
+text = "POSTURA NEUTRA / BRAÇOS REUTILIZADOS"
+
+[node name="Vega" type="Node2D" parent="."]
+script = ExtResource("2")
+
+[node name="Estado" type="Label" parent="."]
+theme_override_colors/font_color = Color(0.1, 0.9, 1, 1)
+text = "REPOUSO / COMBO 0 / TENSÃO 0%"
+
+[node name="Rodape" type="ColorRect" parent="."]
+mouse_filter = 2
+color = Color(0.07, 0.09, 0.14, 1)
+
+[node name="Controles" type="HBoxContainer" parent="."]
+theme_override_constants/separation = 10
+
+[node name="Combate" type="Button" parent="Controles"]
+custom_minimum_size = Vector2(164, 36)
+toggle_mode = true
+text = "Ativar combate"
+
+[node name="MaisUm" type="Button" parent="Controles"]
+custom_minimum_size = Vector2(44, 36)
+text = "+1"
+
+[node name="MaisTres" type="Button" parent="Controles"]
+custom_minimum_size = Vector2(44, 36)
+text = "+3"
+
+[node name="Maximo" type="Button" parent="Controles"]
+custom_minimum_size = Vector2(76, 36)
+text = "10"
+
+[node name="Consumir" type="Button" parent="Controles"]
+custom_minimum_size = Vector2(100, 36)
+text = "Consumir"
+
+[node name="Reduzido" type="CheckButton" parent="Controles"]
+custom_minimum_size = Vector2(220, 36)
+text = "Movimento reduzido"

@@ -2,7 +2,7 @@ extends SceneTree
 
 ## Prova visual isolada: não troca os recursos usados pelo jogo normal.
 const PASTA: String = "res://docs/evidencias_golpe_hq"
-const PROVA: String = "res://assets/ui/runtime/cartas/arte_golpe_vega_hq_prova.png"
+const PROVA: String = "res://prototipos/assets_antigos/cartas/arte_golpe_vega_hq_prova.png"
 
 var jogo: Control
 var falhas: int = 0

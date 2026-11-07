@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3]
-
-[ext_resource type="PackedScene" path="res://vega_animada/corpo_articulado/guarda_montada/vega_guarda.tscn" id="1"]
-[ext_resource type="Script" path="res://vega_animada/corpo_articulado/bracos_prancha/vega_fiel.gd" id="2"]
-
-[node name="VegaBracosDaPrancha" instance=ExtResource("1")]
-script = ExtResource("2")

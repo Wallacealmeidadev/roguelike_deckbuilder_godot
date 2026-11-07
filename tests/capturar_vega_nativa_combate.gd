@@ -29,7 +29,7 @@ func _executar() -> void:
 	DirAccess.make_dir_recursive_absolute(pasta)
 	jogo = (load("res://main.tscn") as PackedScene).instantiate() as Control
 	if "--acabamento" in OS.get_cmdline_user_args():
-		jogo.cena_apresentacao_vega = load("res://vega_animada/rig_nativo_v2/acabamento_proximo/vega_prova.tscn") as PackedScene
+		jogo.cena_apresentacao_vega = load("res://prototipos/vega_2d/rig_nativo_v2/acabamento_proximo/vega_prova.tscn") as PackedScene
 	root.add_child(jogo)
 	await process_frame
 	var resolucoes: Array[Vector2i] = [Vector2i(1920, 1080), Vector2i(1024, 576)]

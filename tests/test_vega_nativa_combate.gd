@@ -16,7 +16,7 @@ func _verificar(condicao: bool, mensagem: String) -> void:
 func _executar() -> void:
 	var jogo: Control = (load("res://main.tscn") as PackedScene).instantiate() as Control
 	if "--acabamento" in OS.get_cmdline_user_args():
-		jogo.cena_apresentacao_vega = load("res://vega_animada/rig_nativo_v2/acabamento_proximo/vega_prova.tscn") as PackedScene
+		jogo.cena_apresentacao_vega = load("res://prototipos/vega_2d/rig_nativo_v2/acabamento_proximo/vega_prova.tscn") as PackedScene
 	get_tree().root.add_child(jogo)
 	await get_tree().process_frame
 	var vega: VegaCombateNativo = jogo.vega_animada as VegaCombateNativo

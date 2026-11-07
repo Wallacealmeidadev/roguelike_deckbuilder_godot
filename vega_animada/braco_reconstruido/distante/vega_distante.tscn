@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3]
-
-[ext_resource type="PackedScene" path="res://vega_animada/braco_reconstruido/ombro_integrado/vega_ombro.tscn" id="1"]
-[ext_resource type="Script" path="res://vega_animada/braco_reconstruido/distante/vega_distante.gd" id="2"]
-
-[node name="VegaGuardaDistante" instance=ExtResource("1")]
-script = ExtResource("2")
