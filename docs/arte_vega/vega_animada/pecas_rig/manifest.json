@@ -1,0 +1,224 @@
+{
+  "source": "a_clean_high_resolution_comic_anime_style_charac.png",
+  "source_size": [
+    1470,
+    1070
+  ],
+  "notes": [
+    "A/B correspondem aos grupos esquerdo/direito da folha, não à anatomia da personagem.",
+    "As peças foram recortadas automaticamente usando a transparência da imagem.",
+    "Os PNGs foram recortados com margem transparente; não precisam manter o canvas original para um rig Sprite2D/Skeleton2D.",
+    "Use a imagem de referência completa para reconstruir proporções e orientar os pivôs."
+  ],
+  "parts": {
+    "vega_referencia_corpo_inteiro": {
+      "file": "vega_referencia_corpo_inteiro.png",
+      "source_bbox": [
+        16,
+        26,
+        589,
+        1052
+      ],
+      "cropped_size": [
+        621,
+        1074
+      ]
+    },
+    "vega_head": {
+      "file": "vega_head.png",
+      "source_bbox": [
+        599,
+        23,
+        841,
+        237
+      ],
+      "cropped_size": [
+        290,
+        262
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_torso": {
+      "file": "vega_torso.png",
+      "source_bbox": [
+        834,
+        215,
+        1094,
+        523
+      ],
+      "cropped_size": [
+        308,
+        356
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_braco_A_superior": {
+      "file": "vega_braco_A_superior.png",
+      "source_bbox": [
+        558,
+        211,
+        686,
+        477
+      ],
+      "cropped_size": [
+        176,
+        314
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_braco_A_cotovelo": {
+      "file": "vega_braco_A_cotovelo.png",
+      "source_bbox": [
+        691,
+        243,
+        788,
+        333
+      ],
+      "cropped_size": [
+        145,
+        138
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_braco_A_antebraco": {
+      "file": "vega_braco_A_antebraco.png",
+      "source_bbox": [
+        716,
+        334,
+        840,
+        554
+      ],
+      "cropped_size": [
+        172,
+        268
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_braco_A_punho": {
+      "file": "vega_braco_A_punho.png",
+      "source_bbox": [
+        563,
+        482,
+        754,
+        698
+      ],
+      "cropped_size": [
+        239,
+        264
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_braco_B_superior": {
+      "file": "vega_braco_B_superior.png",
+      "source_bbox": [
+        1272,
+        199,
+        1425,
+        477
+      ],
+      "cropped_size": [
+        201,
+        326
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_braco_B_cotovelo": {
+      "file": "vega_braco_B_cotovelo.png",
+      "source_bbox": [
+        1171,
+        235,
+        1270,
+        331
+      ],
+      "cropped_size": [
+        147,
+        144
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_braco_B_antebraco": {
+      "file": "vega_braco_B_antebraco.png",
+      "source_bbox": [
+        1131,
+        334,
+        1244,
+        548
+      ],
+      "cropped_size": [
+        161,
+        262
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_braco_B_punho": {
+      "file": "vega_braco_B_punho.png",
+      "source_bbox": [
+        1249,
+        482,
+        1451,
+        706
+      ],
+      "cropped_size": [
+        250,
+        272
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_perna_A_superior": {
+      "file": "vega_perna_A_superior.png",
+      "source_bbox": [
+        763,
+        537,
+        932,
+        834
+      ],
+      "cropped_size": [
+        217,
+        345
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_perna_A_inferior_bota": {
+      "file": "vega_perna_A_inferior_bota.png",
+      "source_bbox": [
+        684,
+        837,
+        832,
+        1052
+      ],
+      "cropped_size": [
+        196,
+        263
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_perna_B_superior": {
+      "file": "vega_perna_B_superior.png",
+      "source_bbox": [
+        1012,
+        537,
+        1182,
+        837
+      ],
+      "cropped_size": [
+        218,
+        348
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    },
+    "vega_perna_B_inferior_bota": {
+      "file": "vega_perna_B_inferior_bota.png",
+      "source_bbox": [
+        1110,
+        840,
+        1287,
+        1048
+      ],
+      "cropped_size": [
+        225,
+        256
+      ],
+      "pivot_hint": "definir no Godot conforme a junta correspondente"
+    }
+  }
+}
