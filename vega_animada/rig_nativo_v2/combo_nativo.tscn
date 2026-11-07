@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://vega_animada/rig_nativo_v2/dois_bracos.tscn" id="1"]
+[ext_resource type="Script" path="res://vega_animada/rig_nativo_v2/combo_nativo.gd" id="2"]
+
+[node name="ComboNativo" instance=ExtResource("1")]
+script = ExtResource("2")

@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://1665uv8kuknn"]
+
+[ext_resource type="Script" uid="uid://be6wonccllxuq" path="res://vega_animada/preview_vega_corpo_inteiro.gd" id="1_preview"]
+[ext_resource type="PackedScene" path="res://vega_animada/vega_corpo_inteiro_articulada.tscn" id="2_vega"]
+
+[node name="PreviewVegaCorpoInteiro" type="Control" unique_id=383646640]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_preview")
+
+[node name="Fundo" type="ColorRect" parent="." unique_id=2142779329]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.035, 0.055, 0.07, 1)
+
+[node name="Piso" type="ColorRect" parent="." unique_id=715400199]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -112.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.08, 0.13, 0.15, 1)
+
+[node name="LinhaPiso" type="ColorRect" parent="." unique_id=1872504942]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -112.0
+offset_bottom = -109.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.12, 0.75, 0.78, 0.8)
+
+[node name="VegaCorpoInteiroArticulada" parent="." unique_id=340151414 instance=ExtResource("2_vega")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Titulo" type="Label" parent="." unique_id=1665146714]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 28.0
+offset_right = 700.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.45, 0.95, 0.96, 1)
+theme_override_font_sizes/font_size = 24
+text = "VEGA // CUTOUT RIG READY"
+
+[node name="Estado" type="Label" parent="." unique_id=1533429797]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 68.0
+offset_right = 360.0
+offset_bottom = 98.0
+theme_override_colors/font_color = Color(0.75, 0.82, 0.84, 1)
+theme_override_font_sizes/font_size = 16
+text = "IDLE"

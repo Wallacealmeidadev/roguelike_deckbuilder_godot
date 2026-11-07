@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://vega_animada/rig_nativo_v2/vega_combate.gd" id="1"]
+[ext_resource type="PackedScene" path="res://vega_animada/rig_nativo_v2/apoio_corporal.tscn" id="2"]
+
+[node name="VegaAnimada" type="Control"]
+mouse_filter = 2
+script = ExtResource("1")
+
+[node name="Sombra" type="Control" parent="."]
+mouse_filter = 2
+z_index = -1
+
+[node name="Visual" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Composicao" type="SubViewportContainer" parent="Visual"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+focus_mode = 0
+stretch = true
+
+[node name="Desenho" type="SubViewport" parent="Visual/Composicao"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(128, 128)
+render_target_update_mode = 2
+gui_disable_input = true
+own_world_2d = true
+
+[node name="Modelo" parent="Visual/Composicao/Desenho" instance=ExtResource("2")]

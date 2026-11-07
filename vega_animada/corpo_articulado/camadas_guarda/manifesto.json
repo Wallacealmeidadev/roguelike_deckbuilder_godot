@@ -1,0 +1,100 @@
+{
+  "versao": 1,
+  "data": "2026-10-24",
+  "estado": "tronco_02_quadril_01_aprovados_visualmente_guarda_estatica",
+  "tronco_ativo_bancada": "tronco_02.png",
+  "ferramenta": "image_gen integrada; skill imagegen; sem CLI",
+  "referencia": "res://docs/arte_vega/vega_corpo_volume_poses_04.png",
+  "arquivos": [
+    {
+      "arquivo": "tronco_02.png",
+      "fonte": "C:/Users/Wallace/.codex/generated_images/01a15471-4a72-7593-a6ce-1852411b6994/exec-261d2e5a-75fa-4cd0-953f-d2b32aaf567c.png",
+      "sha256": "293BC2349CB0B8C9B90E72B295A8D181AF0D5BC54755031115544A907FD0C982",
+      "dimensoes": [
+        1774,
+        887
+      ],
+      "alfa": true,
+      "estado": "aprovada_pelo_usuario_perfeito_melhorou_2026-10-24",
+      "prompt": "Use case: precise-object-edit. Image 1 is the EDIT TARGET: a transparent headless armless TORSO GAME SPRITE of Vega, an adult woman aged 27. Make ONE small costume/anatomy adjustment: modestly increase natural breast volume under the SAME opaque charcoal tank top, approximately 15 percent, conveyed through clothed form and restrained fabric folds. Remain athletic, grounded and non-revealing. Preserve the EXACT neckline height, straps, armhole coverage and opaque fabric. No cleavage cut, transparency, exposed breasts or exaggerated pin-up anatomy. Change only the clothed chest region. Keep the neck, both human shoulder/deltoid caps, shoulder joint cut contours, waist, bottom underlap, overall pose, three-quarter perspective, lighting, colors, black HQ comic ink and grouped shadow style unchanged. Do not enlarge shoulders, ribcage or waist, add mechanical shoulder domes, arms, head or accessories. Preserve exact full 1774x887 canvas, original sprite position and scale, with wide unused space on the right. Genuine alpha transparency everywhere outside the sprite; no background, checkerboard, labels, shadows, borders or registration marks. This must remain a compatible revision of the original torso layer, not a centered or re-scaled new illustration."
+    },
+    {
+      "arquivo": "tronco_01.png",
+      "fonte": "C:/Users/Wallace/.codex/generated_images/01a15471-4a72-7593-a6ce-1852411b6994/exec-0a31c327-354b-4abb-b293-cf00cc146e30.png",
+      "sha256": "42E995C0EA9D0CBF31A74AE55B8A99081534C9878D1ADDCAC308B7939C0B165B",
+      "dimensoes": [
+        1774,
+        887
+      ],
+      "alfa": true,
+      "prompt": "Use case: precise-object-edit. Asset type: ONE transparent 2D game animation TORSO LAYER derived from the approved reference. Image 1 is the EDIT TARGET. Work ONLY from the LEFTMOST GUARDA figure, NOT PREPARO or IMPACTO. Preserve the ORIGINAL FULL 1774x887 CANVAS and the LEFT figure's ORIGINAL SIZE, POSITION, three-quarter orientation, light and ink; do NOT zoom, center, enlarge or relocate the torso. Everything outside the requested torso becomes real alpha transparency, including grey background, headings, other two figures and floor. Keep broad unused transparent space to the right. No drawn checkerboard or matte.\nExtract and complete ONLY the HUMAN TORSO: neck stump, both natural human shoulder/deltoid caps, charcoal tank top, rib cage, abdomen, and a hidden lower continuation of the same tank beneath the burgundy waist shirt. Remove head, hair, face, ALL mechanical arms, mechanical collars, fists, burgundy waist shirt, pants, legs and boots. There are NO robot parts on this layer. Do NOT add another shoulder, metal pauldron or mechanical shoulder dome. Preserve the natural human shoulders of the approved left pose.\nReconstruct the chest, tank straps, armhole edges, underarm side planes and tank fabric currently hidden behind the raised arms/fists. Continuous plausible cloth folds, not holes or dark arm silhouettes stamped on the chest. Fill the neck behind the absent head to provide a short hidden overlap tab. Extend the tank's abdomen downward behind the absent waist shirt by about 50-65 source pixels, so it reaches approximately source y430 while the visible waist in the reference begins around y360. This hidden cloth extension is for overlapping the pelvis layer, not a longer visible costume or exposed stomach. Finish a simple closed bottom hem, no floating scraps, detached patches or shadows under the cutout.\nRegistration guidance on the unchanged sheet: torso roughly x150..390 and y170..435; near shoulder around x185 y230, far shoulder around x365 y270, waist center around x300 y370. These are guidance, not markings to draw. The silhouette and drawing should still occupy the same small left-hand area of the wide sheet. Do not draw pivots, colored dots, labels or registration lines.\nKeep tan skin, charcoal tank, exact established dark comic/HQ ink, grouped graphic shadows and restrained highlights, same warm top-left lighting. No new outfit, jewelry, breasts enlargement, anatomy redesign, glossy 3D, gradient glow, scenery or cast shadow. Single connected torso piece on genuinely transparent background, crisp natural alpha edges. Output contains ONLY that one headless armless torso with human shoulder caps and underlap fabric; no other body parts."
+    },
+    {
+      "arquivo": "quadril_01.png",
+      "fonte": "C:/Users/Wallace/.codex/generated_images/01a15471-4a72-7593-a6ce-1852411b6994/exec-20d4703a-9ae7-44fd-9f4e-14101f7fc960.png",
+      "sha256": "07B433E69AB4DFB27493126665100778078CE7F6699D7D74B097DF4B75D01F76",
+      "dimensoes": [
+        1774,
+        887
+      ],
+      "alfa": true,
+      "prompt": "Use case: precise-object-edit. Asset type: ONE transparent 2D game animation PELVIS/WAIST LAYER derived from the approved reference. Image 1 is the EDIT TARGET. Work ONLY from the LEFTMOST GUARDA figure, NOT PREPARO or IMPACTO. Preserve ORIGINAL FULL 1774x887 CANVAS, original left-figure scale, exact waist/hip placement, three-quarter orientation, costume and lighting. Do NOT center, zoom or relocate the piece. Everything else becomes REAL alpha transparency: background, labels, floor, other figures, head, chest, shoulders, arms and lower legs. Keep broad unused transparent space to the right. No painted checkerboard.\nExtract and complete ONLY the pelvis region with the BURGUNDY SHIRT TIED AT THE WAIST, its central knot, tied sleeves and all hanging shirt tails, plus DARK TROUSER HIPS AND VERY UPPER THIGHS underneath. Preserve the approved knot position, wrap angle, dark red folds, broad loose trouser silhouette and ink drawing. No full legs, knees, boots, arms, robot parts, neck or torso. End the trouser portions at the upper thighs around source y555-580, with clean closed overlap endings that can later sit behind separate leg pieces. The shirt tails remain their complete visible length; do not arbitrarily cut off their ends.\nHidden overlap preparation: reconstruct dark trouser/waist fabric hidden behind the shirt knot and draw a plain upper waist extension upward behind where the absent tank top will sit, approximately to source y330. The visible burgundy wrap must still begin at its original source y350..370. This upper 25-35 px plain dark tab is HIDDEN STRUCTURAL UNDERLAP, not a new belt, high-waisted costume or exposed skin. Preserve existing shirt and trouser surfaces below it. All surfaces form one coherent pelvis/waist cutout; no separate floating fabric swatches or duplicate knots.\nRegistration guidance on the unchanged sheet: original waist center near x300 y370; pelvis/cloth occupies roughly x90..470, y330..580. These are guidance, not labels or marks. The piece remains in that exact LEFT-hand position in the original wide canvas. Match the original human hip width, fabric volume, burgundy color, graphite pants, warm top-left light and crisp comic/HQ ink with grouped shadow planes. No anatomy redesign, new clothing, realistic gloss, diffuse glow, floor shadow, extra props, symbols or text. Single pelvis/waist piece on genuinely transparent background with natural clean alpha edges."
+    }
+  ],
+  "registro": {
+    "tipo": "transformacoes uniformes estaticas; pontos manuais na arte; nao sao ossos ou cadastro da pele antiga",
+    "tronco": {
+      "pescoco_fonte": [
+        500,
+        180
+      ],
+      "cintura_fonte": [
+        440,
+        710
+      ],
+      "pescoco_referencia": [
+        300,
+        185
+      ],
+      "cintura_referencia": [
+        285,
+        360
+      ],
+      "ombro_proximo_fonte": [
+        160,
+        360
+      ],
+      "ombro_distante_fonte": [
+        705,
+        450
+      ],
+      "ombro_proximo_referencia": [
+        185,
+        245
+      ],
+      "ombro_distante_referencia": [
+        367,
+        275
+      ]
+    },
+    "quadril": {
+      "no_fonte": [
+        650,
+        315
+      ],
+      "no_referencia": [
+        321,
+        390
+      ],
+      "escala_uniforme": 0.385,
+      "corte_oclusao_y": 245
+    }
+  },
+  "limites": [
+    "geracao nao manteve escala/posicao solicitadas, registro realizado na cena",
+    "fontes tem residuo alfa 1/255 fora da peca; material descarta ate 2/255",
+    "sem cabeca/bracos/pernas novos ou animacao; F5 inalterado",
+    "tronco_02 e quadril_01 aprovados visualmente pelo usuario; sem validacao de movimento destas camadas",
+    "revisao 02 conserva registro da cena; nao foi medida invariancia pixel a pixel"
+  ]
+}

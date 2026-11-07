@@ -1,0 +1,306 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://vega_animada/rig_nativo_v2/braco_nativo.gd" id="1"]
+[ext_resource type="Texture2D" path="res://vega_animada/braco_v2/camadas.png" id="2"]
+[ext_resource type="Texture2D" path="res://vega_animada/combate_v2/base_e_punhos_01.png" id="3"]
+
+[sub_resource type="AtlasTexture" id="AtlasSuperior"]
+atlas = ExtResource("2")
+region = Rect2(122, 499, 298, 358)
+
+[sub_resource type="AtlasTexture" id="AtlasInferior"]
+atlas = ExtResource("2")
+region = Rect2(591, 23, 239, 425)
+
+[sub_resource type="AtlasTexture" id="AtlasCotovelo"]
+atlas = ExtResource("2")
+region = Rect2(970, 170, 287, 157)
+
+[sub_resource type="AtlasTexture" id="AtlasPonte"]
+atlas = ExtResource("2")
+region = Rect2(250, 270, 100, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasPlacaA"]
+atlas = ExtResource("2")
+region = Rect2(589, 468, 248, 399)
+
+[sub_resource type="AtlasTexture" id="AtlasPlacaB"]
+atlas = ExtResource("2")
+region = Rect2(1035, 506, 150, 328)
+
+[sub_resource type="AtlasTexture" id="AtlasPlacaC"]
+atlas = ExtResource("2")
+region = Rect2(1463, 569, 190, 253)
+
+[sub_resource type="AtlasTexture" id="AtlasMao"]
+atlas = ExtResource("3")
+region = Rect2(1218, 119, 286, 337)
+
+[sub_resource type="Animation" id="AnimRESET"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton2D/Ombro:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 2,
+"values": [1.91986218]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Skeleton2D/Ombro/Cotovelo:rotation")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 2,
+"values": [-1.30899694]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Skeleton2D/Ombro/Cotovelo/Punho:rotation")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 2,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animrepouso"]
+resource_name = "repouso"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton2D/Ombro:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [1.91986218, 1.91986218]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Skeleton2D/Ombro/Cotovelo:rotation")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [-1.30899694, -1.30899694]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Skeleton2D/Ombro/Cotovelo/Punho:rotation")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [0, 0]
+}
+
+[sub_resource type="Animation" id="Animguarda"]
+resource_name = "guarda"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton2D/Ombro:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [1.83259571, 1.83259571]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Skeleton2D/Ombro/Cotovelo:rotation")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [-2.7925268, -2.7925268]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Skeleton2D/Ombro/Cotovelo/Punho:rotation")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [0, 0]
+}
+
+[sub_resource type="Animation" id="Animextensao"]
+resource_name = "extensao"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton2D/Ombro:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [-0.13962634, -0.13962634]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Skeleton2D/Ombro/Cotovelo:rotation")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [0.12217305, 0.12217305]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Skeleton2D/Ombro/Cotovelo/Punho:rotation")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 2,
+"values": [0, 0]
+}
+
+[sub_resource type="Animation" id="Animsoco"]
+resource_name = "soco"
+length = 0.56
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton2D/Ombro:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.36, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 2,
+"values": [1.91986218, 1.95476876, -0.13962634, 1.83259571, 1.91986218]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Skeleton2D/Ombro/Cotovelo:rotation")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.36, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 2,
+"values": [-1.30899694, -2.96705973, 0.12217305, -2.7925268, -1.30899694]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Skeleton2D/Ombro/Cotovelo/Punho:rotation")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.36, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 2,
+"values": [0, -0.05235988, 0, 0, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="Biblioteca"]
+_data = {
+&"RESET": SubResource("AnimRESET"),
+&"repouso": SubResource("Animrepouso"),
+&"guarda": SubResource("Animguarda"),
+&"extensao": SubResource("Animextensao"),
+&"soco": SubResource("Animsoco")
+}
+
+[node name="BracoNativo" type="Node2D"]
+texture_filter = 2
+script = ExtResource("1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("Biblioteca")
+}
+playback_auto_capture = false
+
+[node name="Skeleton2D" type="Skeleton2D" parent="."]
+
+[node name="Ombro" type="Bone2D" parent="Skeleton2D"]
+rotation = 1.91986218
+rest = Transform2D(-0.34202015, 0.93969262, -0.93969262, -0.34202015, 0, 0)
+auto_calculate_length_and_angle = false
+length = 128.06041074
+
+[node name="Arte" type="Node2D" parent="Skeleton2D/Ombro"]
+position = Vector2(-22.24593833, -32.92670994)
+rotation = -1.32081771
+scale = Vector2(0.66, 0.66)
+
+[node name="BracoSuperior" type="Sprite2D" parent="Skeleton2D/Ombro/Arte"]
+position = Vector2(-96, 14)
+scale = Vector2(0.48657718, 0.59776536)
+texture = SubResource("AtlasSuperior")
+centered = false
+
+[node name="Cotovelo" type="Bone2D" parent="Skeleton2D/Ombro"]
+position = Vector2(128.06041074, 0)
+rotation = -1.30899694
+rest = Transform2D(0.25881904, -0.96592583, 0.96592583, 0.25881904, 128.06041074, 0)
+auto_calculate_length_and_angle = false
+length = 133.9084538
+
+[node name="Arte" type="Node2D" parent="Skeleton2D/Ombro/Cotovelo"]
+position = Vector2(-153.59867294, -9.14409483)
+rotation = -1.47701284
+scale = Vector2(0.66, 0.66)
+
+[node name="Antebraco" type="Sprite2D" parent="Skeleton2D/Ombro/Cotovelo/Arte"]
+position = Vector2(-51, 236)
+scale = Vector2(0.58577406, 0.49411765)
+texture = SubResource("AtlasInferior")
+centered = false
+
+[node name="FibraJunta" type="Sprite2D" parent="Skeleton2D/Ombro/Cotovelo/Arte"]
+position = Vector2(17, 240)
+scale = Vector2(0.83, 0.9)
+texture = SubResource("AtlasPonte")
+
+[node name="Junta" type="Sprite2D" parent="Skeleton2D/Ombro/Cotovelo/Arte"]
+z_index = 10
+position = Vector2(8.5, 233.5)
+scale = Vector2(0.43554007, 0.41401274)
+texture = SubResource("AtlasCotovelo")
+
+[node name="PlacaA" type="Sprite2D" parent="Skeleton2D/Ombro/Cotovelo/Arte"]
+z_index = 5
+position = Vector2(60, 297)
+scale = Vector2(0.24193548, 0.28070175)
+texture = SubResource("AtlasPlacaA")
+
+[node name="PlacaB" type="Sprite2D" parent="Skeleton2D/Ombro/Cotovelo/Arte"]
+z_index = 5
+position = Vector2(62.5, 356.5)
+scale = Vector2(0.28666667, 0.28963415)
+texture = SubResource("AtlasPlacaB")
+
+[node name="PlacaC" type="Sprite2D" parent="Skeleton2D/Ombro/Cotovelo/Arte"]
+z_index = 5
+position = Vector2(60.5, 408.5)
+scale = Vector2(0.22631579, 0.256917)
+texture = SubResource("AtlasPlacaC")
+
+[node name="Punho" type="Bone2D" parent="Skeleton2D/Ombro/Cotovelo"]
+position = Vector2(133.9084538, 0)
+rest = Transform2D(1, 0, 0, 1, 133.9084538, 0)
+auto_calculate_length_and_angle = false
+length = 100.065
+z_index = 15
+
+[node name="Mao" type="Sprite2D" parent="Skeleton2D/Ombro/Cotovelo/Punho"]
+rotation = 0.92951087
+scale = Vector2(0.3696, 0.3696)
+texture = SubResource("AtlasMao")
+centered = false
+offset = Vector2(-50, -278)

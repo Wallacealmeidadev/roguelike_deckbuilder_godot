@@ -12,11 +12,13 @@ func conferir(condicao: bool, mensagem: String) -> void:
 
 func verificar() -> void:
 	var jogo: Control = load("res://main.tscn").instantiate() as Control
+	# Este verificador inspeciona a geometria do modelo anterior, não o padrão nativo.
+	jogo.cena_apresentacao_vega = preload("res://vega_animada/combate_v2/vega_combate.tscn")
 	root.add_child(jogo)
 	root.size = Vector2i(1024, 576)
 	await process_frame
 	var vega: Control = jogo.jogador.get_node_or_null("VegaAnimada") as Control
-	conferir(vega != null, "Vega articulada ausente")
+	conferir(vega != null, "Vega de playtest ausente")
 	if vega == null:
 		jogo.queue_free()
 		await process_frame
@@ -27,10 +29,11 @@ func verificar() -> void:
 	await process_frame
 	conferir(vega.estado_animacao == "repouso", "Combate nao iniciou em repouso")
 	conferir_composicao(vega)
-	var cabeca: Node2D = vega.get_node("Modelo/Skeleton2D/Tronco/Cabeca") as Node2D
-	var antes: float = cabeca.rotation
-	await create_timer(0.23).timeout
-	conferir(not is_equal_approx(antes, cabeca.rotation), "Respiracao nao articula a cabeca")
+	var visual: Control = vega.get_node("Visual") as Control
+	var modelo: ModeloVegaCombateV2 = vega.get_node("Visual/Modelo") as ModeloVegaCombateV2
+	var antes: PackedVector2Array = modelo.corpo.polygon
+	await create_timer(0.7).timeout
+	conferir(modelo.corpo.polygon != antes, "Repouso visual nao tem respiracao localizada")
 	jogo._limpar_mao()
 	jogo.baralho_combate.compra.assign(["golpe", "golpe", "protecao"])
 	jogo._comprar_cartas(3)
@@ -94,7 +97,7 @@ func verificar() -> void:
 	vega.receber_dano()
 	await create_timer(0.6).timeout
 	conferir_composicao(vega)
-	print("VEGA ANIMADA: %d falhas" % falhas)
+	print("VEGA PLAYTEST FUNCIONAL: %d falhas" % falhas)
 	jogo.queue_free()
 	await process_frame
 	quit(1 if falhas else 0)
@@ -107,30 +110,15 @@ func selecionar(jogo: Node, id: String) -> void:
 	conferir(false, "Carta ausente: " + id)
 
 func conferir_composicao(vega: Control) -> void:
-	var modelo: Node2D = vega.get_node("Modelo") as Node2D
-	var skeleton: Skeleton2D = vega.get_node("Modelo/Skeleton2D") as Skeleton2D
-	var torso: Sprite2D = vega.get_node("Modelo/Skeleton2D/Tronco/Arte") as Sprite2D
-	var cabeca_arte: Sprite2D = vega.get_node("Modelo/Skeleton2D/Tronco/Cabeca/Arte") as Sprite2D
-	var perna_frente: Node2D = vega.get_node("Modelo/Skeleton2D/PernaFrente") as Node2D
-	var perna_tras: Node2D = vega.get_node("Modelo/Skeleton2D/PernaTras") as Node2D
-	var braco_frente: Node2D = vega.get_node("Modelo/Skeleton2D/Tronco/BracoFrente") as Node2D
-	var braco_tras: Node2D = vega.get_node("Modelo/Skeleton2D/Tronco/BracoTras") as Node2D
-	var antebraco_frente: Node2D = vega.get_node("Modelo/Skeleton2D/Tronco/BracoFrente/AntebracoFrente") as Node2D
-	var antebraco_tras: Node2D = vega.get_node("Modelo/Skeleton2D/Tronco/BracoTras/AntebracoTras") as Node2D
-	var punho_frente: Node2D = vega.get_node("Modelo/Skeleton2D/Tronco/BracoFrente/AntebracoFrente/PunhoFrente") as Node2D
-	var punho_tras: Node2D = vega.get_node("Modelo/Skeleton2D/Tronco/BracoTras/AntebracoTras/PunhoTras") as Node2D
-	conferir(skeleton != null, "Skeleton2D ausente no combate")
-	conferir(modelo.scale.x <= 0.46, "Modelo da Vega cresce demais")
-	conferir(modelo.scale.x >= 0.25, "Modelo da Vega ficou pequeno demais")
-	conferir(perna_frente.scale.x > 0.0 and perna_tras.scale.x > 0.0, "Perna espelhada horizontalmente")
-	conferir(braco_frente.position.x < 0.0 and braco_tras.position.x > 0.0, "Ombros nao estao separados")
-	conferir(braco_frente.z_index > 0 and braco_tras.z_index > 0, "Bracos nao estao em camadas visiveis")
-	conferir(antebraco_frente.position.x > 0.0 and antebraco_tras.position.x < 0.0, "Cotovelos nao abrem a guarda")
-	conferir(absf(punho_frente.global_position.x - punho_tras.global_position.x) >= 40.0, "Punhos ficam no mesmo corredor central")
-	conferir(torso.visible and cabeca_arte.visible, "Torso ou cabeca ocultos")
-	var proporcao: float = torso.texture.get_height() * torso.scale.y / (cabeca_arte.texture.get_height() * cabeca_arte.scale.y)
-	conferir(proporcao > 2.0 and proporcao < 2.6, "Torso desproporcional em relacao a cabeca")
-	conferir(torso.scale.y >= 0.56, "Torso curto na silhueta")
-	conferir(perna_frente.get_node("Arte").scale.y <= 0.48 and perna_tras.get_node("Arte").scale.y <= 0.48, "Pernas dominam a silhueta")
-	conferir(not vega.get_node("Modelo/Skeleton2D/Tronco/BracoFrente/BracoSuperiorFrente/Arte").texture.resource_path.contains("pecas.png"), "Braco frontal reutiliza textura de braco completo")
-	conferir(not vega.get_node("Modelo/Skeleton2D/Tronco/BracoTras/BracoSuperiorTras/Arte").texture.resource_path.contains("pecas.png"), "Braco traseiro reutiliza textura de braco completo")
+	var visual: Control = vega.get_node_or_null("Visual") as Control
+	var modelo: ModeloVegaCombateV2 = vega.get_node_or_null("Visual/Modelo") as ModeloVegaCombateV2
+	var sombra: Panel = vega.get_node_or_null("Sombra") as Panel
+	conferir(vega.get_child_count() == 2, "Composicao do playtest possui camadas inesperadas")
+	conferir(vega.get_node_or_null("Modelo/Skeleton2D") == null, "Rig segmentado permanece no combate")
+	conferir(vega.mouse_filter == Control.MOUSE_FILTER_IGNORE, "Vega intercepta input")
+	conferir(visual != null, "Contenedor visual proprio ausente")
+	conferir(sombra != null and sombra.visible, "Contato visual com o piso ausente")
+	conferir(modelo != null and not vega.has_node("Visual/Arte"), "Modelo v2 deve substituir a ilustracao antiga, sem sobrepor")
+	if modelo != null:
+		conferir(modelo.corpo.texture.resource_path == "res://vega_animada/combate_v2/base_e_punhos_01.png", "Atlas de combate incorreto")
+		conferir(visual.position.is_zero_approx() and visual.scale == Vector2.ONE, "Feedback nao pode deslocar ou escalar a figura inteira")

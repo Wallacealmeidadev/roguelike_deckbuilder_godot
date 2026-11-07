@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://vega_animada/rig_nativo_v2/braco_encaixado.tscn" id="1"]
+
+[node name="BracoDistante" instance=ExtResource("1")]
+
+[node name="Mao" parent="Skeleton2D/Ombro/Cotovelo/Punho" index="0"]
+rotation = -0.92951087
+scale = Vector2(0.3696, -0.3696)

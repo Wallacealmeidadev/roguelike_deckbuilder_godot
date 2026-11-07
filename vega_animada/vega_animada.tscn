@@ -1,0 +1,231 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://vega_animada/vega_animada.gd" id="1"]
+
+[ext_resource type="Texture2D" path="res://vega_animada/pecas.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="cabeca"]
+
+atlas = ExtResource("2")
+
+region = Rect2(38, 10, 371, 395)
+
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="tronco"]
+
+atlas = ExtResource("2")
+
+region = Rect2(486, 0, 312, 407)
+
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="braco_frente"]
+
+atlas = ExtResource("2")
+
+region = Rect2(924, 5, 241, 402)
+
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="antebraco_frente"]
+
+atlas = ExtResource("2")
+
+region = Rect2(114, 410, 249, 390)
+
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="braco_tras"]
+
+atlas = ExtResource("2")
+
+region = Rect2(521, 411, 261, 394)
+
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="antebraco_tras"]
+
+atlas = ExtResource("2")
+
+region = Rect2(925, 410, 226, 394)
+
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="perna_frente"]
+
+atlas = ExtResource("2")
+
+region = Rect2(103, 805, 201, 439)
+
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="perna_tras"]
+
+atlas = ExtResource("2")
+
+region = Rect2(558, 805, 272, 439)
+
+filter_clip = true
+
+[node name="VegaAnimada" type="Control"]
+
+layout_mode = 0
+
+mouse_filter = 2
+
+script = ExtResource("1")
+
+[node name="Modelo" type="Node2D" parent="."]
+
+[node name="PernaTras" type="Node2D" parent="Modelo"]
+
+position = Vector2(28, -214)
+
+rotation = 0
+
+scale = Vector2(1, 1)
+
+[node name="Arte" type="Sprite2D" parent="Modelo/PernaTras"]
+
+position = Vector2(-38, -10)
+
+scale = Vector2(0.46, 0.46)
+
+centered = false
+
+texture = SubResource("perna_tras")
+
+[node name="PernaFrente" type="Node2D" parent="Modelo"]
+
+position = Vector2(-34, -214)
+
+rotation = 0
+
+scale = Vector2(1, 1)
+
+[node name="Arte" type="Sprite2D" parent="Modelo/PernaFrente"]
+
+position = Vector2(-48, -10)
+
+scale = Vector2(0.46, 0.46)
+
+centered = false
+
+texture = SubResource("perna_frente")
+
+[node name="Tronco" type="Node2D" parent="Modelo"]
+
+position = Vector2(0, -210)
+
+rotation = 0
+
+scale = Vector2(1, 1)
+
+[node name="BracoTras" type="Node2D" parent="Modelo/Tronco"]
+
+position = Vector2(66, -123)
+
+z_index = 1
+
+rotation = -0.45
+
+scale = Vector2(1, 1)
+
+[node name="Arte" type="Sprite2D" parent="Modelo/Tronco/BracoTras"]
+
+position = Vector2(-77, -24)
+
+scale = Vector2(0.32, 0.28)
+
+centered = false
+
+texture = SubResource("braco_tras")
+
+[node name="Cotovelo" type="Node2D" parent="Modelo/Tronco/BracoTras"]
+
+position = Vector2(-84, 72)
+
+rotation = -1.45
+
+scale = Vector2(1, 1)
+
+[node name="Arte" type="Sprite2D" parent="Modelo/Tronco/BracoTras/Cotovelo"]
+
+position = Vector2(-80, -16)
+
+scale = Vector2(0.32, 0.28)
+
+centered = false
+
+visible = false
+
+texture = SubResource("antebraco_tras")
+
+[node name="Arte" type="Sprite2D" parent="Modelo/Tronco"]
+
+position = Vector2(-61, -140)
+
+scale = Vector2(0.60, 0.58)
+
+centered = false
+
+texture = SubResource("tronco")
+
+[node name="Cabeca" type="Node2D" parent="Modelo/Tronco"]
+
+position = Vector2(6, -130)
+
+rotation = 0
+
+scale = Vector2(1, 1)
+
+[node name="Arte" type="Sprite2D" parent="Modelo/Tronco/Cabeca"]
+
+position = Vector2(-65, -94)
+
+scale = Vector2(0.24, 0.24)
+
+centered = false
+
+texture = SubResource("cabeca")
+
+[node name="BracoFrente" type="Node2D" parent="Modelo/Tronco"]
+
+position = Vector2(-66, -120)
+
+z_index = 2
+
+rotation = 0.25
+
+scale = Vector2(1, 1)
+
+[node name="Arte" type="Sprite2D" parent="Modelo/Tronco/BracoFrente"]
+
+position = Vector2(-20, -32)
+
+scale = Vector2(0.32, 0.28)
+
+centered = false
+
+texture = SubResource("braco_frente")
+
+[node name="Cotovelo" type="Node2D" parent="Modelo/Tronco/BracoFrente"]
+
+position = Vector2(74, 78)
+
+rotation = -1.55
+
+scale = Vector2(1, 1)
+
+[node name="Arte" type="Sprite2D" parent="Modelo/Tronco/BracoFrente/Cotovelo"]
+
+position = Vector2(-5, -15)
+
+scale = Vector2(0.32, 0.28)
+
+centered = false
+
+visible = false
+
+texture = SubResource("antebraco_frente")

@@ -1,0 +1,43 @@
+{
+  "data": "2026-10-24",
+  "estado": "candidata_ajuste_ombro_proximo_em_avaliacao",
+  "ferramenta": "image_gen integrada; skill imagegen; sem CLI",
+  "arquivo": "tronco_encaixe_01.png",
+  "fonte": "C:/Users/Wallace/.codex/generated_images/01a15471-4a72-7593-a6ce-1852411b6994/exec-bf50f27b-700a-4ded-b95d-b8a4a209f6ae.png",
+  "sha256": "5A12B8D881C84112799F87E07A0EAC2AB818FA8D07FFA7CB6702A0CD20AC9F26",
+  "dimensoes": [
+    1774,
+    887
+  ],
+  "alfa": true,
+  "edit_target": "../camadas_guarda/tronco_02.png",
+  "referencia": "res://docs/arte_vega/vega_corpo_volume_poses_04.png",
+  "prompt": "Use case: precise-object-edit.\nAsset type: existing transparent 2D comic game torso sprite, anatomical shoulder attachment correction.\nInput image 1 is the EDIT TARGET: the isolated tan-skinned woman's torso in an opaque charcoal tank top on transparent background. Input image 2 is ONLY an anatomical/material reference: the approved three-pose Vega sheet, use only the leftmost guard pose. Do NOT return the pose sheet or a full character.\nPrimary request: edit only the cut-off underside of the VIEWER-LEFT human deltoid of image 1. Currently its lower edge forms an ugly long diagonal triangular flap/point below the rounded shoulder. Remove that pointed flap and reshape the lower shoulder into a short rounded convex termination, the natural small human deltoid terminating directly above a prosthetic upper arm, as in the leftmost guard in image 2. Make the lower boundary smooth, shallow and continuous from the outer arm toward the armpit, instead of a hanging triangle. Keep the rounded upper/lateral human shoulder volume. The connector must leave room for one thin curved cyan prosthetic collar underneath in assembly, not another mechanical shoulder.\nKeep the armhole's dark occlusion behind the short shoulder and clean line-art; do not draw the prosthesis itself. No extra arm, no hand, no detached shoulder plate.\nInvariants: preserve the exact canvas framing, placement, neck, torso silhouette outside this small left shoulder area, right shoulder, bust size/volume, opaque tank top coverage/neckline, folds, colors, light, bold black ink and cel-shaded comic style of image 1. This is a local anatomy-edge repair, not a redesign or new torso illustration. Keep genuine transparency everywhere outside the same isolated torso, no background, checkerboard or labels. No head or lower body. Deliver a single torso layer retaining original framing/aspect.",
+  "consumo": "Somente ROI do ombro/axila próximos via ombro_local.gdshader. Corpo original fora da ROI; não substituir tronco 02 aprovado.",
+  "registro_proximo": {
+    "tipo": "uniforme pelo aro inteiro",
+    "fonte": [
+      [
+        162,
+        252
+      ],
+      [
+        214,
+        264
+      ]
+    ],
+    "destino_no_tronco": [
+      [
+        123,
+        341
+      ],
+      [
+        275,
+        374
+      ]
+    ],
+    "cap": "aro/bíceps à frente da axila; curvatura local no encaixe, borda y280 fixa; sem aba duplicada",
+    "distante": "inalterado"
+  },
+  "limites": "estático; sem transferência de rig, partes ocultas ou novo teste de golpe; sem F5"
+}

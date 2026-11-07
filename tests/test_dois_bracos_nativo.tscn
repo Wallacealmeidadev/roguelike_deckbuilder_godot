@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://tests/test_dois_bracos_nativo.gd" id="1"]
+
+[node name="TestDoisBracos" type="Node"]
+script = ExtResource("1")

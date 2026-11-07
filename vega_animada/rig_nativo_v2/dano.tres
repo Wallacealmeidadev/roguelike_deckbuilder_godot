@@ -1,0 +1,145 @@
+[gd_resource type="Animation" format=3]
+
+[resource]
+resource_name = "dano"
+length = 0.26
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton2D/Pelve/Tronco:rotation")
+tracks/0/interp = 1
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [0.0, -0.05235988, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Skeleton2D/Pelve/Tronco/Clavicula:rotation")
+tracks/1/interp = 1
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [0.0, 0.03490659, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Skeleton2D/Pelve/Tronco/Clavicula/Deltoide:rotation")
+tracks/2/interp = 1
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [0.0, 0.03490659, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Skeleton2D/Pelve/Tronco/Clavicula/Deltoide/Braco/Skeleton2D/Ombro:rotation")
+tracks/3/interp = 1
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [1.9198622, 1.81514242, 1.9198622]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Skeleton2D/Pelve/Tronco/Clavicula/Deltoide/Braco/Skeleton2D/Ombro/Cotovelo:rotation")
+tracks/4/interp = 1
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [-1.3089969, -2.7925268, -1.3089969]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Skeleton2D/Pelve/Tronco/Clavicula/Deltoide/Braco/Skeleton2D/Ombro/Cotovelo/Punho:rotation")
+tracks/5/interp = 1
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [0.0, 0.0, 0.0]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Skeleton2D/Pelve/Tronco/ClaviculaDistante:rotation")
+tracks/6/interp = 1
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [0.0, -0.01745329, 0.0]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Skeleton2D/Pelve/Tronco/ClaviculaDistante/DeltoideDistante:rotation")
+tracks/7/interp = 1
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [0.0, 0.03490659, 0.0]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Skeleton2D/Pelve/Tronco/ClaviculaDistante/DeltoideDistante/BracoDistante/Skeleton2D/Ombro:rotation")
+tracks/8/interp = 1
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [2.00712864, 1.97222205, 2.00712864]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Skeleton2D/Pelve/Tronco/ClaviculaDistante/DeltoideDistante/BracoDistante/Skeleton2D/Ombro/Cotovelo:rotation")
+tracks/9/interp = 1
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [0.34906585, 2.93215314, 0.34906585]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Skeleton2D/Pelve/Tronco/ClaviculaDistante/DeltoideDistante/BracoDistante/Skeleton2D/Ombro/Cotovelo/Punho:rotation")
+tracks/10/interp = 1
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [0.0, -0.08726646, 0.0]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Skeleton2D/Pelve:position")
+tracks/11/interp = 1
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [Vector2(320, 410), Vector2(316, 412), Vector2(320, 410)]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Skeleton2D/JoelhoTras:position")
+tracks/12/interp = 1
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [Vector2(180, 620), Vector2(178, 621), Vector2(180, 620)]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Skeleton2D/JoelhoFrente:position")
+tracks/13/interp = 1
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.26),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 2,
+"values": [Vector2(560, 580), Vector2(558, 582), Vector2(560, 580)]
+}
