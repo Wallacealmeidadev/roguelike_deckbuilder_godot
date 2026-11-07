@@ -4,6 +4,7 @@ extends RefCounted
 const CURA_BASE: int = 8
 const BONUS_APRIMORAMENTO: int = 3
 const SUFIXO_APRIMORADO: String = "#aprimorado"
+const DADOS_CARTAS: Script = preload("res://dados_cartas.gd")
 
 
 func vida_a_recuperar(vida_atual: int, vida_maxima: int) -> int:
@@ -20,7 +21,7 @@ func esta_aprimorada(id_carta: String) -> bool:
 	return id_carta.ends_with(SUFIXO_APRIMORADO)
 
 
-func cartas_elegiveis(baralho_run: Array[String]) -> Array[Dictionary]:
+func cartas_elegiveis(baralho_run: Array[String], filtro: String = "") -> Array[Dictionary]:
 	var resultado: Array[Dictionary] = []
 	var ocorrencias: Dictionary = {}
 	for indice in range(baralho_run.size()):
@@ -30,6 +31,8 @@ func cartas_elegiveis(baralho_run: Array[String]) -> Array[Dictionary]:
 		ocorrencias[base] = ocorrencia
 		if esta_aprimorada(token) or base.is_empty():
 			continue
+		if not _carta_atende_filtro(base, filtro):
+			continue
 		resultado.append({
 			"indice": indice,
 			"id": base,
@@ -37,6 +40,17 @@ func cartas_elegiveis(baralho_run: Array[String]) -> Array[Dictionary]:
 			"ocorrencia": ocorrencia
 		})
 	return resultado
+
+
+func _carta_atende_filtro(id_carta: String, filtro: String) -> bool:
+	if filtro.is_empty():
+		return true
+	var dados: Dictionary = DADOS_CARTAS.CARTAS.get(id_carta, {})
+	match filtro:
+		"vega_exclusiva":
+			return str(dados.get("personagem", "")) == "vega" and bool(dados.get("exclusiva", false))
+		_:
+			return false
 
 
 func dados_aprimorados(id_carta: String, dados: Dictionary) -> Dictionary:

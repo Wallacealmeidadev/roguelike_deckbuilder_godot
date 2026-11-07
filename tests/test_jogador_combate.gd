@@ -8,7 +8,7 @@ func _ready() -> void:
 
 
 func _executar_teste() -> void:
-	var jogador: JogadorCombate = JogadorCombate.new(40, 4, 5)
+	var jogador: JogadorCombate = JogadorCombate.new(40, 4)
 	_verificar(jogador.estado.vida == 40, "o jogador deve começar com 40 de Vida")
 	_verificar(jogador.energia == 4, "o jogador deve começar com 4 de Energia")
 	_verificar(jogador.combo == 0, "o jogador deve começar sem Combo")
@@ -46,7 +46,10 @@ func _executar_teste() -> void:
 
 	jogador.combo = 5
 	jogador.ganhar_combo(3, 2)
-	_verificar(jogador.combo == 5, "Combo não pode ultrapassar o máximo")
+	_verificar(jogador.combo == 6, "Combo deve ultrapassar 5 durante o experimento")
+	jogador.combo = 99
+	jogador.ganhar_combo(3, 2)
+	_verificar(jogador.combo == 100, "Combo deve aceitar tres digitos")
 
 	jogador.encerrar_turno()
 	_verificar(jogador.energia == 0, "encerrar o turno deve zerar Energia")
@@ -60,7 +63,7 @@ func _executar_teste() -> void:
 	jogador.ganhar_combo(3, 2)
 	_verificar(jogador.ganhar_combo(3, 2), "Juntas deve ativar novamente no turno seguinte")
 
-	var jogador_reliquias: JogadorCombate = JogadorCombate.new(40, 4, 5)
+	var jogador_reliquias: JogadorCombate = JogadorCombate.new(40, 4)
 	_verificar(
 		jogador_reliquias.possui_reliquia("juntas_retorno"),
 		"Juntas deve começar equipada"

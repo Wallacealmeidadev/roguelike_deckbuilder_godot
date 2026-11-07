@@ -4,6 +4,8 @@ extends RefCounted
 const CARTAS: Dictionary = {
 	"golpe": {
 		"nome": "GOLPE",
+		"personagem": "vega",
+		"exclusiva": true,
 		"custo": 1,
 		"valor": 6,
 		"alvo": "inimigo",
@@ -12,6 +14,8 @@ const CARTAS: Dictionary = {
 	},
 	"protecao": {
 		"nome": "PROTEÇÃO",
+		"personagem": "vega",
+		"exclusiva": true,
 		"custo": 1,
 		"valor": 5,
 		"alvo": "jogador",
@@ -20,15 +24,20 @@ const CARTAS: Dictionary = {
 	},
 	"direto_hidraulico": {
 		"nome": "DIRETO HIDRÁULICO",
+		"personagem": "vega",
+		"exclusiva": true,
 		"custo": 1,
 		"valor": 4,
 		"barreira": 2,
+		"ganha_combo": 1,
 		"alvo": "inimigo",
 		"tipo": "ataque",
 		"raridade": "comum"
 	},
 	"quebra_chassi": {
 		"nome": "QUEBRA-CHASSI",
+		"personagem": "vega",
+		"exclusiva": true,
 		"custo": 1,
 		"valor": 5,
 		"alvo": "inimigo",
@@ -39,25 +48,31 @@ const CARTAS: Dictionary = {
 	},
 	"brecha": {
 		"nome": "BRECHA",
+		"personagem": "vega",
+		"exclusiva": true,
 		"custo": 1,
 		"valor": 4,
 		"alvo": "inimigo",
 		"tipo": "ataque",
 		"exposto": 2,
-		"raridade": "comum"
+		"raridade": "incomum"
 	},
 	"pulso_debilitante": {
 		"nome": "PULSO DEBILITANTE",
+		"personagem": "vega",
+		"exclusiva": true,
 		"custo": 1,
 		"valor": 0,
 		"barreira": 3,
 		"alvo": "inimigo",
 		"tipo": "habilidade",
 		"enfraquecido": 2,
-		"raridade": "comum"
+		"raridade": "incomum"
 	},
 	"golpe_ariete": {
 		"nome": "GOLPE DE ARÍETE",
+		"personagem": "vega",
+		"exclusiva": true,
 		"custo": 2,
 		"valor": 12,
 		"alvo": "inimigo",
@@ -66,6 +81,8 @@ const CARTAS: Dictionary = {
 	},
 	"ruptura_pressao": {
 		"nome": "RUPTURA DE PRESSÃO",
+		"personagem": "vega",
+		"exclusiva": true,
 		"custo": 1,
 		"valor": 4,
 		"alvo": "inimigo",
@@ -75,6 +92,8 @@ const CARTAS: Dictionary = {
 	},
 	"placa_reforcada": {
 		"nome": "PLACA REFORÇADA",
+		"personagem": "vega",
+		"exclusiva": true,
 		"custo": 1,
 		"valor": 8,
 		"alvo": "jogador",

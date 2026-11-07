@@ -5,7 +5,6 @@ var estado: Combatente
 var energia: int
 var energia_maxima: int
 var combo: int = 0
-var combo_maximo: int
 var juntas_retorno_ativada_no_turno: bool = false
 var reliquias_run: Array[String] = ["juntas_retorno"]
 var mecanismo_recuo_ativado_no_turno: bool = false
@@ -13,13 +12,11 @@ var mecanismo_recuo_ativado_no_turno: bool = false
 
 func _init(
 	vida_inicial: int,
-	energia_por_turno: int,
-	limite_combo: int
+	energia_por_turno: int
 ) -> void:
 	estado = Combatente.new(vida_inicial)
 	energia_maxima = maxi(0, energia_por_turno)
 	energia = energia_maxima
-	combo_maximo = maxi(0, limite_combo)
 
 
 func iniciar_combate(vida_preservada: int) -> void:
@@ -72,7 +69,7 @@ func registrar_finalizacao(combo_consumido: int) -> bool:
 
 func ganhar_combo(barreira_reliquia: int, limiar_reliquia: int) -> bool:
 	var combo_anterior: int = combo
-	combo = mini(combo_maximo, combo + 1)
+	combo += 1
 
 	if (
 		possui_reliquia("juntas_retorno")

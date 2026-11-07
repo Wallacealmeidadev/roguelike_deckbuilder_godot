@@ -30,7 +30,7 @@ func _executar_teste() -> void:
 		"drone_seguranca",
 		DadosInimigos.obter("drone_seguranca")
 	)
-	(jogo.get("encontro_combate") as EncontroCombate).inimigo = drone
+	(jogo.get("encontro_combate") as EncontroCombate).iniciar(drone, ["golpe"])
 	jogo.call("_atualizar_interface")
 
 	var estado_jogador: Combatente = jogo.get("estado_jogador") as Combatente

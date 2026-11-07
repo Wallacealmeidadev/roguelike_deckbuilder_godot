@@ -24,10 +24,9 @@ func _novo_jogo(cena_principal: PackedScene, variante: int = 0) -> Node:
 	var jogo: Node = cena_principal.instantiate()
 	get_tree().root.add_child(jogo)
 	await get_tree().process_frame
-	if variante != 0:
-		jogo.set("mapa_variante", variante)
-		jogo.call("_iniciar_nova_run")
-		await get_tree().process_frame
+	jogo.set("mapa_variante", variante)
+	jogo.call("_iniciar_nova_run")
+	await get_tree().process_frame
 	return jogo
 
 
@@ -71,15 +70,22 @@ func _testar_inicio_e_evento(cena_principal: PackedScene) -> void:
 	_verificar(str(jogo.get("mapa_no_em_andamento")).is_empty(), "recompensa deve concluir o nó inicial")
 	_verificar((jogo.get("mapa_pontos_concluidos") as Array[String]).has(iniciais[0]), "nó inicial deve ficar concluído")
 	_verificar(overlay_mapa.visible, "após a recompensa o mapa deve voltar")
-	_verificar(_contar_botoes_habilitados(pontos) == 2, "a bifurcação deve liberar dois destinos")
+	_verificar(_contar_botoes_habilitados(pontos) == 1, "somente o evento conectado deve ser liberado")
 
-	jogo.call("_ao_selecionar_no_mapa", "desvio_evento")
+	jogo.call("_ao_selecionar_no_mapa", "evento_cais")
 	_verificar((jogo.get_node("EventoOverlay") as Control).visible, "um destino de evento deve abrir o evento")
-	jogo.call("_ao_escolher_evento", 1)
+	var id_evento: String = str(mapa.obter_no("evento_cais").get("id_conteudo", ""))
+	var opcoes: Array[Dictionary] = DadosEventos.opcoes_disponiveis(id_evento, (jogo.get("run_state") as RunState).flags)
+	var indice_sem_combate: int = 0
+	for indice in range(opcoes.size()):
+		if str(opcoes[indice].get("tipo", "")) != "combate_especial":
+			indice_sem_combate = indice
+			break
+	jogo.call("_ao_escolher_evento", indice_sem_combate)
 	jogo.call("_ao_continuar_evento")
 	_verificar(overlay_mapa.visible, "evento direto deve retornar ao mapa")
-	_verificar((jogo.get("mapa_pontos_concluidos") as Array[String]).has("desvio_evento"), "evento direto deve concluir o nó")
-	_verificar(str(jogo.get("mapa_no_atual")) == "desvio_evento", "o mapa deve ancorar no último nó concluído")
+	_verificar((jogo.get("mapa_pontos_concluidos") as Array[String]).has("evento_cais"), "evento direto deve concluir o nó")
+	_verificar(str(jogo.get("mapa_no_atual")) == "evento_cais", "o mapa deve ancorar no último nó concluído")
 
 	jogo.queue_free()
 
@@ -90,30 +96,29 @@ func _testar_evento_combate(cena_principal: PackedScene) -> void:
 	jogo.set("vida_inimigo", 0)
 	jogo.call("_resolver_vitoria")
 	jogo.call("_ao_pular_recompensa")
-	jogo.call("_ao_selecionar_no_mapa", "desvio_evento")
+	var mapa: MapaRun = jogo.get("mapa_run") as MapaRun
+	mapa.nos["evento_cais"]["id_conteudo"] = "posto_inspecao"
+	jogo.call("_ao_selecionar_no_mapa", "evento_cais")
 	jogo.call("_ao_escolher_evento", 0)
 	_verificar(jogo.get("encontro_especial_pendente") == true, "evento especial deve preservar o vínculo com o nó de origem")
 	jogo.set("vida_inimigo", 0)
 	jogo.call("_resolver_vitoria")
 	jogo.call("_ao_continuar_evento")
 	_verificar((jogo.get_node("MapaOverlay") as Control).visible, "combate especial deve retornar ao mapa após o resultado")
-	_verificar((jogo.get("mapa_pontos_concluidos") as Array[String]).has("desvio_evento"), "evento com combate deve concluir o nó de origem")
+	_verificar((jogo.get("mapa_pontos_concluidos") as Array[String]).has("evento_cais"), "evento com combate deve concluir o nó de origem")
 	jogo.queue_free()
 
 
 func _testar_descanso_em_variante(cena_principal: PackedScene) -> void:
 	var jogo: Node = await _novo_jogo(cena_principal, 1)
-	jogo.call("_ao_selecionar_no_mapa", "inicio")
-	jogo.set("vida_inimigo", 0)
-	jogo.call("_resolver_vitoria")
-	jogo.call("_ao_pular_recompensa")
-	jogo.call("_ao_selecionar_no_mapa", "descanso_inicial")
+	(jogo.get("run_state") as RunState).no_atual = "combate_entrada"
 	jogo.set("vida_jogador", 30)
+	jogo.call("_ao_selecionar_no_mapa", "descanso_1")
 	var descanso: Control = jogo.get_node("DescansoOverlay") as Control
 	_verificar(descanso.visible, "variante com descanso deve alcançar o descanso pelo mapa")
 	(descanso.get_node("Acoes/RecuperarPainel") as Button).pressed.emit()
 	(descanso.get_node("Continuar") as Button).pressed.emit()
-	_verificar((jogo.get("mapa_pontos_concluidos") as Array[String]).has("descanso_inicial"), "descanso deve concluir o nó uma vez")
+	_verificar((jogo.get("mapa_pontos_concluidos") as Array[String]).has("descanso_1"), "descanso deve concluir o nó uma vez")
 	_verificar((jogo.get_node("MapaOverlay") as Control).visible, "descanso deve retornar ao mapa")
 	jogo.queue_free()
 

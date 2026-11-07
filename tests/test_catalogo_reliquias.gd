@@ -5,8 +5,8 @@ var falhas: int = 0
 
 func _ready() -> void:
 	_verificar(
-		DadosReliquias.RELIQUIAS.size() == 3,
-		"o catálogo deve conter a relíquia inicial e duas recompensas"
+		DadosReliquias.RELIQUIAS.size() == 4,
+		"o catálogo deve conter a relíquia provisória do evento"
 	)
 	_verificar(
 		DadosReliquias.obter("juntas_retorno")["nome"] == "Juntas de Retorno",
@@ -21,12 +21,16 @@ func _ready() -> void:
 		"o catálogo deve conter Mecanismo de Recuo"
 	)
 	_verificar(
-		DadosReliquias.identificadores_sem(["juntas_retorno"]).size() == 2,
+		DadosReliquias.identificadores_sem(["juntas_retorno"]).size() == 3,
 		"o filtro deve excluir relíquias já equipadas"
 	)
 	_verificar(
 		DadosReliquias.obter("ausente").is_empty(),
 		"relíquia ausente deve retornar vazio"
+	)
+	_verificar(
+		not DadosReliquias.obter("reliquia_evento_agua_morta_provisorio").is_empty(),
+		"hook da relíquia de Água Morta deve existir"
 	)
 
 	if falhas == 0:

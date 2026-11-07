@@ -5,7 +5,7 @@ var falhas: int = 0
 
 func _ready() -> void:
 	var ids: Array[String] = DadosEncontros.identificadores()
-	_verificar(ids.size() == 10, "o catálogo deve conter dez encontros")
+	_verificar(ids.size() == 13, "o catálogo deve conter treze encontros")
 	_verificar(
 		DadosEncontros.identificadores_por_tipo("combate").size() == 4,
 		"quatro combates comuns"
@@ -15,7 +15,7 @@ func _ready() -> void:
 		"um elite"
 	)
 	_verificar(
-		DadosEncontros.identificadores_por_tipo("evento").size() == 5,
+		DadosEncontros.identificadores_por_tipo("evento").size() == 8,
 		"cinco eventos"
 	)
 	_verificar(
@@ -27,13 +27,13 @@ func _ready() -> void:
 		"combate comum deve ter descrição"
 	)
 	_verificar(
-		DadosEncontros.obter("valvula_vapor_contaminado")["evento_id"] == "valvula_vapor_contaminado",
+	DadosEncontros.obter("ponto_da_queda")["evento_id"] == "ponto_da_queda",
 		"a válvula deve apontar para seu evento"
 	)
 
-	var copia: Dictionary = DadosEncontros.obter("valvula_vapor_contaminado")
+	var copia: Dictionary = DadosEncontros.obter("ponto_da_queda")
 	copia["nome"] = "Alterado no teste"
-	var original: Dictionary = DadosEncontros.obter("valvula_vapor_contaminado")
+	var original: Dictionary = DadosEncontros.obter("ponto_da_queda")
 	_verificar(
 		original["nome"] != copia["nome"],
 		"obter deve devolver uma cópia independente"

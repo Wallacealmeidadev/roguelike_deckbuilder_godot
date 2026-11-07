@@ -34,35 +34,53 @@ const ENCONTROS: Dictionary = {
 		"descricao": "Uma máquina de infraestrutura pressurizada protege a doca.",
 		"inimigo_id": "unidade_contencao_portuaria"
 	},
-	"valvula_vapor_contaminado": {
+	"ponto_da_queda": {
 		"tipo": "evento",
-		"evento_id": "valvula_vapor_contaminado",
-		"nome": "Válvula de vapor contaminado",
-		"descricao": "Uma válvula defeituosa libera vapor contaminado entre as docas."
+		"evento_id": "ponto_da_queda",
+		"nome": "O Ponto da Queda",
+		"descricao": "A plataforma do acidente ainda guarda terminais e equipamento."
 	},
-	"carga_abandonada": {
+	"turno_encerrado": {
 		"tipo": "evento",
-		"evento_id": "carga_abandonada",
-		"nome": "Carga abandonada",
-		"descricao": "Uma carga sem proprietário visível foi deixada em um corredor de serviço."
+		"evento_id": "turno_encerrado",
+		"nome": "Turno Encerrado",
+		"descricao": "Trabalhadores paralisaram uma linha de carga."
 	},
-	"operario_ferido": {
+	"carga_descartada": {
 		"tipo": "evento",
-		"evento_id": "operario_ferido",
-		"nome": "Operário ferido",
-		"descricao": "Um operário pede ajuda antes que a fiscalização o encontre."
+		"evento_id": "carga_descartada",
+		"nome": "Carga Descartada",
+		"descricao": "Um contêiner lacrado afunda entre cargas danificadas."
 	},
-	"ladrao_de_cartas": {
+	"caixa_preta": {
 		"tipo": "evento",
-		"evento_id": "ladrao_de_cartas",
-		"nome": "Ladrão de cartas",
-		"descricao": "Um ladrão tenta levar uma carta do baralho de Vega."
+		"evento_id": "caixa_preta",
+		"nome": "Caixa-Preta",
+		"descricao": "Um Drone de Carga destruído ainda possui registros."
 	},
-	"fiscalizacao_corporativa": {
+	"agua_morta": {
 		"tipo": "evento",
-		"evento_id": "fiscalizacao_corporativa",
-		"nome": "Fiscalização corporativa",
-		"descricao": "Uma equipe corporativa bloqueia a passagem e exige uma explicação."
+		"evento_id": "agua_morta",
+		"nome": "Água Morta",
+		"descricao": "Uma tubulação despeja líquido contaminado na água."
+	},
+	"sobrevivente": {
+		"tipo": "evento",
+		"evento_id": "sobrevivente",
+		"nome": "O Sobrevivente",
+		"descricao": "Vega encontra o colega do acidente."
+	},
+	"posto_inspecao": {
+		"tipo": "evento",
+		"evento_id": "posto_inspecao",
+		"nome": "Posto de Inspeção",
+		"descricao": "Agentes controlam a circulação nas Docas."
+	},
+	"ninho_sob_cais": {
+		"tipo": "evento",
+		"evento_id": "ninho_sob_cais",
+		"nome": "Ninho sob o Cais",
+		"descricao": "Criaturas ocupam uma área sob as plataformas."
 	}
 }
 
@@ -78,7 +96,6 @@ static func identificadores_por_tipo(tipo: String) -> Array[String]:
 	var ids: Array[String] = []
 	if not TIPOS.has(tipo):
 		return ids
-
 	for id_encontro in ENCONTROS.keys():
 		var dados: Dictionary = ENCONTROS[id_encontro]
 		if dados.get("tipo", "") == tipo:

@@ -7,10 +7,10 @@ func _ready() -> void:
 	var origem: Array[String] = DadosEncontros.identificadores_por_tipo("evento")
 	var seletor: SeletorEncontros = SeletorEncontros.new(origem)
 	origem.clear()
-	_verificar(seletor.disponiveis.size() == 5, "o seletor deve copiar o pool")
+	_verificar(seletor.disponiveis.size() == 8, "o seletor deve copiar o pool")
 
 	var sorteados: Array[String] = []
-	for i in range(5):
+	for i in range(8):
 		var id_evento: String = seletor.sortear_disponivel()
 		_verificar(not id_evento.is_empty(), "deve sortear enquanto houver eventos")
 		_verificar(not sorteados.has(id_evento), "não deve repetir evento")

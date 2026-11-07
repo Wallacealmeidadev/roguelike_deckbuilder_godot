@@ -18,7 +18,7 @@ func _executar_teste() -> void:
 		"drone_seguranca",
 		DadosInimigos.obter("drone_seguranca")
 	)
-	(combate.get("encontro_combate") as EncontroCombate).inimigo = drone
+	(combate.get("encontro_combate") as EncontroCombate).iniciar(drone, ["golpe"])
 	combate.call("_atualizar_interface")
 
 	_verificar(

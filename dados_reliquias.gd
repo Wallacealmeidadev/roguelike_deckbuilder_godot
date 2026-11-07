@@ -13,6 +13,10 @@ const RELIQUIAS: Dictionary = {
 	"mecanismo_recuo": {
 		"nome": "Mecanismo de Recuo",
 		"descricao": "Uma vez por turno, após consumir Combo com Finalização, ganhe 2 de Barreira."
+	},
+	"reliquia_evento_agua_morta_provisorio": {
+		"nome": "Amostra de Água Morta (provisória)",
+		"descricao": "Hook provisório para a relíquia especial do evento Água Morta; efeito definitivo pendente."
 	}
 }
 

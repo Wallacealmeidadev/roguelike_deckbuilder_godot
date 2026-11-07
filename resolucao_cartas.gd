@@ -48,9 +48,10 @@ func resolver(
 			resultado["combo"] = 0
 			resultado["consome_combo"] = true
 		else:
-			var combo_maximo: int = int(contexto.get("combo_maximo", 5))
-			resultado["combo"] = mini(combo_maximo, combo_atual + 1)
-			resultado["gera_combo"] = true
+			var ganho_combo: int = int(dados.get("ganha_combo", 0))
+			if ganho_combo > 0:
+				resultado["combo"] = combo_atual + ganho_combo
+				resultado["gera_combo"] = true
 
 		var recebimento: Dictionary = alvo.receber_golpe(dano)
 		resultado["dano"] = dano

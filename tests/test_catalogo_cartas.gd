@@ -41,6 +41,8 @@ func _executar_teste() -> void:
 			if cartas.has("direto_hidraulico"):
 				_verificar(cartas["direto_hidraulico"]["valor"] == 4, "Direto deve manter dano 4")
 				_verificar(cartas["direto_hidraulico"]["barreira"] == 2, "Direto deve gerar Barreira 2")
+				_verificar(cartas["direto_hidraulico"]["ganha_combo"] == 1, "Direto deve declarar ganho de Combo 1")
+				_verificar(not cartas["golpe"].has("ganha_combo"), "Golpe não deve declarar ganho de Combo")
 
 	var cena_principal: PackedScene = load("res://main.tscn") as PackedScene
 	var jogo: Node = cena_principal.instantiate()
@@ -64,6 +66,12 @@ func _executar_teste() -> void:
 		)
 		_verificar(jogo.get("barreira") == 2, "Direto deve gerar 2 de Barreira")
 		_verificar(jogo.get("combo") == 1, "Direto deve gerar 1 Combo")
+		jogo.call("_limpar_mao")
+		jogo.call("_criar_carta_na_mao", "golpe")
+		var carta_golpe: Button = (jogo.get_node("Mao") as Control).get_child(0) as Button
+		_verificar(not str(carta_golpe.get("descricao")).contains("Combo"), "Golpe não deve exibir Combo na carta")
+		_verificar(not str(jogo.call("_tooltip_recompensa", {"tipo": "ataque", "valor": 6})).contains("acumulam Combo"), "Golpe não deve usar tooltip antigo de Combo")
+		_verificar(str(jogo.call("_tooltip_recompensa", {"tipo": "ataque", "valor": 4, "barreira": 2, "ganha_combo": 1})).contains("ganha 1"), "Direto deve informar Combo explícito no tooltip")
 	jogo.queue_free()
 
 	if falhas == 0:

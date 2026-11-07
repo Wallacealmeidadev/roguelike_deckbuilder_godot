@@ -26,7 +26,15 @@ func _executar_teste() -> void:
 	_verificar(resultado["custo"] == 1, "Golpe deve retornar seu custo")
 	_verificar(resultado["dano"] == 6, "Golpe deve retornar 6 de dano")
 	_verificar(inimigo.vida == 24, "Golpe deve reduzir a Vida do inimigo")
-	_verificar(resultado["combo"] == 1, "Golpe deve retornar o Combo seguinte")
+	_verificar(resultado["combo"] == 0, "Golpe não deve gerar Combo")
+
+	jogador = Combatente.new(40)
+	inimigo = Combatente.new(300)
+	resultado = resolucao.resolver("golpe", cartas, jogador, inimigo, "inimigo", {"energia": 4, "combo": 2})
+	_verificar(resultado["combo"] == 2, "Golpe não deve alterar Combo existente")
+	resultado = resolucao.resolver("quebra_chassi", cartas, jogador, inimigo, "inimigo", {"energia": 4, "combo": 6})
+	_verificar(resultado["dano"] == 23, "Quebra-chassi deve escalar com Combo acima de 5")
+	_verificar(resultado["combo"] == 0, "Finalizacao deve consumir todo o Combo sem teto")
 
 	jogador = Combatente.new(40)
 	inimigo = Combatente.new(30)
@@ -41,6 +49,7 @@ func _executar_teste() -> void:
 	_verificar(resultado["dano"] == 4, "Direto Hidráulico deve causar 4")
 	_verificar(resultado["barreira"] == 2, "Direto Hidráulico deve conceder 2 de Barreira")
 	_verificar(jogador.barreira == 2, "a Barreira de Direto deve ser aplicada à fonte")
+	_verificar(resultado["combo"] == 1, "Direto Hidráulico deve gerar Combo explicitamente")
 
 	jogador = Combatente.new(40)
 	inimigo = Combatente.new(30)

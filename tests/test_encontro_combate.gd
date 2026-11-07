@@ -4,7 +4,7 @@ var falhas: int = 0
 
 
 func _ready() -> void:
-	var jogador: JogadorCombate = JogadorCombate.new(40, 4, 5)
+	var jogador: JogadorCombate = JogadorCombate.new(40, 4)
 	var sem_inimigo: EncontroCombate = EncontroCombate.new()
 	_verificar(sem_inimigo.combate_terminou(jogador), "um encontro sem inimigo não pode continuar")
 	_verificar(sem_inimigo.executar_fase_inimiga(jogador).is_empty(), "sem inimigo não deve haver ação")
