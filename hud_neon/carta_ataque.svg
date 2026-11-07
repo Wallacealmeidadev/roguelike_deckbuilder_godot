@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="240" viewBox="0 0 150 240">
+  <path d="M14 2H136L148 15V224L134 238H16L2 224V15Z" fill="#02040a" stroke="#02040a" stroke-width="4"/>
+  <path d="M17 6H133L144 17V222L132 234H18L6 222V17Z" fill="#101b35" stroke="#31477e" stroke-width="2"/>
+  <path d="M19 10H131L140 19V222L130 231H20L10 221V19Z" fill="#071022" stroke="#020711" stroke-width="2"/>
+  <path d="M21 10H129L139 20V41H11V20Z" fill="#28122b"/>
+  <path d="M12 20L22 10H128L138 20" fill="none" stroke="#ff2dc5" stroke-width="4"/>
+  <path d="M10 29H140M17 42H133" stroke="#6a236e" stroke-width="2"/>
+  <path d="M15 44H135V155H15Z" fill="none" stroke="#03050d" stroke-width="8"/>
+  <path d="M16 44H134V155H16Z" fill="none" stroke="#22e8f5" stroke-width="2"/>
+  <path d="M15 160H135L140 166V218L131 228H19L10 218V166Z" fill="#0a132a" stroke="#233e69" stroke-width="2"/>
+  <path d="M16 164H134M16 170H134" stroke="#ff2dc5" stroke-width="3"/>
+  <path d="M13 219L20 230H130L137 219" fill="none" stroke="#a437d0" stroke-width="3"/>
+  <path d="M9 190V216L18 227M141 190V216L132 227" fill="none" stroke="#21e9f4" stroke-width="3"/>
+  <path d="M32 232H68M83 232H118" stroke="#ff2dc5" stroke-width="3"/>
+  <path d="M117 14h10m-7 5h10m-13 5h10" stroke="#f52cbd" stroke-width="1.2"/>
+  <path d="M19 175h4m-4 5h4m-4 5h4m110-10h-4m4 5h-4m4 5h-4" stroke="#683fae" stroke-width="1.2"/>
+</svg>

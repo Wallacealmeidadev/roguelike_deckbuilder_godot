@@ -13,6 +13,7 @@ func _executar() -> void:
 	get_tree().root.add_child(jogo)
 	await get_tree().process_frame
 	jogo.call("_ao_selecionar_no_mapa", "inicio")
+	jogo.call("_iniciar_combate_por_id", "drone_seguranca", false)
 	await get_tree().process_frame
 
 	jogo.call("_limpar_mao")
@@ -25,8 +26,11 @@ func _executar() -> void:
 	(jogo.get_node("Jogador") as Button).pressed.emit()
 	_verificar(jogo.get("energia") == energia_inicial, "alvo inválido não deve gastar Energia")
 	_verificar(jogo.get("vida_inimigo") == vida_inimigo_inicial, "alvo inválido não deve causar dano")
-	(jogo.get_node("Alvo") as Button).pressed.emit()
-	_verificar(jogo.get("energia") == energia_inicial - 1, "clicar no inimigo deve gastar o custo")
+	var clique_sprite: InputEventMouseButton = InputEventMouseButton.new()
+	clique_sprite.button_index = MOUSE_BUTTON_LEFT
+	clique_sprite.pressed = true
+	(jogo.get_node("Alvo/DroneCampoSprite") as TextureRect).gui_input.emit(clique_sprite)
+	_verificar(jogo.get("energia") == energia_inicial - 1, "clicar no sprite do inimigo deve gastar o custo")
 	_verificar(jogo.get("vida_inimigo") < vida_inimigo_inicial, "clicar no inimigo deve causar dano")
 	_verificar((jogo.get_node("Mao") as Control).get_child_count() == 0, "carta usada deve sair da mão")
 
@@ -50,8 +54,9 @@ func _executar() -> void:
 	await get_tree().process_frame
 	derrota.call("_ao_selecionar_no_mapa", "inicio")
 	await get_tree().process_frame
-	(derrota.get("encontro_combate") as EncontroCombate).inimigo = InimigoCombate.new(
-		"drone_seguranca", DadosInimigos.obter("drone_seguranca")
+	(derrota.get("encontro_combate") as EncontroCombate).iniciar(
+		InimigoCombate.new("drone_seguranca", DadosInimigos.obter("drone_seguranca")),
+		["golpe"]
 	)
 	derrota.set("vida_jogador", 1)
 	(derrota.get_node("EncerrarTurno") as Button).pressed.emit()

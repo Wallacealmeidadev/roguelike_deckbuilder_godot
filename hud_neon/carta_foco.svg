@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="240" viewBox="0 0 150 240">
+  <path d="M14 2H136L148 15V224L134 238H16L2 224V15Z" fill="none" stroke="#03040b" stroke-width="7"/>
+  <path d="M14 2H136L148 15V224L134 238H16L2 224V15Z" fill="none" stroke="#f72bc9" stroke-width="3"/>
+  <path d="M19 9H131M19 231H131M8 26V74M142 166V215" stroke="#4ef6ff" stroke-width="3"/>
+</svg>

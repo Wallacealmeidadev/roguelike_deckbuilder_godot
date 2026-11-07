@@ -65,11 +65,8 @@ func _executar_teste() -> void:
 		jogo.set("mapa_variante", 1)
 		jogo.call("_iniciar_nova_run")
 		await get_tree().process_frame
-		jogo.call("_ao_selecionar_no_mapa", "inicio")
-		jogo.set("vida_inimigo", 0)
-		jogo.call("_resolver_vitoria")
-		jogo.call("_ao_pular_recompensa")
-		jogo.call("_ao_selecionar_no_mapa", "descanso_inicial")
+		(jogo.get("run_state") as RunState).no_atual = "combate_entrada"
+		jogo.call("_ao_selecionar_no_mapa", "descanso_1")
 		await get_tree().process_frame
 		_verificar(overlay.visible, "overlay deve aparecer no descanso real do mapa")
 		var recuperar: Control = overlay.get_node("Acoes/RecuperarPainel") as Control

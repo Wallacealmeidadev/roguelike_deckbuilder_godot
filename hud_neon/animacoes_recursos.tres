@@ -1,0 +1,48 @@
+[gd_resource type="AnimationLibrary" load_steps=6 format=3]
+
+[sub_resource type="Animation" id="Animation_combo_ganho"]
+resource_name = "combo_ganho"
+length = 0.24
+tracks/0/type = "value"
+tracks/0/path = NodePath("StatsJogadorPanel/MolduraNeon:impacto_combo")
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.08, 0.24), "transitions": PackedFloat32Array(1, 1, 1), "update": 0, "values": [0.35, 1.0, 0.0]}
+
+[sub_resource type="Animation" id="Animation_combo_consumo"]
+resource_name = "combo_consumo"
+length = 0.26
+tracks/0/type = "value"
+tracks/0/path = NodePath("StatsJogadorPanel/MolduraNeon:impacto_combo")
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.06, 0.26), "transitions": PackedFloat32Array(1, 1, 1), "update": 0, "values": [0.8, 1.0, 0.0]}
+tracks/1/type = "value"
+tracks/1/path = NodePath("StatsJogadorPanel/MolduraNeon:progresso_descarga")
+tracks/1/keys = {"times": PackedFloat32Array(0, 0.26), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [0.0, 1.0]}
+
+[sub_resource type="Animation" id="Animation_barreira_ganho"]
+resource_name = "barreira_ganho"
+length = 0.24
+tracks/0/type = "value"
+tracks/0/path = NodePath("StatsJogadorPanel/MolduraNeon:impacto_barreira")
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.07, 0.24), "transitions": PackedFloat32Array(1, 1, 1), "update": 0, "values": [0.4, 1.0, 0.0]}
+
+[sub_resource type="Animation" id="Animation_barreira_impacto"]
+resource_name = "barreira_impacto"
+length = 0.20
+tracks/0/type = "value"
+tracks/0/path = NodePath("StatsJogadorPanel/MolduraNeon:impacto_barreira")
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.20), "transitions": PackedFloat32Array(1, 1), "update": 0, "values": [1.0, 0.0]}
+
+[sub_resource type="Animation" id="Animation_barreira_quebra"]
+resource_name = "barreira_quebra"
+length = 0.26
+tracks/0/type = "value"
+tracks/0/path = NodePath("StatsJogadorPanel/MolduraNeon:impacto_barreira")
+tracks/0/keys = {"times": PackedFloat32Array(0, 0.06, 0.26), "transitions": PackedFloat32Array(1, 1, 1), "update": 0, "values": [1.0, 0.65, 0.0]}
+
+[resource]
+_data = {
+"combo_ganho": SubResource("Animation_combo_ganho"),
+"combo_consumo": SubResource("Animation_combo_consumo"),
+"barreira_ganho": SubResource("Animation_barreira_ganho"),
+"barreira_impacto": SubResource("Animation_barreira_impacto"),
+"barreira_quebra": SubResource("Animation_barreira_quebra")
+}

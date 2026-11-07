@@ -18,7 +18,7 @@ func _ready() -> void:
 	_verificar(opcao.get_theme_stylebox("focus") == opcao.get_theme_stylebox("normal"), "focus deve preservar a moldura base")
 	_verificar(opcao.has_node("Interacao"), "destaque deve ser uma camada separada")
 	_verificar(opcao.has_node("Conteudo/Linha/Textos"), "opcao deve ter layout interno")
-	jogo.call("_mostrar_evento", "fiscalizacao_corporativa")
+	jogo.call("_mostrar_evento", "posto_inspecao")
 	await get_tree().process_frame
 	for no_evento in (jogo.get_node("EventoOverlay/EventoOpcoes") as Control).get_children():
 		var opcao_visivel: Button = no_evento as Button
@@ -47,7 +47,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	var baralho_deterministico: Array[String] = ["brecha", "golpe", "protecao", "direto_hidraulico", "brecha", "golpe"]
 	jogo.set("baralho_run", baralho_deterministico)
-	jogo.call("_mostrar_evento", "valvula_vapor_contaminado")
+	jogo.call("_mostrar_evento", "posto_inspecao")
 	jogo.call("_ao_escolher_evento", 0)
 	await get_tree().process_frame
 	await get_tree().process_frame

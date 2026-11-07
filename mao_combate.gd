@@ -1,8 +1,8 @@
 extends Control
 
 const BotaoCarta = preload("res://botao_carta.gd")
-const INCLINACAO_MAXIMA: float = 0.06
-const MARGEM_INFERIOR: float = 10.0
+const INCLINACAO_MAXIMA: float = 0.030
+const MARGEM_INFERIOR: float = 22.0
 
 
 func _get_minimum_size() -> Vector2:
@@ -21,30 +21,10 @@ func layout_cartas() -> void:
 	_layout_cartas()
 
 
-func _aplicar_curva() -> void:
-	var quantidade: int = get_child_count()
-	if quantidade < 2:
-		return
-	if quantidade > 6:
-		for no in get_children():
-			(no as Control).rotation = 0.0
-		return
-	var centro: float = float(quantidade - 1) * 0.5
-	for indice in range(quantidade):
-		var carta: Control = get_child(indice) as Control
-		if carta == null:
-			continue
-		var deslocamento: float = float(indice) - centro
-		var fator: float = deslocamento_normalizado(deslocamento, centro)
-		carta.pivot_offset = Vector2(carta.size.x * 0.5, carta.size.y)
-		carta.rotation = fator * INCLINACAO_MAXIMA
-
-
 func _layout_cartas() -> void:
 	var quantidade: int = get_child_count()
 	if quantidade == 0 or size.x <= 0.0:
 		return
-	var margem: float = 16.0
 	var largura_carta: float = 0.0
 	var altura_carta: float = 0.0
 	for no in get_children():
@@ -54,28 +34,27 @@ func _layout_cartas() -> void:
 			altura_carta = maxf(altura_carta, carta.size.y)
 	if largura_carta <= 0.0:
 		return
-	var largura_util: float = maxf(size.x - margem * 2.0, largura_carta)
-	var passo_maximo: float = largura_carta + 3.0
+	# Reserva uma coluna à esquerda para a Energia quando a carta sobe.
+	var margem_esquerda: float = largura_carta * (BotaoCarta.ESCALA_FOCO_COMBATE - 1.0) * 0.5 + 10.0
+	var margem_direita: float = margem_esquerda
+	var largura_util: float = maxf(size.x - margem_esquerda - margem_direita, largura_carta)
+	var passo_maximo: float = largura_carta * 0.82
 	var passo: float = passo_maximo
 	if quantidade > 1:
 		var passo_disponivel: float = (largura_util - largura_carta) / float(quantidade - 1)
 		passo = minf(passo_maximo, maxf(0.0, passo_disponivel))
 	var grupo: float = passo * float(quantidade - 1) + largura_carta
-	margem = maxf(margem, (size.x - grupo) * 0.5)
+	var margem: float = margem_esquerda + maxf(0.0, (largura_util - grupo) * 0.5)
+	var centro: float = float(quantidade - 1) * 0.5
 	for indice in range(quantidade):
 		var carta: Control = get_child(indice) as Control
 		if carta == null:
 			continue
-		carta.position.x = margem + passo * float(indice)
-		carta.pivot_offset = Vector2(carta.size.x * 0.5, carta.size.y)
-		var angulo_maximo: float = INCLINACAO_MAXIMA if quantidade <= 6 else 0.0
-		var extensao_inferior: float = _extensao_inferior(carta.size, angulo_maximo, BotaoCarta.ESCALA_FOCO_COMBATE)
-		carta.position.y = maxf(0.0, size.y - altura_carta - MARGEM_INFERIOR - extensao_inferior)
-	if quantidade <= 6:
-		_aplicar_curva()
-	else:
-		for no in get_children():
-			(no as Control).rotation = 0.0
+		var fator: float = deslocamento_normalizado(float(indice) - centro, centro)
+		var angulo: float = fator * INCLINACAO_MAXIMA
+		var extensao_inferior: float = _extensao_inferior(carta.size, angulo, BotaoCarta.ESCALA_FOCO_COMBATE)
+		var y: float = maxf(0.0, size.y - altura_carta - MARGEM_INFERIOR - extensao_inferior - absf(fator) * 6.0 + 10.0)
+		carta.call("configurar_apresentacao_mao", Vector2(margem + passo * float(indice), y), angulo)
 
 
 func deslocamento_normalizado(valor: float, limite: float) -> float:

@@ -13,7 +13,7 @@ func _executar() -> void:
 	await get_tree().process_frame
 	jogo.call("_ao_selecionar_no_mapa", "inicio")
 	await get_tree().process_frame
-	jogo.call("_mostrar_evento", "valvula_vapor_contaminado")
+	jogo.call("_mostrar_evento", "turno_encerrado")
 	await get_tree().process_frame
 	var valvula_opcoes: Control = jogo.get_node("EventoOverlay/EventoOpcoes") as Control
 	var valvula_visiveis: Array[Button] = []
@@ -21,17 +21,17 @@ func _executar() -> void:
 		var opcao_valvula: Button = no_valvula as Button
 		if opcao_valvula != null and opcao_valvula.visible:
 			valvula_visiveis.append(opcao_valvula)
-	_verificar(valvula_visiveis.size() == 2, "valvula deve exibir duas opcoes")
-	_verificar((valvula_visiveis[1].get_node("Conteudo/Linha/Textos/Detalhe") as Control).visible == false, "a opcao sem detalhe deve ocultar o detalhe")
-	var acao_isolada: Control = valvula_visiveis[1].get_node("Conteudo/Linha/Textos/Acao") as Control
-	var textos_isolados: Control = valvula_visiveis[1].get_node("Conteudo/Linha/Textos") as Control
+	_verificar(valvula_visiveis.size() == 3, "ponto da queda deve exibir tres opcoes")
+	_verificar((valvula_visiveis[2].get_node("Conteudo/Linha/Textos/Detalhe") as Control).visible == false, "a opcao sem detalhe deve ocultar o detalhe")
+	var acao_isolada: Control = valvula_visiveis[2].get_node("Conteudo/Linha/Textos/Acao") as Control
+	var textos_isolados: Control = valvula_visiveis[2].get_node("Conteudo/Linha/Textos") as Control
 	_verificar(abs(acao_isolada.get_global_rect().get_center().y - textos_isolados.get_global_rect().get_center().y) <= 1.0, "titulo isolado deve ficar centralizado verticalmente")
 	var textos_com_detalhe: Control = valvula_visiveis[0].get_node("Conteudo/Linha/Textos") as Control
 	_verificar((textos_com_detalhe.get_node("Acao") as Control).custom_minimum_size.y >= 34.0, "titulo deve reservar altura para acentos Bangers")
 	_verificar((textos_com_detalhe.get_node("Detalhe") as Control).custom_minimum_size.y >= 22.0, "detalhe deve reservar altura legivel")
 	_verificar(textos_com_detalhe.get_combined_minimum_size().y >= 60.0, "duas linhas devem incluir espacamento vertical")
 	_verificar(valvula_visiveis[0].custom_minimum_size.y >= 100.0, "botao deve propagar altura do conjunto vertical")
-	jogo.call("_mostrar_evento", "fiscalizacao_corporativa")
+	jogo.call("_mostrar_evento", "ninho_sob_cais")
 	await get_tree().process_frame
 
 	var opcoes: Control = jogo.get_node("EventoOverlay/EventoOpcoes") as Control

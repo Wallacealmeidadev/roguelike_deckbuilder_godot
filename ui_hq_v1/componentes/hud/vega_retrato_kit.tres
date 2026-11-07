@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://ui_hq_v1/assets/personagens/vega_combate.png" id="1_vega"]
+
+[resource]
+atlas = ExtResource("1_vega")
+region = Rect2(365, 0, 560, 560)
+filter_clip = true

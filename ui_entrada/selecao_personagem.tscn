@@ -1,0 +1,212 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://ui_entrada/selecao_personagem.gd" id="1_selecao"]
+[ext_resource type="Theme" path="res://ui_entrada/tema_entrada.tres" id="2_tema"]
+[ext_resource type="Texture2D" path="res://hud_hq/cenarios/docas_dia.png" id="3_docas"]
+[ext_resource type="Script" path="res://ui_entrada/moldura_neon.gd" id="4_moldura"]
+[ext_resource type="Texture2D" path="res://ui_hq_v1/assets/personagens/vega_combate_corpo_inteiro.png" id="5_vega"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/Bangers-Regular.ttf" id="6_bangers"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/BarlowSemiCondensed-Bold.ttf" id="7_bold"]
+[ext_resource type="Script" path="res://ui_entrada/botao_neon.gd" id="8_botao"]
+
+[node name="SelecaoPersonagem" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_tema")
+script = ExtResource("1_selecao")
+
+[node name="FundoDocas" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_docas")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="FiltroNoturno" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.027451, 0.0431373, 0.0941176, 0.82)
+
+[node name="Centralizar" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PainelSelecao" type="Control" parent="Centralizar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(940, 480)
+layout_mode = 2
+
+[node name="Moldura" type="Control" parent="Centralizar/PainelSelecao"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_moldura")
+
+[node name="Conteudo" type="MarginContainer" parent="Centralizar/PainelSelecao"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 35
+
+[node name="Colunas" type="HBoxContainer" parent="Centralizar/PainelSelecao/Conteudo"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="ArtePainel" type="Control" parent="Centralizar/PainelSelecao/Conteudo/Colunas"]
+custom_minimum_size = Vector2(316, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ArteFundo" type="ColorRect" parent="Centralizar/PainelSelecao/Conteudo/Colunas/ArtePainel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0509804, 0.0784314, 0.188235, 1)
+
+[node name="VegaArte" type="TextureRect" parent="Centralizar/PainelSelecao/Conteudo/Colunas/ArtePainel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 8.0
+offset_right = -26.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_vega")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MolduraArte" type="Control" parent="Centralizar/PainelSelecao/Conteudo/Colunas/ArtePainel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_moldura")
+preencher = false
+cor_linha = Color(1, 0.152941, 0.780392, 1)
+
+[node name="SeloSelecionada" type="Label" parent="Centralizar/PainelSelecao/Conteudo/Colunas/ArtePainel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 44.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.0980392, 0.898039, 1, 1)
+theme_override_fonts/font = ExtResource("7_bold")
+theme_override_font_sizes/font_size = 21
+text = "◆  SELECIONADA"
+
+[node name="Informacoes" type="VBoxContainer" parent="Centralizar/PainelSelecao/Conteudo/Colunas"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 9
+
+[node name="Etapa" type="Label" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0980392, 0.898039, 1, 1)
+theme_override_fonts/font = ExtResource("7_bold")
+theme_override_font_sizes/font_size = 20
+text = "01  /  ESCOLHA SUA PERSONAGEM"
+
+[node name="Nome" type="Label" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_bangers")
+theme_override_font_sizes/font_size = 78
+text = "VEGA"
+
+[node name="Divisor" type="ColorRect" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 0.152941, 0.780392, 1)
+
+[node name="Especialidade" type="Label" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.152941, 0.780392, 1)
+theme_override_fonts/font = ExtResource("7_bold")
+theme_override_font_sizes/font_size = 25
+text = "COMBO  /  FINALIZAÇÃO"
+
+[node name="Descricao" type="Label" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.956863, 0.968627, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "Braços protéticos, golpes encadeados e força para romper o bloqueio das Docas."
+autowrap_mode = 2
+
+[node name="Mecanica" type="Label" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.607843, 0.662745, 0.760784, 1)
+theme_override_font_sizes/font_size = 20
+text = "Cartas específicas geram Combo. A Finalização consome o acúmulo para um golpe decisivo."
+autowrap_mode = 2
+
+[node name="Espaco" type="Control" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Acoes" type="HBoxContainer" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="VoltarButton" type="Button" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes/Acoes"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 56)
+layout_mode = 2
+focus_mode = 2
+text = "VOLTAR"
+script = ExtResource("8_botao")
+
+[node name="ConfirmarButton" type="Button" parent="Centralizar/PainelSelecao/Conteudo/Colunas/Informacoes/Acoes"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+text = "CONFIRMAR VEGA"
+script = ExtResource("8_botao")

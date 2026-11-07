@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://hud_basico/energia_marcadores.gd" id="1"]
+
+[node name="EnergiaMarcadores" type="Control"]
+custom_minimum_size = Vector2(100, 14)
+offset_right = 100.0
+offset_bottom = 14.0
+mouse_filter = 2
+script = ExtResource("1")

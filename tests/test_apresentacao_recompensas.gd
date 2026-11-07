@@ -61,7 +61,8 @@ func _executar_teste() -> void:
 	var altura_duas_palavras_chave: float = (opcao.get_node("DescricaoBalao") as Control).size.y
 	_verificar(altura_duas_palavras_chave > altura_uma_palavra_chave, "duas palavras-chave precisam aumentar a altura do tooltip")
 	_verificar((opcao.get_node("DescricaoBalao") as Control).get_global_rect().encloses(balao_texto.get_global_rect()), "texto do tooltip precisa permanecer dentro do fundo")
-	_verificar((opcao.get_node("Foco") as Control).z_index < (opcao.get_node("NomeLabel") as Control).z_index, "foco nao pode ser um segundo fundo")
+	var imagem_foco: Image = ((opcao.get_node("Foco") as TextureRect).texture as Texture2D).get_image()
+	_verificar(imagem_foco.get_pixel(imagem_foco.get_width() / 2, imagem_foco.get_height() / 2).a < 0.1, "foco deve ser apenas contorno, sem cobrir o conteudo")
 	var estilo_foco: StyleBoxFlat = opcao.get_theme_stylebox("focus") as StyleBoxFlat
 	_verificar(estilo_foco != null and is_zero_approx(estilo_foco.bg_color.a), "foco do tema precisa manter o fundo transparente")
 	var escala_normal: float = opcao.scale.x
@@ -79,6 +80,9 @@ func _executar_teste() -> void:
 	await get_tree().process_frame
 	_verificar(not (opcao.get_node("DescricaoBalao") as Control).visible, "mover o mouse deve fechar o tooltip da carta anterior")
 	_verificar((vizinha.get_node("DescricaoBalao") as Control).visible, "mover o mouse deve mostrar somente o tooltip da carta atual")
+	_verificar(not (vizinha.get_node("DescricaoBalao") as Control).get_global_rect().intersects(opcao.get_global_rect()), "tooltip deve preservar também a ilustração da carta vizinha")
+	_verificar((vizinha.get_node("DescricaoBalao/BalaoTexto") as Label).get_theme_color("font_color").get_luminance() > 0.8, "tooltip neon deve usar texto claro")
+	_verificar(not (vizinha.get_node("DescricaoBalao/BalaoPonta") as CanvasItem).visible, "tooltip não deve manter a ponta do balão branco")
 	vizinha.call("_ao_sair")
 	opcao.call("_ao_sair")
 	opcao.release_focus()
@@ -151,7 +155,7 @@ func _executar_teste() -> void:
 	_verificar((jogo.get("baralho_run") as Array[String]).has("brecha"), "clicar na carta exibida pelo preview precisa conceder a mesma carta")
 	preview_helper.free()
 
-	jogo.call("_mostrar_evento", "operario_ferido")
+	jogo.call("_mostrar_evento", "carga_descartada")
 	_verificar(not recompensas.visible, "recompensa comum some quando o evento abre")
 
 	jogo.queue_free()

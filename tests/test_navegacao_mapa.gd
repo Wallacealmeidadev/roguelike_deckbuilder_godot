@@ -46,14 +46,14 @@ func _executar_teste() -> void:
 	jogo.call("_ao_pular_recompensa")
 	_verificar(overlay.visible, "o mapa deve voltar após a consequência do encontro")
 	_verificar(str(jogo.get("mapa_no_atual")) == destinos[0], "o primeiro ponto deve virar atual após a conclusão")
-	_verificar(_contar_habilitados(pontos) == 2, "a bifurcação deve liberar dois destinos")
+	_verificar(_contar_habilitados(pontos) == 1, "o segundo ponto conectado deve ficar disponível")
 
 	var mapa_gerado_antes: bool = bool(jogo.get("mapa_gerado"))
 	jogo.call("_abrir_mapa")
 	await get_tree().process_frame
 	_verificar(mapa_gerado_antes and bool(jogo.get("mapa_gerado")), "reabrir o mapa nao deve gerar outra rota")
 	_verificar(str(jogo.get("mapa_no_atual")) == destinos[0], "reabrir o mapa deve preservar a posicao atual")
-	_verificar(_contar_habilitados(pontos) == 2, "reabrir o mapa deve preservar os destinos disponiveis")
+	_verificar(_contar_habilitados(pontos) == 1, "reabrir o mapa deve preservar o destino conectado")
 
 	jogo.queue_free()
 

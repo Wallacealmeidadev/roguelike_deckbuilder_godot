@@ -46,9 +46,8 @@ func _executar() -> void:
 		["TurnoTituloLabel", "TurnoNumeroLabel"],
 		["TurnoNumeroLabel", "AcaoLabel"],
 		["IntencaoPainel", "EstadosInimigoPainel"],
-		["EstadosInimigoPainel", "Alvo"],
 		["VidaJogadorBar", "StatsJogadorPanel"],
-		["StatsJogadorPanel", "Mao"],
+		["StatsJogadorPanel", "MaoDock"],
 		["VidaInimigoBar", "Mao"]
 	]
 	for par in pares:
@@ -62,6 +61,7 @@ func _executar() -> void:
 	var mao: Control = jogo.get_node("Mao") as Control
 	for carta_no in mao.get_children():
 		var carta: Control = carta_no as Control
+		_verificar(not _retangulo_transformado(carta).intersects((jogo.get_node("StatsJogadorPanel") as Control).get_global_rect()), "carta invade os medidores de Barreira/Combo")
 		_verificar(carta.size.x / carta.size.y < 0.72, "carta da mao esticada: %s" % carta.size)
 		_verificar(jogo.get_global_rect().encloses(_retangulo_transformado(carta)), "carta cortada pela viewport: viewport=%s carta=%s escala=%s rotacao=%s" % [jogo.get_global_rect(), _retangulo_transformado(carta), carta.scale, carta.rotation])
 		var titulo: Label = carta.get_node("NomeLabel") as Label
@@ -94,10 +94,10 @@ func _executar() -> void:
 	await get_tree().process_frame
 	for carta_no in mao.get_children():
 		var carta: Control = carta_no as Control
-		_verificar(carta.size.y >= 270.0, "carta pequena demais em 1920x1080: %s" % carta.size)
+		_verificar(carta.size.y >= 240.0, "carta pequena demais em 1920x1080: %s" % carta.size)
 		_verificar(carta.size.x / carta.size.y < 0.72, "carta esticada em 1920x1080: %s" % carta.size)
-	_verificar((jogo.get_node("TurnoTituloLabel") as Label).get_theme_font_size("font_size") >= 34, "titulo do turno pequeno em 1920x1080")
-	_verificar((jogo.get_node("IntencaoVisualLabel") as Label).get_theme_font_size("font_size") >= 22, "intencao pequena em 1920x1080")
+	_verificar((jogo.get_node("TopoCombate/TopoVida") as Label).get_theme_font_size("font_size") >= 26, "Vida do topo pequena em 1920x1080")
+	_verificar((jogo.get_node("IntencaoNomeVisualLabel") as Label).get_theme_font_size("font_size") >= 14, "tipo da intenção pequeno em 1920x1080")
 	var status: Label = jogo.get_node("RunStatusLabel") as Label
 	var altura_linha_status: float = status.get_theme_font("font").get_height(status.get_theme_font_size("font_size"))
 	_verificar(status.get_line_count() * altura_linha_status <= status.size.y + 2.0, "BARALHO precisa caber no painel em 1920x1080")
@@ -152,7 +152,7 @@ func _executar() -> void:
 	jogo.call("_atualizar_interface")
 	await get_tree().process_frame
 	_verificar(estados_painel_1024.visible, "estados ativos precisam aparecer em 1024x576")
-	_verificar(estados_painel_1024.size.y >= 24.0, "faixa de estados precisa ter altura legivel em 1024x576: %s" % estados_painel_1024.size)
+	_verificar(estados_painel_1024.size.y >= 18.0 and (jogo.get_node("Alvo") as Control).get_global_rect().encloses(estados_painel_1024.get_global_rect()), "estados devem caber dentro da placa inimiga: %s" % estados_painel_1024.size)
 	_verificar(not estados_titulo_1024.visible, "titulo redundante ESTADOS nao deve comprimir os valores")
 	for indice_foco_curto in [0, 3, 5]:
 		var carta_foco_curta: Button = mao.get_child(indice_foco_curto) as Button
@@ -181,7 +181,7 @@ func _executar() -> void:
 	for carta_no in mao.get_children():
 		var carta_cheia: Control = carta_no as Control
 		_verificar(carta_cheia.size.y >= 180.0, "as dez cartas nao podem ficar ilegiveis: %s" % carta_cheia.size)
-		_verificar(mao.get_global_rect().encloses(carta_cheia.get_global_rect()), "as dez cartas precisam caber na mao: mao=%s carta=%s escala=%s rotacao=%f" % [mao.get_global_rect(), carta_cheia.get_global_rect(), carta_cheia.scale, carta_cheia.rotation])
+		_verificar(jogo.get_global_rect().encloses(carta_cheia.get_global_rect()), "as dez cartas precisam caber na viewport: carta=%s" % carta_cheia.get_global_rect())
 		_verificar(not carta_cheia.get_global_rect().intersects((jogo.get_node("EncerrarTurno") as Control).get_global_rect()), "a carta nao pode cobrir Encerrar turno: carta=%s botao=%s" % [carta_cheia.get_global_rect(), (jogo.get_node("EncerrarTurno") as Control).get_global_rect()])
 		_verificar(jogo.get_global_rect().encloses(_retangulo_transformado(carta_cheia)), "os cantos transformados das dez cartas precisam caber na viewport: carta=%s" % _retangulo_transformado(carta_cheia))
 	var cartas_foco: Array[int] = [0, 5, 9]

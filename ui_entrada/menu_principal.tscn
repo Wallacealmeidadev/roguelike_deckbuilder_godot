@@ -1,0 +1,174 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://ui_entrada/menu_principal.gd" id="1_menu"]
+[ext_resource type="Theme" path="res://ui_entrada/tema_entrada.tres" id="2_tema"]
+[ext_resource type="Texture2D" path="res://hud_hq/cenarios/docas_dia.png" id="3_docas"]
+[ext_resource type="Script" path="res://ui_entrada/moldura_neon.gd" id="4_moldura"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/Bangers-Regular.ttf" id="5_bangers"]
+[ext_resource type="FontFile" path="res://ui_hq_v1/fontes/BarlowSemiCondensed-Bold.ttf" id="6_bold"]
+[ext_resource type="Script" path="res://ui_entrada/botao_neon.gd" id="7_botao"]
+
+[node name="MenuPrincipal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_tema")
+script = ExtResource("1_menu")
+
+[node name="FundoDocas" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_docas")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="FiltroNoturno" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.027451, 0.0431373, 0.0941176, 0.82)
+
+[node name="Centralizar" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PainelPrincipal" type="Control" parent="Centralizar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(880, 460)
+layout_mode = 2
+
+[node name="Moldura" type="Control" parent="Centralizar/PainelPrincipal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_moldura")
+
+[node name="Conteudo" type="MarginContainer" parent="Centralizar/PainelPrincipal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 42
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 38
+
+[node name="Colunas" type="HBoxContainer" parent="Centralizar/PainelPrincipal/Conteudo"]
+layout_mode = 2
+theme_override_constants/separation = 38
+
+[node name="Principal" type="VBoxContainer" parent="Centralizar/PainelPrincipal/Conteudo/Colunas"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Indicador" type="Label" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Principal"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0980392, 0.898039, 1, 1)
+theme_override_fonts/font = ExtResource("6_bold")
+theme_override_font_sizes/font_size = 21
+text = "TRANSMISSÃO // DOCAS 01"
+
+[node name="Titulo" type="Label" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Principal"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.956863, 0.968627, 1, 1)
+theme_override_fonts/font = ExtResource("5_bangers")
+theme_override_font_sizes/font_size = 83
+text = "ROGUE"
+
+[node name="TituloSecundario" type="Label" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Principal"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.152941, 0.780392, 1)
+theme_override_fonts/font = ExtResource("5_bangers")
+theme_override_font_sizes/font_size = 64
+text = "CYBERPUNK"
+
+[node name="Espaco" type="Control" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Principal"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Subtitulo" type="Label" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Principal"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.607843, 0.662745, 0.760784, 1)
+theme_override_font_sizes/font_size = 21
+text = "Uma cidade. Uma tentativa. Seu próximo golpe."
+autowrap_mode = 2
+
+[node name="Acoes" type="VBoxContainer" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Principal"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="NovaRunButton" type="Button" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Principal/Acoes"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+focus_mode = 2
+text = "NOVA RUN"
+script = ExtResource("7_botao")
+
+[node name="SairButton" type="Button" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Principal/Acoes"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+focus_mode = 2
+text = "SAIR"
+script = ExtResource("7_botao")
+
+[node name="Visual" type="VBoxContainer" parent="Centralizar/PainelPrincipal/Conteudo/Colunas"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="VisualTitulo" type="Label" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Visual"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0980392, 0.898039, 1, 1)
+theme_override_fonts/font = ExtResource("6_bold")
+theme_override_font_sizes/font_size = 21
+text = "ZONA DE ENTRADA"
+horizontal_alignment = 2
+
+[node name="ImagemDocas" type="TextureRect" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Visual"]
+custom_minimum_size = Vector2(310, 220)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+texture = ExtResource("3_docas")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Linha" type="ColorRect" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Visual"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 0.152941, 0.780392, 1)
+
+[node name="VisualLegenda" type="Label" parent="Centralizar/PainelPrincipal/Conteudo/Colunas/Visual"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.607843, 0.662745, 0.760784, 1)
+theme_override_font_sizes/font_size = 19
+text = "DISTRITO 01  /  PORTO INDUSTRIAL"
+horizontal_alignment = 2

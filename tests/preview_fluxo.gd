@@ -1,11 +1,17 @@
 extends Node
 
-@export_enum("recompensa", "foco", "carta_hover", "carta_saida", "brecha_tooltip", "pulso_tooltip", "brecha_mao", "brecha_jogada", "baralho", "pular_hover", "pular_foco", "pular_pressed", "elite", "elite_neutro", "elite_cartas", "elite_cartas_neutro", "evento", "evento_hover", "evento_foco", "evento_resultado") var modo: String = "recompensa"
+@export_enum("recompensa", "foco", "carta_hover", "carta_saida", "brecha_tooltip", "pulso_tooltip", "brecha_mao", "brecha_jogada", "baralho", "pular_hover", "pular_foco", "pular_pressed", "elite", "elite_neutro", "elite_cartas", "elite_cartas_neutro", "evento", "evento_hover", "evento_foco", "evento_resultado", "combate_inicial", "combate_estados", "combate_foco", "combate_foco_cheio", "hud_r2_repouso", "hud_r2_inspecao", "hud_r2_dano", "recursos_parcial", "recursos_zero", "recursos_altos", "recursos_inspecao", "hud_r3_repouso", "hud_r3_rota", "hud_r3_reliquia_1", "hud_r3_reliquia_3", "hud_r3_reliquia_varias", "hud_r3_menu", "hud_r3_baralho", "hud_r3_mao_cheia", "hud_r3_mao_repouso_hq", "hud_r3_mao_hover_hq", "hud_r3_mao_foco_hq", "hud_r3_mao_selecao_hq", "hud_r3_mao_cheia_hq") var modo: String = "recompensa"
 @export var arquivo_saida: String = "res://docs/evidencias/preview_fluxo.png"
 @export var resolucao_captura: Vector2i = Vector2i.ZERO
 
 
 func _ready() -> void:
+	var modo_cli: String = _argumento("--preview-mode")
+	if not modo_cli.is_empty():
+		modo = modo_cli
+	var arquivo_cli: String = _argumento("--output")
+	if not arquivo_cli.is_empty():
+		arquivo_saida = arquivo_cli
 	var resolucao: Vector2i = _resolucao_da_linha_de_comando()
 	if resolucao == Vector2i.ZERO:
 		resolucao = resolucao_captura
@@ -18,10 +24,121 @@ func _ready() -> void:
 	add_child(jogo)
 	await get_tree().process_frame
 	# A cena principal começa no mapa; os previews entram no estado pedido abaixo.
-	if modo == "brecha_mao" or modo == "brecha_jogada":
+	if modo == "combate_inicial" or modo == "combate_estados" or modo == "combate_foco" or modo == "combate_foco_cheio" or modo == "hud_r2_repouso" or modo == "hud_r2_inspecao" or modo == "hud_r2_dano" or modo.begins_with("recursos_") or modo.begins_with("hud_r3_") or modo.begins_with("hud2_"):
 		jogo.call("_ao_selecionar_no_mapa", "inicio")
-	if modo == "evento" or modo == "evento_hover" or modo == "evento_foco" or modo == "evento_resultado":
-		jogo.call("_mostrar_evento", "fiscalizacao_corporativa")
+		await get_tree().process_frame
+		if modo.begins_with("hud2_"):
+			jogo.call("_iniciar_combate_por_id", "carga_reparador" if modo == "hud2_dupla" else "drone_seguranca", false)
+			await get_tree().process_frame
+			if modo == "hud2_hover" or modo == "hud2_selecao":
+				var carta_hud2: Button = (jogo.get_node("Mao") as Control).get_child(2) as Button
+				if modo == "hud2_hover":
+					get_viewport().warp_mouse(carta_hud2.get_global_rect().get_center())
+					carta_hud2.mouse_entered.emit()
+				else:
+					carta_hud2.button_pressed = true
+			elif modo == "hud2_mao_cheia":
+				var encontro_hud2: EncontroCombate = jogo.get("encontro_combate") as EncontroCombate
+				encontro_hud2.baralho.preparar(jogo.get("baralho_run") as Array[String])
+				jogo.call("_limpar_mao")
+				jogo.call("_comprar_cartas", 10)
+				jogo.call("_atualizar_interface")
+			elif modo == "hud2_compra":
+				jogo.call("_mostrar_consulta_pilha", "compra")
+			elif modo == "hud2_descarte":
+				jogo.call("_mostrar_consulta_pilha", "descarte")
+		if modo == "hud_r2_inspecao":
+			await get_tree().create_timer(0.85).timeout
+			jogo.call("_mostrar_inspecao_hud", jogo.get_node("IntencaoPainel"))
+		elif modo == "hud_r2_dano":
+			await get_tree().create_timer(0.85).timeout
+			jogo.call("_causar_dano_no_inimigo", 4)
+			jogo.call("_atualizar_interface")
+		elif modo == "combate_estados":
+			var inimigo: InimigoCombate = jogo.get("estado_inimigo") as InimigoCombate
+			inimigo.indice_intencao = 1
+			jogo.set("barreira", 5)
+			jogo.set("combo", 2)
+			jogo.set("barreira_inimigo", 6)
+			jogo.set("exposto_inimigo", 2)
+			jogo.set("enfraquecido_inimigo", 1)
+			jogo.call("_atualizar_interface")
+		elif modo == "hud_r3_rota":
+			await get_tree().create_timer(0.85).timeout
+			(jogo.get_node("TopoCombate/TopoRota") as Button).pressed.emit()
+		elif modo == "hud_r3_reliquia_1" or modo == "hud_r3_reliquia_3" or modo == "hud_r3_reliquia_varias":
+			if modo != "hud_r3_reliquia_1":
+				(jogo.get("jogador_combate") as JogadorCombate).adicionar_reliquia("reservatorio_auxiliar")
+				(jogo.get("jogador_combate") as JogadorCombate).adicionar_reliquia("mecanismo_recuo")
+			jogo.call("_atualizar_interface")
+			await get_tree().create_timer(0.85).timeout
+			var reliquias: HBoxContainer = jogo.get_node("TopoCombate/TopoReliquias") as HBoxContainer
+			var indice_foco: int = mini(1, reliquias.get_child_count() - 1)
+			(reliquias.get_child(indice_foco) as Button).grab_focus()
+		elif modo == "hud_r3_menu":
+			await get_tree().create_timer(0.85).timeout
+			(jogo.get_node("TopoCombate/TopoConfiguracoes") as Button).pressed.emit()
+		elif modo == "hud_r3_baralho":
+			await get_tree().create_timer(0.85).timeout
+			(jogo.get_node("TopoCombate/TopoBaralho") as Button).pressed.emit()
+		elif modo == "hud_r3_mao_cheia":
+			var encontro_r3: EncontroCombate = jogo.get("encontro_combate") as EncontroCombate
+			var baralho_r3: BaralhoCombate = encontro_r3.baralho as BaralhoCombate
+			baralho_r3.preparar(jogo.get("baralho_run") as Array[String])
+			jogo.call("_limpar_mao")
+			jogo.call("_comprar_cartas", 10)
+			jogo.call("_atualizar_interface")
+		elif modo.begins_with("hud_r3_mao_") and modo.ends_with("_hq"):
+			await get_tree().create_timer(0.75).timeout
+			var mao_hq: Control = jogo.get_node("Mao") as Control
+			if modo == "hud_r3_mao_cheia_hq":
+				var encontro_hq: EncontroCombate = jogo.get("encontro_combate") as EncontroCombate
+				encontro_hq.baralho.preparar(jogo.get("baralho_run") as Array[String])
+				jogo.call("_limpar_mao")
+				jogo.call("_comprar_cartas", 10)
+				jogo.call("_atualizar_interface")
+				await get_tree().create_timer(0.35).timeout
+			elif modo != "hud_r3_mao_repouso_hq":
+				var carta_hq: Button = mao_hq.get_child(2) as Button
+				if modo == "hud_r3_mao_hover_hq":
+					get_viewport().warp_mouse(carta_hq.get_global_rect().get_center())
+				elif modo == "hud_r3_mao_foco_hq":
+					carta_hq.grab_focus()
+				else:
+					carta_hq.button_pressed = true
+					get_viewport().warp_mouse(Vector2(510.0, 180.0))
+		elif modo == "recursos_parcial" or modo == "recursos_zero" or modo == "recursos_altos" or modo == "recursos_inspecao":
+			jogo.set("energia", 0 if modo == "recursos_zero" else 2)
+			jogo.set("combo", 100 if modo == "recursos_altos" else 6)
+			if modo == "recursos_altos":
+				var compra_alta: Array[String] = []
+				var descarte_alto: Array[String] = []
+				for indice in range(12):
+					compra_alta.append("golpe")
+					descarte_alto.append("protecao")
+				jogo.set("pilha_compra", compra_alta)
+				jogo.set("pilha_descarte", descarte_alto)
+			jogo.call("_atualizar_interface")
+			if modo == "recursos_inspecao":
+				await get_tree().create_timer(0.85).timeout
+				jogo.call("_mostrar_inspecao_hud", jogo.get_node("CompraPainel"))
+		elif modo == "combate_foco":
+			var mao: Control = jogo.get_node("Mao") as Control
+			if mao.get_child_count() > 0:
+				(mao.get_child(mao.get_child_count() / 2) as Button).grab_focus()
+		elif modo == "combate_foco_cheio":
+			var encontro: EncontroCombate = jogo.get("encontro_combate") as EncontroCombate
+			var baralho: BaralhoCombate = encontro.baralho as BaralhoCombate
+			baralho.preparar(jogo.get("baralho_run") as Array[String])
+			jogo.call("_limpar_mao")
+			jogo.call("_comprar_cartas", 10)
+			jogo.call("_atualizar_interface")
+			await get_tree().process_frame
+			var mao_cheia: Control = jogo.get_node("Mao") as Control
+			if mao_cheia.get_child_count() > 0:
+				(mao_cheia.get_child(mao_cheia.get_child_count() / 2) as Button).grab_focus()
+	elif modo == "evento" or modo == "evento_hover" or modo == "evento_foco" or modo == "evento_resultado":
+		jogo.call("_mostrar_evento", "posto_inspecao")
 		if modo == "evento_hover":
 			var opcao_hover: Control = jogo.get_node("EventoOverlay/EventoOpcoes/EventoOpcao3") as Control
 			var centro_viewport: Vector2 = opcao_hover.get_global_rect().get_center()
@@ -50,7 +167,7 @@ func _ready() -> void:
 		await get_tree().process_frame
 		var baralho_deterministico: Array[String] = ["brecha", "brecha", "brecha", "brecha", "brecha", "brecha"]
 		jogo.set("baralho_run", baralho_deterministico)
-		jogo.call("_mostrar_evento", "valvula_vapor_contaminado")
+		jogo.call("_mostrar_evento", "posto_inspecao")
 		jogo.call("_ao_escolher_evento", 0)
 		await get_tree().process_frame
 		await get_tree().create_timer(0.3).timeout
@@ -93,14 +210,23 @@ func _ready() -> void:
 			var pular: Button = jogo.get_node("Recompensas/RecompensaAcoes/Pular") as Button
 			pular.grab_focus()
 			pular.set_pressed_no_signal(true)
-	await get_tree().create_timer(0.35).timeout
+	var espera_captura: float = 0.35
+	if modo == "hud_r2_repouso" or modo.begins_with("recursos_") or modo.begins_with("hud_r3_") or modo.begins_with("hud2_"):
+		espera_captura = 0.85
+	if modo == "hud_r2_inspecao" or modo == "recursos_inspecao" or modo == "hud_r3_rota" or modo.begins_with("hud_r3_reliquia_"):
+		espera_captura = 0.1
+	if modo == "hud_r2_dano":
+		espera_captura = 0.12
+	await get_tree().create_timer(espera_captura).timeout
 	print("PREVIEW viewport=%s janela=%s" % [get_viewport().get_visible_rect().size, get_window().size])
 	get_viewport().get_texture().get_image().save_png(arquivo_saida)
 	get_tree().quit(0)
 
 
 func _resolucao_da_linha_de_comando() -> Vector2i:
-	var argumentos: PackedStringArray = OS.get_cmdline_args()
+	var argumentos: PackedStringArray = OS.get_cmdline_user_args()
+	if argumentos.is_empty():
+		argumentos = OS.get_cmdline_args()
 	var indice: int = argumentos.find("--resolution")
 	if indice < 0 or indice + 1 >= argumentos.size():
 		return Vector2i.ZERO
@@ -108,6 +234,16 @@ func _resolucao_da_linha_de_comando() -> Vector2i:
 	if partes.size() != 2:
 		return Vector2i.ZERO
 	return Vector2i(int(partes[0]), int(partes[1]))
+
+
+func _argumento(chave: String) -> String:
+	var argumentos: PackedStringArray = OS.get_cmdline_user_args()
+	if argumentos.is_empty():
+		argumentos = OS.get_cmdline_args()
+	var indice: int = argumentos.find(chave)
+	if indice < 0 or indice + 1 >= argumentos.size():
+		return ""
+	return argumentos[indice + 1]
 
 
 func _configurar_oferta_conhecida(jogo: Node, brecha: bool) -> void:

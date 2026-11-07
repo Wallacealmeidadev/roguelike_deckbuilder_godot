@@ -24,7 +24,7 @@ func _executar_teste() -> void:
 	var jogador: Button = jogo.get_node("Jogador") as Button
 
 	_verificar(not overlay.visible, "overlay de evento começa oculto")
-	jogo.call("_mostrar_evento", "operario_ferido")
+	jogo.call("_mostrar_evento", "carga_descartada")
 
 	_verificar(overlay.visible, "overlay de evento aparece")
 	_verificar(jogo.has_node("EventoOverlay/EventoQuadro"), "evento precisa de quadro visual do encontro")
@@ -42,7 +42,7 @@ func _executar_teste() -> void:
 		"cabeçalho deve mostrar a identidade do encontro"
 	)
 	_verificar(
-		(jogo.get_node("EventoOverlay/EventoFaixaNome/EventoFaixaNomeLabel") as Label).text == "Operário ferido",
+		(jogo.get_node("EventoOverlay/EventoFaixaNome/EventoFaixaNomeLabel") as Label).text == "Carga Descartada",
 		"faixa deve mostrar o nome real do evento"
 	)
 	_verificar(
@@ -75,13 +75,13 @@ func _executar_teste() -> void:
 		"segunda opção aparece"
 	)
 	_verificar(
-		not (jogo.get_node("EventoOverlay/EventoOpcoes/EventoOpcao3") as Button).visible,
+		(jogo.get_node("EventoOverlay/EventoOpcoes/EventoOpcao3") as Button).visible,
 		"terceira opção fica oculta quando não existe"
 	)
-	for indice in [1, 2]:
+	for indice in [1, 2, 3]:
 		var opcao: Button = jogo.get_node("EventoOverlay/EventoOpcoes/EventoOpcao%d" % indice) as Button
 		_verificar(opcao.get_node("Conteudo/Linha/Textos/Acao").mouse_filter == Control.MOUSE_FILTER_IGNORE, "decoracao da escolha nao deve interceptar mouse")
-		_verificar(indice == 2 or opcao.get_node("Conteudo/Linha/Textos/Detalhe").text != "", "escolha deve mostrar resumo secundario quando houver informacao")
+		_verificar(indice in [2, 3] or opcao.get_node("Conteudo/Linha/Textos/Detalhe").text != "", "escolha deve mostrar resumo secundario quando houver informacao")
 		_verificar(opcao.focus_mode != Control.FOCUS_NONE, "escolha deve aceitar teclado")
 		_verificar(opcao.get_node("Conteudo/Linha/Textos/Acao").horizontal_alignment == HORIZONTAL_ALIGNMENT_LEFT, "acao deve alinhar a esquerda")
 		_verificar(opcao.get_node("Conteudo/Linha/Textos/Detalhe").horizontal_alignment == HORIZONTAL_ALIGNMENT_LEFT, "detalhe deve alinhar a esquerda")
@@ -90,9 +90,9 @@ func _executar_teste() -> void:
 		_verificar(opcao.get_theme_stylebox("focus") == opcao.get_theme_stylebox("normal"), "foco deve preservar a moldura HQ base")
 		_verificar(opcao.has_node("Interacao"), "foco deve usar camada ciano separada")
 	var resultado_opcao: Button = jogo.get_node("EventoOverlay/EventoOpcoes/EventoOpcao3") as Button
-	_verificar(not resultado_opcao.visible, "opcao ausente deve permanecer oculta")
-	jogo.call("_mostrar_evento", "fiscalizacao_corporativa")
-	var combate_opcao: Button = jogo.get_node("EventoOverlay/EventoOpcoes/EventoOpcao3") as Button
+	_verificar(resultado_opcao.visible, "opcao real deve permanecer visível")
+	jogo.call("_mostrar_evento", "posto_inspecao")
+	var combate_opcao: Button = jogo.get_node("EventoOverlay/EventoOpcoes/EventoOpcao1") as Button
 	_verificar(combate_opcao.get_node("Conteudo/Linha/Textos/Detalhe").text == "Combate", "combate deve ter resumo curto e claro")
 	_verificar((combate_opcao.get_node("Conteudo/Linha/TipoIcone") as TextureRect).texture.resource_path.contains("combate"), "combate deve usar icone apropriado")
 	var texto_generico: Button = jogo.get_node("EventoOverlay/EventoOpcoes/EventoOpcao1") as Button
@@ -105,7 +105,7 @@ func _executar_teste() -> void:
 		_verificar((no as Button).disabled, "cartas ficam bloqueadas durante evento")
 
 	# Resultado direto: a escolha some, o resultado aparece e o clique tardio nao reaplica a consequencia.
-	jogo.call("_mostrar_evento", "operario_ferido")
+	jogo.call("_mostrar_evento", "carga_descartada")
 	var vida_antes: int = int(jogo.get("vida_jogador"))
 	var escolher: Button = jogo.get_node("EventoOverlay/EventoOpcoes/EventoOpcao1") as Button
 	escolher.pressed.emit()
@@ -122,7 +122,7 @@ func _executar_teste() -> void:
 	var vida_apos: int = int(jogo.get("vida_jogador"))
 	escolher.pressed.emit()
 	_verificar(int(jogo.get("vida_jogador")) == vida_apos, "clique tardio nao pode reaplicar o evento")
-	_verificar(vida_apos == vida_antes - 10, "consequencia de Vida deve permanecer a regra real")
+	_verificar(vida_apos == vida_antes - 7, "consequencia de Vida deve permanecer a regra real")
 
 	jogo.call("_ocultar_evento")
 	_verificar(not overlay.visible, "overlay esconde ao sair do evento")

@@ -62,7 +62,7 @@ func _verificar_variante(cena_principal: PackedScene, variante: int) -> void:
 
 	if pontos != null:
 		var nos: Array[Control] = _obter_nos(pontos)
-		_verificar(nos.size() == (jogo.get("mapa_run") as MapaRun).nos.size(), "o mapa deve renderizar todos os nos dos sete pontos")
+		_verificar(nos.size() == (jogo.get("mapa_run") as MapaRun).nos.size(), "o mapa deve renderizar todos os nos do template")
 		_verificar(_pontos_estao_em_colunas(nos, jogo.get("mapa_run") as MapaRun), "os nos devem seguir as colunas dos pontos")
 		for no in nos:
 			_verificar(no.get_meta("id_no", "") != "", "cada no deve conservar seu identificador")
@@ -75,7 +75,7 @@ func _verificar_variante(cena_principal: PackedScene, variante: int) -> void:
 		_verificar(rotulos_pontos.get_child_count() == (jogo.get("mapa_run") as MapaRun).total_pontos(), "deve haver um unico rotulo para cada coluna")
 		for indice in range(rotulos_pontos.get_child_count()):
 			var rotulo: Label = rotulos_pontos.get_child(indice) as Label
-			_verificar(rotulo != null and rotulo.text == "P%d" % (indice + 1), "os rotulos das colunas devem seguir P1 a P7")
+			_verificar(rotulo != null and rotulo.text == "P%d" % (indice + 1), "os rotulos das colunas devem seguir P1 a P11")
 
 	if pontos != null:
 		var primeiro: Button = _obter_nos(pontos)[0] as Button
@@ -114,7 +114,7 @@ func _verificar_variante(cena_principal: PackedScene, variante: int) -> void:
 		for no in _obter_nos(apos):
 			if not (no as Button).disabled:
 				disponiveis += 1
-		_verificar(disponiveis == 2, "a bifurcacao deve liberar dois destinos")
+		_verificar(disponiveis == 1, "o mapa deve liberar somente o próximo ponto conectado")
 
 	jogo.queue_free()
 
