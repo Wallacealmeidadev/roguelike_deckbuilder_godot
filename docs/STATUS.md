@@ -1,5 +1,15 @@
 # Estado do projeto
 
+## Organização do projeto e commits — 07/11/2026
+
+Pedido do usuário: separar o que o jogo usa do que é protótipo e commitar o que já funciona. Rastreamento estático a partir de `jogo.tscn` (caminhos `res://`, uids, `class_name` e `load()` dinâmicos de `hud_neon/`) encontrou 277 arquivos carregados pelo jogo. Da Vega, o combate usa só `vega_animada/rig_nativo_v2/` (mais `braco_v2/braco_prova.gd`, `braco_v2/camadas.png` e `combate_v2/base_e_punhos_01.png`). A guarda montada com braços HQ aprovada em 24–25/10 **não está no jogo**; ficou em `prototipos/vega_2d/corpo_articulado/`.
+
+Feito: trabalho pendente desde 19/10 commitado em blocos (lógica da run das Docas, interface/HUD neon, Vega animada, base 3D, docs). Depois, 403 arquivos não usados pelo jogo movidos com `git mv` para `prototipos/` (`vega_2d/`, `hud_antiga/`, `assets_antigos/`), com os `res://` corrigidos em 177 arquivos; testes que só exercitam protótipos foram para `prototipos/vega_2d/tests/`. Reanálise após a mudança: o conjunto de arquivos carregados pelo jogo continua idêntico (277, mesmos caminhos) e não há `res://` apontando para arquivo inexistente fora de `docs/`. Evidências (`docs/evidencias*/`, zip, `.kra~`, logs) ficam fora do Git via `.gitignore`, sem apagar nada. Checkpoint interno do Codex (`refs/codex/...`) removido e `git gc` executado: `.git` caiu de 2,45 GB para 283 MB; `git fsck --connectivity-only` OK.
+
+Não verificado: a suíte na Godot não foi executada nesta sessão (o shell disponível é Linux, sem a Godot do Windows). Criado `tests/rodar_testes.ps1` para rodar `tests/test_*.tscn` headless. Ao abrir o editor, a Godot vai reimportar as imagens movidas. Push da `dev` não foi feito daqui (rede bloqueada); fazer pelo Windows.
+
+Próximo passo: rodar `tests/rodar_testes.ps1`, abrir `jogo.tscn` e jogar um combate para confirmar; depois fazer push da `dev`.
+
 ## Vega: primeiro figurino 3D — 02/11/2026
 
 Relato do usuário: revisão 03 parece ótima. Após discutir alcance da produção 3D, autorizou começar pelo figurino em formas simples. Criado `arte_3d/vega_figurino_04/vega_figurino_04.blend`, com regata carvão, calça solta grafite, botas e camisa vinho amarrada, seguindo a referência 04 de roupa. São 31 peças (incluindo cadarços), 5.297 vértices de roupa antes dos modificadores, materiais básicos e vínculo ao mesmo Rigify. A aparência é uma primeira passagem de volumes; rosto/cabelo/próteses e acabamento HQ continuam pendentes.

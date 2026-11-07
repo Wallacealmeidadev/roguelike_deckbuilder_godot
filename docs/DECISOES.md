@@ -1,5 +1,9 @@
 # Decisões e pendências
 
+## 07/11/2026 - separar protótipos e manter evidências fora do Git
+
+Usuário escolheu: protótipos não carregados pelo jogo vão para `prototipos/` dentro do projeto (ainda abrem no editor); capturas e vídeos de evidência ficam só no disco (`.gitignore`); checkpoint do Codex removido; `dev` deve ir ao GitHub. O jogo ativo é definido pelo que `jogo.tscn` carrega, não pelo que foi aprovado em prévias: a guarda HQ da Vega continua sendo protótipo até ser integrada ao combate.
+
 ## 02/11/2026 - construir primeiro a silhueta do figurino 3D
 
 Usuário aprovou a base corporal 03 e autorizou seguir a proposta de figurino simples. Recorte: regata carvão, calça grafite solta sem bolsos de carga, camisa vinho na cintura e botas, conforme referência de roupa 04. Peças nativas separadas e vinculadas ao rig existente; anatomia e identidade A preservadas. Avaliar volumes/caimento antes de detalhes, próteses e rosto/cabelo. Materiais de estudo não definem acabamento HQ final; camisa inicialmente deformada por pesos, sem simulação. Produção 3D continua isolada do F5, sem decidir ainda entre sprites renderizados e modelo em runtime. Limpeza permanece posterior.
