@@ -5,3 +5,13 @@ builds/
 
 # Artefatos internos de planejamento do agente.
 .superpowers/
+
+# Evidências geradas por testes de captura (imagens, vídeos, zips).
+# Ficam no disco local; versionar só o que for referência permanente.
+docs/evidencias*/
+docs/evidencias*.zip
+
+# Backups e logs de ferramentas de arte.
+*.kra~
+*.blend1
+*.log
