@@ -1,0 +1,10 @@
+{
+  "blender": "5.2.3 LTS",
+  "assinatura_corpo_igual": true,
+  "pecas": 31,
+  "vertices_corpo_flexao_maior_1mm": 1956,
+  "vertices_calca_teste_perna_maior_1mm": 5487,
+  "vertices_bota_teste_perna_maior_1mm": 2720,
+  "sha256_blend": "23222f76b013c5dc23b3305514c2ca3cc123b53f06027c72b3c548046fed5aa7",
+  "limitacao": "Teste de cotovelo e um deslocamento pequeno de pe; nao certifica guarda, soco, poses extremas ou simulacao de tecido."
+}
